@@ -86,7 +86,7 @@ export default function SingleContainerHeader(props) {
           cloadingText={'Loading...'}
           loader={balanceLoader}
           onClickBtn={loadBalance}
-          clabel={balance +' Units' ?? 'Fetch Balance'}
+          clabel={balance ? balance +' Units' : 'Fetch Balance'}
         />
 
         <CustomLoaderButton
