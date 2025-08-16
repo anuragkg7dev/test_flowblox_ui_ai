@@ -3,7 +3,7 @@ import { CustomBrandLogo } from "./CustomBrandLogo";
 import { FlowBloxAddress } from "./CustomSocialLinks";
 
 export const CustomFooter = (props) => {
-  const cbg = props.cbg ?? "brand.bgDark"
+  const cbg = props.cbg ?? "brand.pureBlackBg"
   return (
     <Flex
       as="footer"

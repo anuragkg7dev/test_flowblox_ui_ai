@@ -7,6 +7,13 @@ export const edgeFunction = {
     STRIPE_CHECKOUT_SESSION: "stripeCreateCheckoutSession",
     VERIFY_REGISTRATION: "verifyRegistration",
     VERIFY_STRIPE_PRE_TRANSACTION: "verifyStripeTransaction",
+    CREATE_UPDATE_BLOG_CONTAINERS: "createAndUpdateBlogContainers",
+    GET_CONTAINERS: "getContainers",
+    CREATE_UPDATE_SOURCE_DESTINATION: "createUpdateSourceDestination",
+    GET_SOURCE_DESTINATION: "getSourceAndDestination",
+    GENERATE_ARTICLES_TRIGGER: "generateArticlesTrigger",
+    GET_GENERATED_ARTICLES: 'getGeneratedArticles',
+    GET_BALANCE: 'getBalance',
 };
 
 const edgeFunctionKeys = {};

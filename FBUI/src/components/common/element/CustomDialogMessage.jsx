@@ -16,10 +16,10 @@ const CustomDialogMessage = (props) => {
           <Dialog.Backdrop />
           <Dialog.Positioner>
             <Dialog.Content
-              bg="brand.darkGrey"
-              color="brand.textLight"
+              bg="brand.OffBlackBg"
+              color="brand.pureWhiteTxt"
               fontSize={{ base: "sm", md: "md" }}
-              borderColor="brand.border"
+              borderColor="brand.greyBrandBorder"
               borderWidth="1px"
               borderStyle="solid"
             >
@@ -32,7 +32,7 @@ const CustomDialogMessage = (props) => {
                 <HStack spacing={4} pt={6} justify={"right"}>
                   <Button
                     mt={8}
-                    colorPalette="purple"
+                    variant={"fblox"}
                     width="100%"
                     fontSize={{ base: "sm", md: "md" }}
                     onClick={() => {

@@ -1,34 +1,39 @@
-import { createListCollection, Portal, Select } from "@chakra-ui/react"
-import { useMemo, useState } from "react"
+import { createListCollection, Portal, Select } from "@chakra-ui/react";
+import { useMemo, useState } from "react";
 
 export default function CustomSelect(props) {
-    let soptions = props.sdata ?? []
+    
+    let soptions = props.sdata ?? [];
+    let slabel = props.slabel;
+    let splaceholder = props.splaceholder;
+    let defaultSelected = props.defaultSelected;
+    let cselectCallback = props.cselectCallback;
+    let smultiple = props.smultiple ?? false;
+    let cwidth = props.cwidth ?? "320px";
+    let cml = props.cml
+    let cborderColor = props.cborderColor ?? "brand.greyBrandBorder"
 
-    let slabel = props.slabel
-    let splaceholder = props.splaceholder
-    let defaultSelected = props.defaultSelected
-    let cselectCallback = props.cselectCallback
-    let smultiple = props.smultiple ?? false
-    let cwidth = props.cwidth ?? "320px"
+    const [xselected, setXselected] = useState(defaultSelected);
+    let selected = props.selected ?? xselected
+    let setSelected = props.setSelected ?? setXselected
 
     const sdata = useMemo(() => {
-        return createListCollection({ items: soptions })
-    }, [soptions])
-
-    const [selected, setSelected] = useState(defaultSelected)
+        return createListCollection({ items: soptions });
+    }, [soptions]); 
 
     const onSelectValueChange = (items) => {
-        let selectedValue = undefined
+        let selectedValue = undefined;
         if (items && items.length > 0) {
             if (smultiple) {
-                selectedValue = items.map(x => x.value)
+                selectedValue = items.map((x) => x.value);
             } else {
-                selectedValue = items[0].value
+                selectedValue = items[0].value;
             }
         }
-        setSelected(selectedValue)
-        if (cselectCallback) cselectCallback(selectedValue)
-    }
+        setSelected(selectedValue);
+        if (cselectCallback) cselectCallback(selectedValue);
+    };
+
 
     return (
         <Select.Root
@@ -38,32 +43,38 @@ export default function CustomSelect(props) {
             onValueChange={(e) => onSelectValueChange(e.items)}
             size="sm"
             width={cwidth}
-            color="brand.textLight"
-            bg="brand.bgDark"
-            fontSize={{ base: "sm", md: "md" }}
-            borderColor="brand.border"
+            ml={cml}
+
         >
             <Select.HiddenSelect />
             <Select.Label>{slabel}</Select.Label>
             <Select.Control
-                borderColor="brand.border"
-                borderWidth="1px"
-                borderStyle="solid"
-                _focus={{ borderColor: "brand.accent" }}
-                _hover={{ borderColor: "brand.accent" }}
+
             >
-                <Select.Trigger   borderColor="brand.border">
+                <Select.Trigger bg="brand.pureBlackBg"
+                    color="brand.pureWhiteTxt"
+                    borderColor={cborderColor}
+                    borderWidth="1px"
+                    borderStyle="solid"
+                    _focus={{ borderColor: "brand.subBrandBg" }}
+                >
                     <Select.ValueText placeholder={splaceholder} />
                 </Select.Trigger>
                 <Select.IndicatorGroup>
-                    <Select.Indicator/>
+                    <Select.Indicator />
                 </Select.IndicatorGroup>
             </Select.Control>
 
             <Select.Positioner>
-                <Select.Content bg="gray.900">
+                <Select.Content
+                    bg="brand.pureBlackBg"
+                    color="brand.pureWhiteTxt"
+                    borderColor={cborderColor}
+                    borderWidth="1px"
+                    borderStyle="solid"
+                >
                     {sdata.items.map((data) => (
-                        <Select.Item item={data} key={data.value} _hover={{ bg: "gray.700" }}>
+                        <Select.Item item={data} key={data.value}>
                             {data.label}
                             <Select.ItemIndicator />
                         </Select.Item>
@@ -71,5 +82,5 @@ export default function CustomSelect(props) {
                 </Select.Content>
             </Select.Positioner>
         </Select.Root>
-    )
+    );
 }

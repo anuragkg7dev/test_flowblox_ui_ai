@@ -1,35 +1,27 @@
 import { Image } from "@chakra-ui/react";
 import logo from "../../../assets/logo1.png";
 import logoMini2 from "../../../assets/flowblox_mini_2.png";
+import logoMini3 from "../../../assets/flowblox_mini_3.png";
+import container1 from "../../../assets/container_1.png";
 
 export const CustomBrandLogo = (props) => {
-
-  let cw = props.cw ?? "auto"
-  let ch = props.ch ?? "auto"
-  let cmx = props.cmx
-  let cmy = props.cmy
-
-  let cmb = props.cmb
-  let cmt = props.cmt
-
-  return (
-    <>
-      <Image
-        src={logo}
-        alt="Flowblox.ai"
-        w={cw}
-        h={ch}
-        mx={cmx}
-        my={cmy}
-        mb={cmb}
-        mt={cmt}
-        objectFit="contain"
-      />
-    </>
-  );
+  return CustomIcon(props, logo, "Flowblox.ai")
 };
 
 export const CustomBrandLogoMini = (props) => {
+  return CustomIcon(props, logoMini2, "Flowblox.ai")
+};
+
+
+export const CustomBrandLogoMiniBlackBG = (props) => {
+  return CustomIcon(props, logoMini3, "Flowblox.ai")
+};
+
+export const CustomContainerLogo = (props) => {
+  return CustomIcon(props, container1, "Containers")
+};
+
+export const CustomIcon = (props, imageStr, calt) => {
 
   let cw = props.cw ?? "auto"
   let ch = props.ch ?? "auto"
@@ -44,8 +36,8 @@ export const CustomBrandLogoMini = (props) => {
   return (
     <>
       <Image
-        src={logoMini2}
-        alt="Flowblox.ai"
+        src={imageStr}
+        alt={calt}
         w={cw}
         h={ch}
         mx={cmx}

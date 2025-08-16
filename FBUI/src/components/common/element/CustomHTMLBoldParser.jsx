@@ -10,7 +10,7 @@ export default function CustomHTMLBoldParser(props) {
     
     let cfontSize = props.cfontSize
     let cfontWeight = props.cfontWeight ?? "bold"
-    let ccolor = props.ccolor ?? "brand.bgDark"
+    let ccolor = props.ccolor ?? "brand.pureBlackBg"
     let replaceArr = props.replaceArr
     let htext = props.htext
 

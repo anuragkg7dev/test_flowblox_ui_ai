@@ -45,7 +45,7 @@ export default function ForgotPassword() {
       <Flex flex="1" align="center" justify="center" p={8}>
         <Box p={6}>
           <Heading mb={4}>Reset Your Password</Heading>
-          <Input placeholder="Email" onChange={e => setEmail(e.target.value)} mb={2} />         
+          <Input placeholder="Email" variant={"fbloxD"} onChange={e => setEmail(e.target.value)} mb={2} />         
           <Button onClick={() => { handleForgotPassword(email, forgotPasswordCallback) }}>Sign Up</Button>
 
         </Box>

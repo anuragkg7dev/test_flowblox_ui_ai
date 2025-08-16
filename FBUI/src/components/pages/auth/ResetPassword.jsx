@@ -46,7 +46,7 @@ export default function ResetPassword() {
             <Flex flex="1" align="center" justify="center" p={8}>
                 <Box p={6}>
                     <Heading mb={4}>Sign In to Your Account</Heading>                  
-                    <Input placeholder="Password" type="password" onChange={e => setPassword(e.target.value)} mb={2} />
+                    <Input placeholder="Password" variant={"fbloxD"} type="password" onChange={e => setPassword(e.target.value)} mb={2} />
                     <Button onClick={() => { handleResetPassword( password, siginCallback) }}>Sign In</Button>
                   
                 </Box>

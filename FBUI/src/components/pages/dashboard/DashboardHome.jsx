@@ -1,80 +1,127 @@
-import { Box, Flex, Text, Button, useBreakpointValue } from "@chakra-ui/react";
+import { DASHBOARD_CONTAINERS } from "@/components/common/constants/AppRouterConstant";
+import { CustomBrandLogoMiniBlackBG } from "@/components/common/element/CustomBrandLogo";
+import { Box, Flex, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { Suspense, useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+
+import CommonSidebar from "./sidebars/CommonSidebar";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { GrClose } from "react-icons/gr";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
 
 const DashboardHome = () => {
-    const sidebarWidth = useBreakpointValue({ base: "100%", md: "200px", lg: "250px" });
 
-    return (
-        <Flex direction={{ base: "column", md: "row" }} h={{ base: "auto", md: "100vh" }} bg="brand.bgDark">
-            {/* Left Sidebar */}
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Responsive breakpoints for sidebar width and padding
+  const sidebarWidth = useBreakpointValue({
+    base: "100%",
+    sm: "250px",
+    md: "300px",
+  });
+  const padding = useBreakpointValue({ base: 2, sm: 3, md: 4 });
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+
+
+  // Toggle sidebar for mobile
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+
+  return (
+    <Flex direction="column" minH="100vh" bg="brand.pureBlackBg">
+      {/* Mobile Header */}
+      {isMobile && (
+        <Box
+          bg="brand.pureBlackBg"
+          p={padding}
+          borderBottom="1px solid"
+          borderColor="brand.greyBrandBorder"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <CustomBrandLogoMiniBlackBG
+            ch="50px"
+            cw="50px"
+            ccolor="brand.pureWhiteBg"
+          />
+          <IconButton
+            key="menu"
+            aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+            onClick={toggleSidebar}
+            variant="solid"
+            size="lg"
+          >
+            {isSidebarOpen ? (
+              <GrClose colorPalette={"brand.pureWhiteBg"} />
+            ) : (
+              <GiHamburgerMenu colorPalette={"brand.pureWhiteBg"} />
+            )}
+          </IconButton>
+        </Box>
+      )}
+
+      <Flex flex={1} direction={{ base: "column", md: "row" }}>
+        {/* Sidebar */}
+        <Box
+          w={sidebarWidth}
+          bg="brand.pureBlackBg"
+          p={padding}
+          color="brand.pureWhiteTxt"
+          borderRight={"0.05px solid"}
+          borderColor="brand.greyBrandBorder"
+          fontFamily="heading"
+          display={{ base: isSidebarOpen ? "block" : "none", md: "block" }}
+          transition="all 0.3s ease"
+          // Change: Use fixed positioning for sidebar on medium and larger screens to prevent scrolling
+          position={{ base: "absolute", md: "fixed" }}
+          zIndex={10}
+          // Change: Ensure sidebar takes full viewport height on medium and larger screens
+          h={{ base: "auto", md: "100vh" }}
+          // Change: Prevent sidebar content from scrolling
+          overflowY={{ base: "auto", md: "visible" }}
+        >
+          {!isMobile && (
             <Box
-                w={sidebarWidth}
-                bg="brand.bgDark"
-                p={{ base: 2, md: 4 }}
-                color="brand.textLight"
-                borderRight={{ base: "0.2px solid", _focus: { borderColor: "brand.border" } }}
-                borderColor="brand.border"
-                fontFamily="heading"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="80px"
             >
-                <Text mb={{ base: 2, md: 4 }} fontWeight="bold" fontSize={{ base: "md", md: "lg" }}>Menu</Text>
-                <Flex
-                    direction={{ base: "row", md: "column" }}
-                    wrap="wrap"
-                    justify={{ base: "space-around", md: "flex-start" }}
-                >
-                    <Button
-                      
-                        colorScheme="whiteAlpha"
-                        mb={{ base: 1, md: 2 }}
-                        w={{ base: "auto", md: "full" }}
-                        justifyContent="center"
-                        fontSize={{ base: "sm", md: "md" }}
-                        mr={{ base: 2, md: 0 }}
-                        _hover={{ bg: "brand.darkAccent" }}
-                    >
-                        Option 1
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        colorScheme="whiteAlpha"
-                        mb={{ base: 1, md: 2 }}
-                        w={{ base: "auto", md: "full" }}
-                        justifyContent="center"
-                        fontSize={{ base: "sm", md: "md" }}
-                        mr={{ base: 2, md: 0 }}
-                        _hover={{ bg: "brand.darkAccent" }}
-                    >
-                        Option 2
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        colorScheme="whiteAlpha"
-                        mb={{ base: 1, md: 2 }}
-                        w={{ base: "auto", md: "full" }}
-                        justifyContent="center"
-                        fontSize={{ base: "sm", md: "md" }}
-                        mr={{ base: 2, md: 0 }}
-                        _hover={{ bg: "brand.darkAccent" }}
-                    >
-                        Option 3
-                    </Button>
-                </Flex>
+              <CustomBrandLogoMiniBlackBG
+                ch="61px"
+                cw="61px"
+                ccolor="brand.pureWhiteBg"
+              />
             </Box>
-            {/* Right Content Area */}
-            <Box
-                flex={{ base: "1", md: "1" }}
-                bg="brand.bgDark"
-                p={{ base: 2, md: 4 }}
-                borderLeft={{ base: "none", md: "2px" }}
-                borderTop={{ base: "2px", md: "none" }}
-                borderColor="brand.border"
-                fontFamily="body"
-            >
-                <Text fontSize={{ base: "md", md: "xl" }} color="brand.textLight">
-                    Select a menu option to load content here
-                </Text>
-            </Box>
-        </Flex>
-    );
+          )}
+          <CommonSidebar/>
+        </Box>
+
+        {/* Main Content */}
+        <Box
+          flex={1}
+          bg="brand.pureBlackBg"
+          p={padding}
+          borderLeft={{ base: "none", md: "0.2px solid" }}
+          borderTop={{ base: isSidebarOpen ? "none" : "1px solid", md: "none" }}
+          borderColor="brand.greyBrandBorder"
+          fontFamily="body"
+          // Change: Ensure main content is scrollable on all screen sizes
+          overflowY="auto"
+          // Change: Adjust margin-left on medium and larger screens to account for fixed sidebar width
+          ml={{ base: 0, md: sidebarWidth }}
+          // Change: Ensure main content takes full viewport height minus mobile header (if present)
+          minH={{ base: "calc(100vh - 64px)", md: "100vh" }}
+        >
+          <Suspense fallback={<Box color="brand.pureWhiteTxt">Loading...</Box>}>
+            <Outlet />
+          </Suspense>
+        </Box>
+      </Flex>
+    </Flex>
+  );
 };
 
 export default DashboardHome;

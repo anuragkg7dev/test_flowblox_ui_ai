@@ -1,4 +1,10 @@
 import {
+  DASHBOARD_URL,
+  JWT_TOKEN
+} from "@/components/common/constants/AppRouterConstant"
+import { toast } from "@/components/common/Notification"
+import { useAppRouterStore } from "@/components/store/AppRouterStore"
+import {
   Box,
   Button,
   Checkbox,
@@ -8,118 +14,131 @@ import {
   Icon,
   Image,
   Input,
-  Stack,
-  Text,
+  Text
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import {
-  DASHBOARD,
-  DASHBOARD_URL,
-  IS_AUTHENTICATED,
-} from "@/components/common/constants/AppRouterConstant"
-import { toast } from "@/components/common/Notification"
-import { useAppRouterStore } from "@/components/store/AppRouterStore"
 import { handleSignin } from "./AuthLogic"
 
-import logo from "../../../assets/logo1.png"
 import bg1 from "../../../assets/bg1.jpg"
+import logo from "../../../assets/logo1.png"
 
+import { SIDEBAR_SWITCH_FLAG_DEFAULT, SIDEBAR_SWITCH_FLAG_KEY, THEME, THEME_DARK } from "@/components/common/constants/CommonConstant"
+import { useAppConfigStore } from "@/components/store/AppConfigStore"
 import { BsGoogle } from "react-icons/bs"
 import { ImAppleinc } from "react-icons/im"
 import { IoLogoWindows } from "react-icons/io5"
 import { LiaExternalLinkAltSolid } from "react-icons/lia"
+import { supabase } from "@/components/client/SuperbasClient"
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton"
 
 export default function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const updateRouter = useAppRouterStore((state) => state.updateRouter)
+  const [loader, setLoader] = useState(false)
+  const updateRouterAtSignIn = useAppRouterStore((state) => state.updateRouterAtSignIn)
+  const { config, setConfig } = useAppConfigStore();
   const navigate = useNavigate()
 
-  const siginCallback = (status, message) => {
+  const siginCallback = async (status, message) => {
     if (!status) {
       toast.error(message)
     } else {
-      updateRouter(DASHBOARD, true)
-      updateRouter(IS_AUTHENTICATED, true)
+      updateRouterAtSignIn();
+
+      let initConfig = { [THEME]: THEME_DARK, [SIDEBAR_SWITCH_FLAG_KEY]: SIDEBAR_SWITCH_FLAG_DEFAULT }
+      let nconfig = config ? { ...config, ...initConfig } : initConfig
+      setConfig(nconfig);
+      await updateJwtToken();
+
       toast.success("Logged in!")
       navigate(DASHBOARD_URL)
     }
+    setLoader(false)
+  }
+
+  const updateJwtToken = async () => {
+    let jwtToken = undefined
+
+    await supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        jwtToken = session.access_token; // Access token (JWT)
+        setConfig({ ...useAppConfigStore.getState().config, [JWT_TOKEN]: jwtToken }); // Fixed
+
+      } else {
+        console.log("AKG , no active session");
+      }
+    });
+  }
+
+  const handleEmailSignin = () => {
+    setLoader(true)
+    handleSignin(email, password, siginCallback)
   }
 
   return (
     <Flex
       height="100vh"
       direction={{ base: "column", md: "row" }}
-      bg="brand.bgDark"
+      bg="brand.pureBlackBg"
       overflow="auto"
     >
       {/* Left side - form */}
       <Flex
-        flex={{ base: "1 1 auto", md: "0 0 60%" }}
+        flex={{ base: "1 1 auto", md: "0 0 50%" }}
         align="center"
         justify="center"
         p={{ base: 6, md: 8 }}
       >
         <Box maxW={{ base: "100%", sm: "400px", md: "385px" }} width="100%" p={6}>
           {/* Email */}
-          <Field.Root width="100%" color="brand.textLight" fontSize={{ base: "sm", md: "md" }} mb={6}>
+          <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
             <Field.Label>Email</Field.Label>
             <Input
               placeholder="Email"
-              bg="brand.bgDark"
               onChange={(e) => setEmail(e.target.value)}
               mb={2}
-              borderColor="brand.border"
-              borderWidth="1px"
-              borderStyle="solid"
-              _focus={{ borderColor: "brand.accent" }}
-              fontSize={{ base: "sm", md: "md" }}
+              variant={"fbloxD"}
             />
             <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
           </Field.Root>
 
           {/* Password */}
-          <Field.Root width="100%" color="brand.textLight" fontSize={{ base: "sm", md: "md" }} mb={6}>
+          <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
             <Field.Label>Password</Field.Label>
             <Input
               placeholder="Password"
               type="password"
-              bg="brand.bgDark"
               onChange={(e) => setPassword(e.target.value)}
               mb={2}
-              borderColor="brand.border"
-              borderWidth="1px"
-              borderStyle="solid"
-              _focus={{ borderColor: "brand.accent" }}
-              fontSize={{ base: "sm", md: "md" }}
+              variant={"fbloxD"}
             />
             <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
           </Field.Root>
 
           {/* Links */}
           <HStack width="100%" justifyContent="space-between" mt={4} fontSize={{ base: "sm", md: "md" }}>
-            <Text color="brand.accent" cursor="pointer" userSelect="none">
+            <Text color="brand.subBrandBg" cursor="pointer" userSelect="none">
               Forgot password?
             </Text>
-            <Text color="brand.accent" cursor="pointer" userSelect="none">
-              Help <Icon as={LiaExternalLinkAltSolid} color="brand.accent" boxSize={{ base: 3, md: 4 }} />
+            <Text color="brand.subBrandBg" cursor="pointer" userSelect="none">
+              Help <Icon as={LiaExternalLinkAltSolid} color="brand.subBrandBg" boxSize={{ base: 3, md: 4 }} />
             </Text>
           </HStack>
 
           {/* Sign in Button */}
-          <Button
-            mt={6}
-            colorPalette="purple"
-            width="100%"
-            fontSize={{ base: "sm", md: "md" }}
-            onClick={() => handleSignin(email, password, siginCallback)}
-          >
-            Sign In
-          </Button>
+          <CustomLoaderButton
+            cwidth="100%"
+            cmt={6}
+            cvariant={"fblox"}
+            cloadingText={'Sign In'}
+            loader={loader}
+            onClickBtn={handleEmailSignin}
+            clabel={'Sign In'}
+          />
 
           {/* Terms */}
-          <Text mt={4} color="brand.accent" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
+          <Text mt={4} color="brand.subBrandBg" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
             By signing in, you agree to our Terms of Service and Privacy Policy.
           </Text>
 
@@ -127,18 +146,18 @@ export default function SignIn() {
           <Checkbox.Root variant="solid" colorPalette="purple" mt={4}>
             <Checkbox.HiddenInput />
             <Checkbox.Control />
-            <Checkbox.Label color="brand.textLight" fontSize={{ base: "sm", md: "md" }}>
+            <Checkbox.Label color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }}>
               Keep me signed in
             </Checkbox.Label>
           </Checkbox.Root>
 
           {/* Divider */}
           <HStack width="100%" alignItems="center" mt={6}>
-            <Box as="hr" flex="1" borderColor="brand.border" borderWidth="1px" />
-            <Text color="brand.textLight" fontSize={{ base: "sm", md: "md" }} mx={2}>
+            <Box as="hr" flex="1" borderColor="brand.greyBrandBorder" borderWidth="1px" />
+            <Text color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mx={2}>
               or continue with
             </Text>
-            <Box as="hr" flex="1" borderColor="brand.border" borderWidth="1px" />
+            <Box as="hr" flex="1" borderColor="brand.greyBrandBorder" borderWidth="1px" />
           </HStack>
 
           {/* Social Icons */}
@@ -150,18 +169,18 @@ export default function SignIn() {
             ].map(({ icon }, idx) => (
               <Box
                 key={idx}
-                mx={1} 
+                mx={1}
                 border="1px solid"
-                borderColor="brand.border"
+                borderColor="brand.greyBrandBorder"
                 borderRadius="md"
                 boxSize={{ base: 8, md: 10 }}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
                 cursor="pointer"
-                _hover={{ bg: "brand.accent", color: "white" }}
+                _hover={{ bg: "brand.subBrandBg", color: "white" }}
               >
-                <Icon as={icon} color="brand.textLight" boxSize={{ base: 4, md: 6 }} />
+                <Icon as={icon} color="brand.pureWhiteTxt" boxSize={{ base: 4, md: 6 }} />
               </Box>
             ))}
           </HStack>
@@ -170,7 +189,7 @@ export default function SignIn() {
 
       {/* Right-side Image (hide on mobile) */}
       <Box
-        flex={{ base: "0 0 0", md: "0 0 40%" }}
+        flex={{ base: "0 0 0", md: "0 0 50%" }}
         display={{ base: "none", md: "flex" }}
         flexDirection="column"
         alignItems="center"

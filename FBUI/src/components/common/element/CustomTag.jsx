@@ -1,17 +1,45 @@
-import { Tag, Text } from "@chakra-ui/react"
+import { HStack, Tag, Text } from "@chakra-ui/react"
+import CustomeCloseIcon from "./CustomeCloseIcon"
+import { memo } from "react"
 
-export default function CustomTag(props) {
+function CustomTag(props) {
 
-    let cmt = props.cmt ?? 2
+    let ckey = props.ckey ?? "ctag"
+    let cmt = props.cmt != undefined ? props.cmt : 2
     let name = props.name ?? 2
+    let cbg = props.cbg ?? "brand.subBrandBg"
+    let txtColor = props.txtColor
+    let cpx = props.cpx != undefined ? props.cpx : 2
+    let csize = props.csize ?? "md"
+
+    let id = props.id
+    let cvariant = props.cvariant
+    let closeSize = props.closeSize ?? "3xs"
+    let onClick = props.onClick
+    let iconColorPalette = props.iconColorPalette ?? "brand.pureBlackBg"
 
     return (
         <>
-            <Tag.Root mt={cmt} size={"md"} rounded="full" bg={"brand.accent"}>
-                <Tag.Label>
-                    <Text px={2}> {name} </Text>
+            <Tag.Root key={ckey} mt={cmt} size={csize} rounded="full" bg={cbg} >
+                <Tag.Label >
+                    <HStack px={cpx}>
+                        <Text key={'tx_'+ckey} color={txtColor} fontWeight="bold"> {name} </Text>
+                        {onClick && (<>
+                            <CustomeCloseIcon
+                                id={id}
+                                ckey={ckey + "_close"}
+                                cbg={cbg}
+                                cvariant={cvariant}
+                                csize={closeSize}
+                                onClose={onClick}
+                                iconColorPalette={iconColorPalette}
+                            />
+                        </>)}
+                    </HStack>
                 </Tag.Label>
             </Tag.Root>
         </>
     )
 }
+
+export default memo(CustomTag);

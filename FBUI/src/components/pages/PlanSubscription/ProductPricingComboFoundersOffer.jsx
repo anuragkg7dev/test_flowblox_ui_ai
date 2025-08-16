@@ -29,7 +29,6 @@ import { validateName } from "@/components/common/element/CustomValidation";
 import { clone } from "@/components/common/util/JsonUtil";
 import { replacePlaceholders } from "@/components/common/util/StringUtil";
 import { FaCheck } from "react-icons/fa";
-import { loadGoogleAnalytics } from "@/scripts/loadGoogleAnalytics";
 
 export default function ProductPricingComboFoundersOffer(props) {
 
@@ -69,9 +68,6 @@ export default function ProductPricingComboFoundersOffer(props) {
   const [placeholderArray, setPlaceholderArray] = useState(placeHolderData.placeHolderArray_gbp);
 
   useEffect(() => {
-
-    loadGoogleAnalytics();
-
     const detectCurrency = () => {
 
       const userLocale = navigator.language || navigator.languages[0] || "en-US";
@@ -219,7 +215,7 @@ export default function ProductPricingComboFoundersOffer(props) {
       <Flex
         minHeight={{ base: "100vh", md: "100vh", lg: "100vh" }}
         direction={{ base: "column", md: "row" }}
-        bg="brand.bgDark"
+        bg="brand.pureBlackBg"
         userSelect={loading ? "none" : "auto"}
       >
         {/* Left Side Box */}
@@ -228,7 +224,7 @@ export default function ProductPricingComboFoundersOffer(props) {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkGrey"
+          bg="brand.OffBlackBg"
 
         >
           <Box w="full" maxW={{ base: "100%", sm: "400px", md: "441px" }} p={6}>
@@ -243,21 +239,16 @@ export default function ProductPricingComboFoundersOffer(props) {
                 invalid={!!fnameError}
                 mt={6}
                 width="100%"
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 fontSize={{ base: "sm", md: "md" }}
 
               >
                 <Field.Label>First Name</Field.Label>
                 <Input
                   placeholder="First Name"
-                  bg="brand.bgDark"
                   onChange={(e) => handleFnameChange(e)}
                   mb={2}
-                  borderColor="brand.border"
-                  borderWidth="1px"
-                  borderStyle="solid"
-                  _focus={{ borderColor: "brand.accent" }}
-                  fontSize={{ base: "sm", md: "md" }}
+                  variant={"fbloxD"}
                   required
                 />
                 <Field.ErrorText fontSize={{ base: "xs", md: "sm" }} >
@@ -270,21 +261,16 @@ export default function ProductPricingComboFoundersOffer(props) {
                 invalid={!!lnameError}
                 mt={6}
                 width="100%"
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 fontSize={{ base: "sm", md: "md" }}
 
               >
                 <Field.Label>Last Name</Field.Label>
                 <Input
                   placeholder="Last Name"
-                  bg="brand.bgDark"
+                  variant={"fbloxD"}
                   onChange={(e) => handleLnameChange(e)}
                   mb={2}
-                  borderColor="brand.border"
-                  borderWidth="1px"
-                  borderStyle="solid"
-                  _focus={{ borderColor: "brand.accent" }}
-                  fontSize={{ base: "sm", md: "md" }}
                   required
                 />
                 <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>
@@ -299,21 +285,16 @@ export default function ProductPricingComboFoundersOffer(props) {
               invalid={!!emailError}
               mt={2}
               width="100%"
-              color="brand.textLight"
+              color="brand.pureWhiteTxt"
               fontSize={{ base: "sm", md: "md" }}
               mb={6}
             >
               <Field.Label>Email</Field.Label>
               <Input
                 placeholder="Email"
-                bg="brand.bgDark"
+                variant={"fbloxD"}
                 onChange={(e) => handleEmailChange(e)}
-                mb={2}
-                borderColor="brand.border"
-                borderWidth="1px"
-                borderStyle="solid"
-                _focus={{ borderColor: "brand.accent" }}
-                fontSize={{ base: "sm", md: "md" }}
+                mb={2}              
                 required
               />
               <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>
@@ -325,7 +306,7 @@ export default function ProductPricingComboFoundersOffer(props) {
               alignSelf={"center"}
               fontSize={{ base: "xl", sm: "2xl", md: "2xl" }}
               fontWeight="semibold"
-              color="brand.textLight" >
+              color="brand.pureWhiteTxt" >
               {replacePlaceholders(selectedCombo?.configuration?.planDetails?.["heading"], placeholderArray)}
             </Text>
 
@@ -344,7 +325,7 @@ export default function ProductPricingComboFoundersOffer(props) {
               cmt={6}
               cfontSize={{ base: "16px", md: "16px" }}
               cfontWeight={"semibold"}
-              ccolor={"brand.textLight"}
+              ccolor={"brand.pureWhiteTxt"}
               replaceArr={placeholderArray}
               htext={selectedCombo?.configuration?.planDetails?.["description1"]}
             />
@@ -353,7 +334,7 @@ export default function ProductPricingComboFoundersOffer(props) {
               cmt={6}
               cfontSize={{ base: "16px", md: "16px" }}
               cfontWeight={"semibold"}
-              ccolor={"brand.textLight"}
+              ccolor={"brand.pureWhiteTxt"}
               replaceArr={placeholderArray}
               htext={selectedCombo?.configuration?.planDetails?.["description2"]}
             />
@@ -362,7 +343,7 @@ export default function ProductPricingComboFoundersOffer(props) {
               cmt={6}
               cfontSize={{ base: "16px", md: "16px" }}
               cfontWeight={"semibold"}
-              ccolor={"brand.textLight"}
+              ccolor={"brand.pureWhiteTxt"}
               replaceArr={placeholderArray}
               htext={selectedCombo?.configuration?.planDetails?.["description3"]}
             />
@@ -370,7 +351,7 @@ export default function ProductPricingComboFoundersOffer(props) {
             <Button
               disabled={!!emailError || !email}
               mt={8}
-              colorPalette="purple"
+              variant={"fblox"}
               width="100%"
               fontSize={{ base: "sm", md: "md" }}
               onClick={() => verifyRegistrationAndHandleCheckout()}
@@ -387,7 +368,7 @@ export default function ProductPricingComboFoundersOffer(props) {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkAccent"
+          bg="brand.darkBrandBg"
           backgroundImage={`url(${bg1})`}
           backgroundSize="cover"
           backgroundRepeat="no-repeat"
@@ -396,7 +377,7 @@ export default function ProductPricingComboFoundersOffer(props) {
             id="imagebox"
             rounded="md"
             textAlign="start"
-            color="brand.textLight"
+            color="brand.pureWhiteTxt"
             maxW={{ base: "100%", sm: "400px", md: "550px", lg: "630px" }}
             minH={{ base: "600px", sm: "700px", md: "800px", lg: "900px" }}
             minW={{ base: "100%", sm: "350px", md: "450px", lg: "500px" }}
@@ -428,7 +409,7 @@ export default function ProductPricingComboFoundersOffer(props) {
               cmt={6}
               cfontSize={{ base: "16px", md: "16px" }}
               cfontWeight={"semibold"}
-              ccolor={"brand.textLight"}
+              ccolor={"brand.pureWhiteTxt"}
               replaceArr={placeholderArray}
               htext={selectedCombo?.configuration?.planIncludes?.["heading1"]}
             />
@@ -440,10 +421,10 @@ export default function ProductPricingComboFoundersOffer(props) {
                 {(selectedCombo?.configuration?.planIncludes?.features1 ?? []).map((item, idx) => (
                   <List.Item key={idx} style={{ listStyleType: "none" }}>
                     <HStack align="start" spacing={3} mt={2}>
-                      <List.Indicator asChild color="brand.accent">
+                      <List.Indicator asChild color="brand.subBrandBg">
                         <FaCheck />
                       </List.Indicator>
-                      <Text color="brand.textLight" fontSize={{ base: "16px", md: "16px" }}>
+                      <Text color="brand.pureWhiteTxt" fontSize={{ base: "16px", md: "16px" }}>
                         {replacePlaceholders(item, placeholderArray)}
 
                       </Text>
@@ -456,19 +437,19 @@ export default function ProductPricingComboFoundersOffer(props) {
             <Text
               mt={6}
               fontSize={{ base: "16px", md: "16px" }}
-              color={"brand.textLight"}>{selectedCombo?.configuration?.planIncludes?.["features1Heading"]}</Text>
+              color={"brand.pureWhiteTxt"}>{selectedCombo?.configuration?.planIncludes?.["features1Heading"]}</Text>
 
 
 
             <Text
               mt={4}
               fontSize={{ base: "16px", md: "16px" }}
-              color={"brand.textLight"}>{selectedCombo?.configuration?.planIncludes?.["heading2"]}</Text>
+              color={"brand.pureWhiteTxt"}>{selectedCombo?.configuration?.planIncludes?.["heading2"]}</Text>
 
             <Text
               mt={4}
               fontSize={{ base: "16px", md: "16px" }}
-              color={"brand.textLight"}>{selectedCombo?.configuration?.planIncludes?.["heading3"]}</Text>
+              color={"brand.pureWhiteTxt"}>{selectedCombo?.configuration?.planIncludes?.["heading3"]}</Text>
           </Box>
         </Flex>
       </Flex>

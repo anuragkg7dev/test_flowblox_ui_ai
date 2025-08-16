@@ -142,7 +142,7 @@ export default function ProductPricing() {
       <Flex
         minHeight={{ base: "100vh", md: "100vh", lg: "100vh" }}
         direction={{ base: "column", md: "row" }}
-        bg="brand.bgDark"
+        bg="brand.pureBlackBg"
         userSelect={loading ? "none" : "auto"}
       >
         {/* Left Side Box */}
@@ -151,7 +151,7 @@ export default function ProductPricing() {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkGrey"
+          bg="brand.OffBlackBg"
         >
           <Box w="full" maxW={{ base: "100%", sm: "400px", md: "441px" }} p={6}>
             {/* LEFT BOX CONTENT GOES HERE */}
@@ -163,17 +163,17 @@ export default function ProductPricing() {
             </HStack>
 
 
-            <Field.Root required invalid={!!emailError} mt={6} width="100%" color="brand.textLight" fontSize={{ base: "sm", md: "md" }} mb={6}>
+            <Field.Root required invalid={!!emailError} mt={6} width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
               <Field.Label>Email</Field.Label>
               <Input
                 placeholder="Email"
-                bg="brand.bgDark"
+                bg="brand.pureBlackBg"
                 onChange={(e) => handleEmailChange(e)}
                 mb={2}
-                borderColor="brand.border"
+                borderColor="brand.greyBrandBorder"
                 borderWidth="1px"
                 borderStyle="solid"
-                _focus={{ borderColor: "brand.accent" }}
+                _focus={{ borderColor: "brand.subBrandBg" }}
                 fontSize={{ base: "sm", md: "md" }}
                 required
               />
@@ -182,11 +182,11 @@ export default function ProductPricing() {
 
             <Box mt={6}> <CustomBoldPricing currency={currency.toUpperCase()} price={totalAmount} billingPeriod={"per month"} />  </Box>
 
-            <Text mt={6} fontSize={{ base: "xl", md: "2xl" }} fontWeight="semibold" color={"brand.textLight"}>
+            <Text mt={6} fontSize={{ base: "xl", md: "2xl" }} fontWeight="semibold" color={"brand.pureWhiteTxt"}>
               {selectedBundle?.configuration?.planDetails?.heading}
             </Text>
 
-            <Text mt={6} fontSize={{ base: "16px", md: "16px" }} color={"brand.textLight"}>
+            <Text mt={6} fontSize={{ base: "16px", md: "16px" }} color={"brand.pureWhiteTxt"}>
               {selectedBundle?.configuration?.planDetails?.description}
             </Text>
 
@@ -201,7 +201,7 @@ export default function ProductPricing() {
               />
             </Box>
 
-            <Text mt={4} fontSize={{ base: "xs", md: "sm" }} color={"brand.accent"}>
+            <Text mt={4} fontSize={{ base: "xs", md: "sm" }} color={"brand.subBrandBg"}>
               {selectedBundle?.configuration?.planDetails?.sub_description}
             </Text>
 
@@ -209,7 +209,7 @@ export default function ProductPricing() {
             <Button
               disabled={!!emailError || !email}
               mt={8}
-              colorPalette="purple"
+              variant={"fblox"}
               width="100%"
               fontSize={{ base: "sm", md: "md" }}
               onClick={() => handleCheckout(getUsersDetails(), getLineItems(), getPaymentDetails())}
@@ -224,13 +224,13 @@ export default function ProductPricing() {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkAccent"
+          bg="brand.darkBrandBg"
         >
           <Box
             p={6}
             rounded="md"
             textAlign="start"
-            color="brand.textLight"
+            color="brand.pureWhiteTxt"
             maxW="400px"
             w="full"
           >
@@ -257,10 +257,10 @@ export default function ProductPricing() {
               {(selectedBundle?.configuration?.planIncludes?.features ?? []).map((item, idx) => (
                 <List.Item key={idx} style={{ listStyleType: "none" }}>
                   <HStack align="start" spacing={3} mt={2}>
-                    <List.Indicator asChild color="brand.accent">
+                    <List.Indicator asChild color="brand.subBrandBg">
                       <FaCheck />
                     </List.Indicator>
-                    <Text color="brand.textLight" fontSize={{ base: "16px", md: "16px" }}>
+                    <Text color="brand.pureWhiteTxt" fontSize={{ base: "16px", md: "16px" }}>
                       {item}
                     </Text>
                   </HStack>

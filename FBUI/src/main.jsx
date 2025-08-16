@@ -11,7 +11,7 @@ import { customThemeSystem } from "./ctheme.jsx"
 
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <ChakraProvider value={customThemeSystem}>
       {/* <ColorModeProvider> */}
       <BrowserRouter>
@@ -19,5 +19,5 @@ createRoot(document.getElementById("root")).render(
       </BrowserRouter>
       {/* </ColorModeProvider> */}
     </ChakraProvider>
-  </StrictMode>
+  // </StrictMode>
 )

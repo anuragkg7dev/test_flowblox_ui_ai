@@ -18,3 +18,12 @@ export const validateRequired = (value, callback) => {
     }
    
   }
+
+export const validate = (schemas, field, value) => {
+    try {
+        schemas[field].validateSync(value);
+        return null;
+    } catch (err) {
+        return err.message;
+    }
+};

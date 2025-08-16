@@ -5,9 +5,9 @@ import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 export const Facebook = (props) => {
-  let iconColor = props.iconColor ?? "brand.accent";
-  let hoverBG = props.hoverBG ?? "brand.accent";
-  let hoverColor = props.hoverColor ?? "brand.bgDark";
+  let iconColor = props.iconColor ?? "brand.subBrandBg";
+  let hoverBG = props.hoverBG ?? "brand.subBrandBg";
+  let hoverColor = props.hoverColor ?? "brand.pureBlackBg";
 
   let curl = "https://www.facebook.com/flowbloxai";
 
@@ -30,9 +30,9 @@ export const Facebook = (props) => {
 };
 
 export const Instagram = (props) => {
-  let iconColor = props.iconColor ?? "brand.accent";
-  let hoverBG = props.hoverBG ?? "brand.accent";
-  let hoverColor = props.hoverColor ?? "brand.bgDark";
+  let iconColor = props.iconColor ?? "brand.subBrandBg";
+  let hoverBG = props.hoverBG ?? "brand.subBrandBg";
+  let hoverColor = props.hoverColor ?? "brand.pureBlackBg";
 
   let curl = "https://www.instagram.com/flowblox.ai";
 
@@ -54,9 +54,9 @@ export const Instagram = (props) => {
 };
 
 export const XTwitter = (props) => {
-  let iconColor = props.iconColor ?? "brand.accent";
-  let hoverBG = props.hoverBG ?? "brand.accent";
-  let hoverColor = props.hoverColor ?? "brand.bgDark";
+  let iconColor = props.iconColor ?? "brand.subBrandBg";
+  let hoverBG = props.hoverBG ?? "brand.subBrandBg";
+  let hoverColor = props.hoverColor ?? "brand.pureBlackBg";
 
   let curl = "https://x.com/FlowbloxAI";
 
@@ -88,7 +88,7 @@ export const FlowBloxAddress = memo((props) => {
       px={{ base: 2, md: 4 }}
       textAlign="center"
       fontSize={{ base: "xs", sm: "sm", md: "md", lg: "lg" }}
-      color="brand.textLight"
+      color="brand.pureWhiteTxt"
     >
       <VStack
         align="center"
@@ -107,10 +107,8 @@ export const FlowBloxAddress = memo((props) => {
           Contact Information:{" "}
           <Link
             href="mailto:info@flowblox.ai"
-            color="brand.accent"
-            aria-label="Email Flowblox at info@flowblox.ai"
-            _hover={{ textDecoration: "underline", color: "brand.accentHover" }}
-            _focus={{ outline: "2px solid", outlineColor: "brand.accent", outlineOffset: "2px" }}
+            color="brand.pureWhiteTxt"
+            aria-label="Email Flowblox at info@flowblox.ai"           
             p={1} // Increase tap target size
           >
             info@flowblox.ai

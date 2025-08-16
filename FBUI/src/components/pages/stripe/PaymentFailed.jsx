@@ -39,7 +39,7 @@ export default function PaymentFailure() {
       <Flex
         minHeight={{ base: "100vh", md: "100vh", lg: "100vh" }}
         direction={{ base: "column", md: "row" }}
-        bg="brand.bgDark"
+        bg="brand.pureBlackBg"
       >
         {/* Left Side Box */}
         <Flex
@@ -47,17 +47,17 @@ export default function PaymentFailure() {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkGrey"
+          bg="brand.OffBlackBg"
         >
           {loading == false && (<>
             <Box w="full" maxW={{ base: "100%", sm: "450px", md: "500px" }} p={6}>
               <Flex align="center" mb={4}>
-                <FaExclamationCircle size="40px" color="#ff4d4f" />
+                <FaExclamationCircle size="40px" color="brand.primaryErrorBg" />
                 <Heading
                   as="h1"
                   fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}
                   fontWeight="bold"
-                  color="brand.textLight"
+                  color="brand.pureWhiteTxt"
                   ml={3}
                   whiteSpace="nowrap"
                 >
@@ -67,14 +67,14 @@ export default function PaymentFailure() {
               <Text
                 fontSize={{ base: "xl", sm: "2xl", md: "2xl" }}
                 fontWeight="semibold"
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 mb={4}
               >
                 Don’t Worry, Let’s Fix This!
               </Text>
               <Text
                 fontSize={{ base: "md", md: "lg" }}
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 mb={4}
               >
                 Your payment attempt wasn’t successful, but you haven’t been charged. You can try again or reach out for assistance.
@@ -82,20 +82,19 @@ export default function PaymentFailure() {
               {ptid && (
                 <Text
                   fontSize={{ base: "md", md: "lg" }}
-                  color="brand.textLight"
+                  color="brand.pureWhiteTxt"
                   mb={4}
                 >
                   Transaction ID: {ptid}
                 </Text>
               )}
               <HStack mb={8}>
-                <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                   If the issue persists, contact us at{" "}
                   <Link
                     href="mailto:info@flowblox.ai"
-                    color="brand.accent"
-                    textDecoration="underline"
-                    _hover={{ color: "brand.purpleLight" }}
+                    color="brand.subBrandTxt"
+                    textDecoration="underline"                    
                   >
                     info@flowblox.ai
                   </Link>{" "}
@@ -104,10 +103,7 @@ export default function PaymentFailure() {
               </HStack>
               <Flex direction={{ base: "column", sm: "row" }} gap={4}>
                 <Button
-                  variant="solid"
-                  bg="brand.purple"
-                  color="brand.textLight"
-                  _hover={{ bg: "brand.purpleLight" }}
+                  variant="fbloxD"                  
                   width={{ base: "100%", sm: "auto" }}
                   fontSize={{ base: "sm", md: "md" }}
                   onClick={handleTryAgain}
@@ -116,9 +112,8 @@ export default function PaymentFailure() {
                 </Button>
                 <Button
                   as="a"
-                  href="mailto:support@flowblox.ai"
-                  variant="solid"
-                  colorScheme="purple"
+                  href="mailto:support@flowblox.ai"                  
+                  variant={"fblox"}
                   width={{ base: "100%", sm: "auto" }}
                   fontSize={{ base: "sm", md: "md" }}
                 >
@@ -135,7 +130,7 @@ export default function PaymentFailure() {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkAccent"
+          bg="brand.darkBrandBg"
           backgroundImage={`url(${bg1})`}
           backgroundSize="cover"
           backgroundRepeat="no-repeat"
@@ -144,7 +139,7 @@ export default function PaymentFailure() {
             <Box
               rounded="md"
               textAlign="start"
-              color="brand.textLight"
+              color="brand.pureWhiteTxt"
               maxW={{ base: "100%", sm: "400px", md: "550px", lg: "630px" }}
               minH={{ base: "600px", sm: "700px", md: "800px", lg: "900px" }}
               minW={{ base: "100%", sm: "350px", md: "450px", lg: "500px" }}
@@ -168,7 +163,7 @@ export default function PaymentFailure() {
                 mt={6}
                 fontSize={{ base: "xl", md: "2xl" }}
                 fontWeight="semibold"
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 mb={4}
               >
                 Why This Might Have Happened & What To Do
@@ -176,12 +171,12 @@ export default function PaymentFailure() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaCreditCard size="24px" color="brand.bgLight" />
-                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaCreditCard size="24px" color="brand.pureWhiteBg" />
+                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                       Incorrect Card Details
                     </Text>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Double-check your card number, CVV, or expiration date.
                   </Text>
                 </VStack>
@@ -189,12 +184,12 @@ export default function PaymentFailure() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaCreditCard size="24px" color="brand.bgLight" />
-                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaCreditCard size="24px" color="brand.pureWhiteBg" />
+                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                       Insufficient Funds or Expired Card
                     </Text>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Ensure your card has enough balance or try a different card.
                   </Text>
                 </VStack>
@@ -202,12 +197,12 @@ export default function PaymentFailure() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaCreditCard size="24px" color="brand.bgLight" />
-                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaCreditCard size="24px" color="brand.pureWhiteBg" />
+                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                       Bank Restrictions
                     </Text>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Contact your bank to authorize the transaction.
                   </Text>
                 </VStack>
@@ -215,12 +210,12 @@ export default function PaymentFailure() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaRedo size="24px" color="brand.bgLight" />
-                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaRedo size="24px" color="brand.pureWhiteBg" />
+                    <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                       Temporary Issue
                     </Text>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Wait a few minutes and try again.
                   </Text>
                 </VStack>
@@ -228,14 +223,14 @@ export default function PaymentFailure() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaPhone size="24px" color="brand.bgLight" />
-                    <Link href="mailto:support@flowblox.ai" isExternal color="brand.purple" textDecoration="underline" _hover={{ color: "brand.purpleLight" }}>
-                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaPhone size="24px" color="brand.pureWhiteBg" />
+                    <Link href="mailto:support@flowblox.ai" isExternal color="brand.subBrandTxt" textDecoration="underline" >
+                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                         Still Stuck? Contact Support
                       </Text>
                     </Link>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Our team is here to help you get back on track.
                   </Text>
                 </VStack>

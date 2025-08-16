@@ -5,7 +5,7 @@ export function splitString(input, spliter) {
   return input
     .split(spliter)
     .map((item) => item.trim())
-    .filter((item) => item.length > 0); // Remove empty strings
+    .filter(item => item !== "" && item !== undefined); // Remove empty strings
 }
 
 export function trimString(input, charCount) {
@@ -16,6 +16,7 @@ export function trimString(input, charCount) {
   return input.length <= charCount ? input : input.slice(0, charCount) + "...";
 }
 
+export const COMMA = ','
 
 
 export function replacePlaceholders(inputStr, replaceArr) {
@@ -33,3 +34,13 @@ export function replacePlaceholders(inputStr, replaceArr) {
 
   return result;
 }
+
+// Null or undefined
+export const isNullOrUndefined = (value) => value == null || value == undefined;
+
+// Empty string
+export const isEmptyString = (value) => value == "";
+
+// Join STring present in array
+export const joinStrings = (arr) => { return arr.filter(item => item && item.trim() !== "").join(", "); }
+

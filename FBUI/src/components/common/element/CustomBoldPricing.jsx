@@ -5,7 +5,7 @@ function CustomBoldPricing(props) {
   let currency = props.currency;
   let price = props.price;
   let billingPeriod = props.billingPeriod;
-  let ccolor = props.ccolor ?? "brand.accent";
+  let ccolor = props.ccolor ?? "brand.subBrandBg";
   let cfontSize = props.cfontSize ?? "48px";
   let cfontSizeBP = props.cfontSizeBP ?? "md";
 

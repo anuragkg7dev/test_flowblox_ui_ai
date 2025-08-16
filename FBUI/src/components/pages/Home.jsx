@@ -10,9 +10,9 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-import logo from '../../assets/logo1.png';
 import bgImage from '../../assets/bg1.jpg';
-import { PRODUCT_PRICING_PRELAUNCH_URL, PRODUCT_PRICING_URL, PRODUCT_SELECTION_URL } from '../common/constants/AppRouterConstant';
+import logo from '../../assets/logo1.png';
+import { PRE_LAUNCH_URL, PRODUCT_PRICING_URL } from '../common/constants/AppRouterConstant';
 
 export default function Home() {
     return (
@@ -47,16 +47,16 @@ export default function Home() {
                 </Flex>
 
                 <Stack direction="row" spacing={4}>
-                    <Button as={Link} to={PRODUCT_PRICING_PRELAUNCH_URL} colorPalette="purple" variant="solid">
+                    <Button as={Link} to={PRE_LAUNCH_URL} variant={"fblox"}>
                         Prelaunch
                     </Button>
-                    <Button as={Link} to={PRODUCT_PRICING_URL} colorPalette="purple" variant="solid">
+                    <Button as={Link} to={PRODUCT_PRICING_URL} variant={"fblox"}>
                         Product
                     </Button>
-                    <Button as={Link} to="/signIn" colorPalette="purple" variant="solid">
+                    <Button as={Link} to="/signIn" variant={"fblox"}>
                         Sign In
                     </Button>
-                    <Button as={Link} to="/signUp"colorPalette="purple"  variant="solid">
+                    <Button as={Link} to="/signUp" variant={"fblox"}>
                         Sign Up
                     </Button>
                 </Stack>
@@ -116,6 +116,8 @@ export default function Home() {
                     ))}
                 </SimpleGrid>
             </Flex>
+
+          
         </Box>
     );
 }

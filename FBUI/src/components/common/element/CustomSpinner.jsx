@@ -1,27 +1,22 @@
-import { Box, Center, Spinner } from "@chakra-ui/react"
+import { Box, Center, ProgressCircle, Spinner, Text } from "@chakra-ui/react"
 
 export default function CustomSpinner(props) {
 
     let show = props.show ?? false
-    let loaderText = props.loaderText ?? "Loading content"
-
+    let cvalue = props.value ?? null
+    let ccolor = props.ccolor ?? "brand.primaryBrandBg"
 
     return (
         <>
-            <Box>
-                {show && (
-                    <Box
-                        pos="absolute"
-                        inset="0"
-                        bg="gray.500/80" // Use a standard Chakra color with opacity
-                        aria-label={loaderText}
-                    >
-                        <Center h="full">
-                            <Spinner color="brand.textLight" thickness="4px" size="xl" />
-                        </Center>
-                    </Box>
-                )}
-            </Box>
+            {show && (<>             
+                <ProgressCircle.Root value={cvalue} size="sm">
+                    <ProgressCircle.Circle>
+                        <ProgressCircle.Track />
+                        <ProgressCircle.Range stroke={ccolor} />
+                    </ProgressCircle.Circle>
+                </ProgressCircle.Root>
+            </>
+            )}
         </>
     )
 }

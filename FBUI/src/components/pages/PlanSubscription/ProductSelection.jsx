@@ -69,9 +69,9 @@ const ProductSelection = () => {
         {/* Left Part */}
         <VStack align="stretch" w="50%" spacing={6}>
           <Text fontSize="xl" fontWeight="bold">User Info</Text>
-          <Input placeholder="Name" name="name" value={userInfo.name} onChange={handleInfoChange} />
-          <Input placeholder="Email" name="email" value={userInfo.email} onChange={handleInfoChange} />
-          <Input placeholder="Contact Number" name="contact" value={userInfo.contact} onChange={handleInfoChange} />
+          <Input placeholder="Name" variant={"fbloxD"} name="name" value={userInfo.name} onChange={handleInfoChange} />
+          <Input placeholder="Email" variant={"fbloxD"} name="email" value={userInfo.email} onChange={handleInfoChange} />
+          <Input placeholder="Contact Number" variant={"fbloxD"} name="contact" value={userInfo.contact} onChange={handleInfoChange} />
 
           <Box>
             <Text fontWeight="semibold">Select Base Package (Required)</Text>

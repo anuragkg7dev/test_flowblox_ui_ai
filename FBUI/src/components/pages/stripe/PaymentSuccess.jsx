@@ -34,7 +34,7 @@ export default function PaymentSuccess() {
       <Flex
         minHeight={{ base: "100vh", md: "100vh", lg: "100vh" }}
         direction={{ base: "column", md: "row" }}
-        bg="brand.bgDark"
+        bg="brand.pureBlackBg"
       >
         {/* Left Side Box */}
         <Flex
@@ -42,17 +42,17 @@ export default function PaymentSuccess() {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkGrey"
+          bg="brand.OffBlackBg"
         >
           {loading == false && (<>
             <Box w="full" maxW={{ base: "100%", sm: "400px", md: "441px" }} p={6}>
               <Flex align="center" mb={4}>
-                <FaCheckCircle size="40px" color="#a855f7" />
+                <FaCheckCircle size="40px" color="brand.primaryBrandBg" />
                 <Heading
                   as="h1"
                   fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
                   fontWeight="bold"
-                  color="brand.textLight"
+                  color="brand.pureWhiteTxt"
                   ml={3}
                 >
                   Payment Successful
@@ -61,28 +61,27 @@ export default function PaymentSuccess() {
               <Text
                 fontSize={{ base: "xl", sm: "2xl", md: "2xl" }}
                 fontWeight="semibold"
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 mb={4}
               >
                 Thank You for Your Purchase!
               </Text>
               <Text
                 fontSize={{ base: "md", md: "lg" }}
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 mb={4}
               >
                 Your founder offer has been secured — welcome to FlowBlox. We’re excited to have you on board as one of our first users.
               </Text>
 
               <HStack mb={8}>
-                <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                   Your payment has been processed, and a confirmation email will be sent to you shortly with everything you need to know. If you don’t see it, check your spam folder or reach out to us at{" "}
 
                   <Link
                     href="mailto:info@flowblox.ai"
-                    color="brand.accent"
-                    textDecoration="underline"
-                    _hover={{ color: "brand.purpleLight" }}
+                    color="brand.subBrandBg"
+                    textDecoration="underline"                    
                   >
                     info@flowblox.ai
                   </Link>{" "}
@@ -93,7 +92,7 @@ export default function PaymentSuccess() {
               {ptid && (
                 <Text
                   fontSize={{ base: "md", md: "lg" }}
-                  color="brand.textLight"
+                  color="brand.pureWhiteTxt"
                   mb={4}
                 >
                   Transaction ID: {ptid}
@@ -101,7 +100,7 @@ export default function PaymentSuccess() {
               )}
               <Text
                 fontSize={{ base: "md", md: "lg" }}
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 mb={8}
               >
                 You’re officially part of the content automation revolution. 🎉
@@ -116,7 +115,7 @@ export default function PaymentSuccess() {
           align="center"
           justify="center"
           p={{ base: 6, md: 8 }}
-          bg="brand.darkAccent"
+          bg="brand.darkBrandBg"
           backgroundImage={`url(${bg1})`}
           backgroundSize="cover"
           backgroundRepeat="no-repeat"
@@ -125,7 +124,7 @@ export default function PaymentSuccess() {
             <Box
               rounded="md"
               textAlign="start"
-              color="brand.textLight"
+              color="brand.pureWhiteTxt"
               maxW={{ base: "100%", sm: "400px", md: "550px", lg: "630px" }}
               minH={{ base: "600px", sm: "700px", md: "800px", lg: "900px" }}
               minW={{ base: "100%", sm: "350px", md: "450px", lg: "500px" }}
@@ -149,7 +148,7 @@ export default function PaymentSuccess() {
                 mt={6}
                 fontSize={{ base: "xl", md: "2xl" }}
                 fontWeight="semibold"
-                color="brand.textLight"
+                color="brand.pureWhiteTxt"
                 mb={4}
               >
                 You’re In. Here’s What You Can Do Next:
@@ -157,14 +156,14 @@ export default function PaymentSuccess() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaDiscord size="24px" color="brand.bgLight" />
+                    <FaDiscord size="24px" color="brand.pureWhiteBg" />
                     <Link href="https://discord.gg/XhgpW5wCw3" isExternal>
-                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                         Join the Founders Discord
                       </Text>
                     </Link>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Connect with the team and other early users.
                   </Text>
                 </VStack>
@@ -172,14 +171,14 @@ export default function PaymentSuccess() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaMap size="24px" color="brand.bgLight" />
-                    <Link href="https://portal.productboard.com/flowblox-ai/1-flowblox-ai-product-portal" isExternal color="brand.purple" textDecoration="underline" _hover={{ color: "brand.purpleLight" }}>
-                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaMap size="24px" color="brand.pureWhiteBg" />
+                    <Link href="https://portal.productboard.com/flowblox-ai/1-flowblox-ai-product-portal" isExternal color="brand.subBrandTxt" textDecoration="underline" _hover={{ color: "brand.primaryBrandTxt" }}>
+                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                         View Our Roadmap
                       </Text>
                     </Link>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     See what’s coming across the next 12 months.
                   </Text>
                 </VStack>
@@ -187,14 +186,14 @@ export default function PaymentSuccess() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaUsers size="24px" color="brand.bgLight" />
-                    <Link href="https://affiliates.flowblox.ai/" isExternal color="brand.purple" textDecoration="underline" _hover={{ color: "brand.purpleLight" }}>
-                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaUsers size="24px" color="brand.pureWhiteBg" />
+                    <Link href="https://affiliates.flowblox.ai/" isExternal color="brand.subBrandTxt" textDecoration="underline" _hover={{ color: "brand.primaryBrandTxt" }}>
+                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                         Explore the Affiliate Program
                       </Text>
                     </Link>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Earn by sharing FlowBlox with your network.
                   </Text>
                 </VStack>
@@ -202,14 +201,14 @@ export default function PaymentSuccess() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <FaRocket size="24px" color="brand.bgLight" />
-                    <Link href="https://www.flowblox.ai" isExternal color="brand.purple" textDecoration="underline" _hover={{ color: "brand.purpleLight" }}>
-                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <FaRocket size="24px" color="brand.pureWhiteBg" />
+                    <Link href="https://www.flowblox.ai" isExternal color="brand.subBrandTxt" textDecoration="underline" _hover={{ color: "brand.primaryBrandTxt" }}>
+                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                         On the launch day!
                       </Text>
                     </Link>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     You’ll get early access, your login, and unlock the platform before the public.
                   </Text>
                 </VStack>
@@ -217,14 +216,14 @@ export default function PaymentSuccess() {
               <Flex justifyContent="flex-start" mb={3}>
                 <VStack alignItems="flex-start">
                   <HStack justifyContent="flex-start">
-                    <CustomBrandLogoMini ch="24px" cw="24px" ccolor="brand.bgLight" />
-                    <Link href="https://www.flowblox.ai" isExternal color="brand.purple" textDecoration="underline" _hover={{ color: "brand.purpleLight" }}>
-                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.textLight" ml={2}>
+                    <CustomBrandLogoMini ch="24px" cw="24px" ccolor="brand.pureWhiteBg" />
+                    <Link href="https://www.flowblox.ai" isExternal color="brand.subBrandTxt" textDecoration="underline" _hover={{ color: "brand.primaryBrandTxt" }}>
+                      <Text fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt" ml={2}>
                         Visit flowblox.ai
                       </Text>
                     </Link>
                   </HStack>
-                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.textLight">
+                  <Text ml={10} fontSize={{ base: "md", md: "lg" }} color="brand.pureWhiteTxt">
                     Find updates, support, or revisit anything anytime.
                   </Text>
                 </VStack>

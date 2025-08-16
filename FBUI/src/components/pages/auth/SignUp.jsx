@@ -28,7 +28,7 @@ export default function SignUp() {
   const navigate = useNavigate()
 
   const signupCallback = (status, message) => {
-    console.log("AKG 22 signupCallback --> ",status, message )
+    console.log("AKG 22 signupCallback --> ", status, message)
     if (!status) {
       toast.error(message)
     } else {
@@ -41,48 +41,38 @@ export default function SignUp() {
     <Flex
       height="100vh"
       direction={{ base: "column", md: "row" }}
-      bg="brand.bgDark"
+      bg="brand.pureBlackBg"
       overflow="auto"
     >
       {/* Left side - form */}
       <Flex
-        flex={{ base: "1 1 auto", md: "0 0 60%" }}
+        flex={{ base: "1 1 auto", md: "0 0 50%" }}
         align="center"
         justify="center"
         p={{ base: 6, md: 8 }}
       >
         <Box maxW={{ base: "100%", sm: "400px", md: "385px" }} width="100%" p={6}>
           {/* Email */}
-          <Field.Root width="100%" color="brand.textLight" fontSize={{ base: "sm", md: "md" }} mb={6}>
+          <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
             <Field.Label>Email</Field.Label>
             <Input
               placeholder="Email"
-              bg="brand.bgDark"
               onChange={(e) => setEmail(e.target.value)}
               mb={2}
-              borderColor="brand.border"
-              borderWidth="1px"
-              borderStyle="solid"
-              _focus={{ borderColor: "brand.accent" }}
-              fontSize={{ base: "sm", md: "md" }}
+              variant={"fbloxD"}
             />
             <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
           </Field.Root>
 
           {/* Password */}
-          <Field.Root width="100%" color="brand.textLight" fontSize={{ base: "sm", md: "md" }} mb={6}>
+          <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
             <Field.Label>Password</Field.Label>
             <Input
               placeholder="Password"
-              type="password"
-              bg="brand.bgDark"
+              type="password"              
               onChange={(e) => setPassword(e.target.value)}
               mb={2}
-              borderColor="brand.border"
-              borderWidth="1px"
-              borderStyle="solid"
-              _focus={{ borderColor: "brand.accent" }}
-              fontSize={{ base: "sm", md: "md" }}
+              variant={"fbloxD"}
             />
             <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
           </Field.Root>
@@ -90,7 +80,7 @@ export default function SignUp() {
           {/* Sign up Button */}
           <Button
             mt={4}
-            colorPalette="purple"
+            variant={"fblox"}
             width="100%"
             fontSize={{ base: "sm", md: "md" }}
             onClick={() => handleSignup(email, password, signupCallback)}
@@ -99,17 +89,17 @@ export default function SignUp() {
           </Button>
 
           {/* Terms */}
-          <Text mt={4} color="brand.accent" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
+          <Text mt={4} color="brand.subBrandBg" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
             By signing up, you agree to our Terms of Service and Privacy Policy.
           </Text>
 
           {/* Divider */}
           <HStack width="100%" alignItems="center" mt={6}>
-            <Box as="hr" flex="1" borderColor="brand.border" borderWidth="1px" />
-            <Text color="brand.textLight" fontSize={{ base: "sm", md: "md" }} mx={2}>
+            <Box as="hr" flex="1" borderColor="brand.greyBrandBorder" borderWidth="1px" />
+            <Text color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mx={2}>
               or sign up with
             </Text>
-            <Box as="hr" flex="1" borderColor="brand.border" borderWidth="1px" />
+            <Box as="hr" flex="1" borderColor="brand.greyBrandBorder" borderWidth="1px" />
           </HStack>
 
           {/* Social Icons */}
@@ -123,16 +113,16 @@ export default function SignUp() {
                 key={idx}
                 mx={1}
                 border="1px solid"
-                borderColor="brand.border"
+                borderColor="brand.greyBrandBorder"
                 borderRadius="md"
                 boxSize={{ base: 8, md: 10 }}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
                 cursor="pointer"
-                _hover={{ bg: "brand.accent", color: "white" }}
+                _hover={{ bg: "brand.subBrandBg", color: "white" }}
               >
-                <Icon as={icon} color="brand.textLight" boxSize={{ base: 4, md: 6 }} />
+                <Icon as={icon} color="brand.pureWhiteTxt" boxSize={{ base: 4, md: 6 }} />
               </Box>
             ))}
           </HStack>
@@ -141,7 +131,7 @@ export default function SignUp() {
 
       {/* Right-side Image (hide on mobile) */}
       <Box
-        flex={{ base: "0 0 0", md: "0 0 40%" }}
+        flex={{ base: "0 0 0", md: "0 0 50%" }}
         display={{ base: "none", md: "flex" }}
         flexDirection="column"
         alignItems="center"
