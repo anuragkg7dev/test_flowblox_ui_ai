@@ -84,10 +84,10 @@ export default function SettingsAIAgent(props) {
     tempContainerMaster[CONTAINERS_KEY.AI_WRITER_STRICTNESS] = writterStrictness;
     tempContainerMaster[CONTAINERS_KEY.AI_EDITOR_STRICTNESS] = editorStrictness;
 
-    container[CONTAINERS_KEY.HOUR] = String(container[CONTAINERS_KEY.HOUR])
-    container[CONTAINERS_KEY.MINUTE] = String(container[CONTAINERS_KEY.MINUTE])
-    container[CONTAINERS_KEY.DAY_OF_WEEK] = String(container[CONTAINERS_KEY.DAY_OF_WEEK])
-    container[CONTAINERS_KEY.DAY_OF_MONTH] = String(container[CONTAINERS_KEY.DAY_OF_MONTH])
+    tempContainerMaster[CONTAINERS_KEY.HOUR] = String(container[CONTAINERS_KEY.HOUR])
+    tempContainerMaster[CONTAINERS_KEY.MINUTE] = String(container[CONTAINERS_KEY.MINUTE])
+    tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = String(container[CONTAINERS_KEY.DAY_OF_WEEK])
+    tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = String(container[CONTAINERS_KEY.DAY_OF_MONTH])
     return tempContainerMaster
   };
 

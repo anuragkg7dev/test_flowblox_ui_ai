@@ -8,9 +8,10 @@ import { Field, Flex, HStack, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GiOnTarget } from "react-icons/gi";
 import { CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
+import SquarespaceIntegration from "@/components/integration/SquareSapceIntegration";
 
 export default function SettingsConfigurable() {
-  const [selectedDestination, setSelectedDestination] = useState(); 
+  const [selectedDestination, setSelectedDestination] = useState();
   const [loader, setLoader] = useState(false);
   const [destinationList, setDestinationList] = useState([]);
 
@@ -19,6 +20,8 @@ export default function SettingsConfigurable() {
   const { config: xconfig, setConfig, updateConfig } = useAppConfigStore();
   const authkeyBearer = xconfig[JWT_TOKEN];
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
+  let containerId = container?.id
+  let hostUrl = 'https://tsdnwkcetuysrzhdhpsj.supabase.co/functions/v1/getArticlesExt' // to do.. move to env
 
   const [pageConfigParams, setPageConfigParams] = useState(new Map([
     [SOURCE_DESTINATION_KEY.KIND, CONTENT_TYPE.DESTINATION],
@@ -33,8 +36,8 @@ export default function SettingsConfigurable() {
 
   useEffect(() => {
     console.log('AKG loading SettingsConfigurable')
-    setLoader(true)
-    loadDestinationDataList();
+    //setLoader(true)
+   // loadDestinationDataList();
   }, []);
 
   const loadDestinationDataList = () => {
@@ -74,7 +77,7 @@ export default function SettingsConfigurable() {
 
   return (
     <>
-      <Flex>
+      {/* <Flex>
         <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mt={6} >
           <Field.Label>
             <HStack>
@@ -92,10 +95,13 @@ export default function SettingsConfigurable() {
             cwidth={fieldWidth} />
           <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
         </Field.Root>
-      </Flex>
+      </Flex> */}
 
 
-
+      <SquarespaceIntegration
+        containerId={containerId}
+        hostUrl={hostUrl}
+      />
 
 
     </>

@@ -1,9 +1,10 @@
 import { trimString } from "@/components/common/util/StringUtil";
-import { Button, Card, Heading, HStack, Stack, VStack } from "@chakra-ui/react";
+import { Button, Card, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import CustomSelect from "../CustomSelect";
 import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
 import CustomMenu from "../CustomMenu";
+import CustomDateTimeDisplay from "../CustomDateTimeDisplay";
 
 function CustomArticleDisplayCard(props) {
     let selectView = props.selectView ?? false;
@@ -18,7 +19,10 @@ function CustomArticleDisplayCard(props) {
     let onClickView = props.onClickView;
     let onClickPublish = props.onClickPublish;
     let onCardClick = props.onCardClick;
+    let sequence = props.sequence;
+    let cdate = props.cdate
 
+    console.log('akg', sequence, cdate)
     let wordLimit = selectView ? 340 : 170;
 
     let [articleOption, setArticleOption] = useState("");
@@ -64,6 +68,10 @@ function CustomArticleDisplayCard(props) {
 
                 >
                     {trimString(description, wordLimit)}
+                    <HStack justify={'space-between'} mt={1}>
+                         <Text>Id - {sequence}</Text> 
+                        <CustomDateTimeDisplay cdate={cdate} />
+                    </HStack>
                 </Card.Description>
 
             </Card.Body>

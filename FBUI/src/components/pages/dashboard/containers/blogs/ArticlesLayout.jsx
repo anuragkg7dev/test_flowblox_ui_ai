@@ -13,6 +13,7 @@ export default function ArticlesLayout(props) {
   let selectView = props.selectView;
 
   const getCardLayout = (data) => {
+    console.log(data)
     return (
       <>
         <CustomArticleDisplayCard
@@ -28,6 +29,8 @@ export default function ArticlesLayout(props) {
           type={CONTENT_TYPE.ARTICLE_BLOG}
           data={data}
           selectView={selectView}
+          cdate={data.created_at}
+          sequence={data.sequence}
         />
       </>
     );
@@ -49,6 +52,8 @@ export default function ArticlesLayout(props) {
           type={CONTENT_TYPE.ARTICLE_BLOG}
           data={data}
           selectView={selectView}
+          cdate={data.created_at}
+          sequence={data.sequence}
         />
       </>
     );

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import CustomSelect from "../CustomSelect";
 import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
 import CustomMenu from "../CustomMenu";
+import CustomDateTimeDisplay from "../CustomDateTimeDisplay";
 
 function CustomArticleDisplayRow(props) {
   let cKey = props.cKey;
@@ -16,6 +17,9 @@ function CustomArticleDisplayRow(props) {
   let optionFlag = props.optionFlag ?? true
   let onClickView = props.onClickView;
   let onClickPublish = props.onClickPublish;
+  let sequence = props.sequence;
+  let cdate = props.cdate
+
 
   let [articleOption, setArticleOption] = useState("");
 
@@ -55,6 +59,10 @@ function CustomArticleDisplayRow(props) {
       </HStack>
 
       <HStack spacing={2}>
+
+        <Text>Sequence - ${sequence}</Text>
+        <CustomDateTimeDisplay cdate={cdate} />
+
         {optionFlag && (<>
           <CustomMenu
             clabel="Action"
