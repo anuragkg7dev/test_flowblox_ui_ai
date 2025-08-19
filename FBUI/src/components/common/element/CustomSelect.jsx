@@ -1,8 +1,8 @@
-import { createListCollection, Portal, Select } from "@chakra-ui/react";
+import { createListCollection, Portal, Select, Span, Stack } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 
 export default function CustomSelect(props) {
-    
+
     let soptions = props.sdata ?? [];
     let slabel = props.slabel;
     let splaceholder = props.splaceholder;
@@ -19,7 +19,7 @@ export default function CustomSelect(props) {
 
     const sdata = useMemo(() => {
         return createListCollection({ items: soptions });
-    }, [soptions]); 
+    }, [soptions]);
 
     const onSelectValueChange = (items) => {
         let selectedValue = undefined;
@@ -56,7 +56,7 @@ export default function CustomSelect(props) {
                     borderColor={cborderColor}
                     borderWidth="1px"
                     borderStyle="solid"
-                    _focus={{ borderColor: "brand.subBrandBg" }}
+                    _focus={{ borderColor: "brand.subBrandBg"}}
                 >
                     <Select.ValueText placeholder={splaceholder} />
                 </Select.Trigger>
@@ -71,11 +71,14 @@ export default function CustomSelect(props) {
                     color="brand.pureWhiteTxt"
                     borderColor={cborderColor}
                     borderWidth="1px"
-                    borderStyle="solid"
+                    borderStyle="solid"                   
                 >
                     {sdata.items.map((data) => (
                         <Select.Item item={data} key={data.value}>
-                            {data.label}
+                            <Stack gap="0">
+                                <Select.ItemText>{data.label}</Select.ItemText>
+                                {data.description && (<Span color="fg.muted" textStyle="xs"> {data.description} </Span>)}
+                            </Stack>
                             <Select.ItemIndicator />
                         </Select.Item>
                     ))}

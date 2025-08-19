@@ -1,12 +1,13 @@
 import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import { Heading, HStack } from "@chakra-ui/react";
-import { AI_AGENTS, blogSettingOptions, FREQUENCY } from "../../DashboardConstant";
+import { AI_AGENTS, articleSettingOptions, CONFIGURABLE, FREQUENCY } from "../../DashboardConstant";
 
 import { STATUS } from "@/components/common/constants/CommonConstant";
 import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomSpinner from "@/components/common/element/CustomSpinner";
 import { lazy, Suspense, useState } from "react";
+import SettingsConfigurable from "./SettingsConfigurable";
 
 const SettingsFrequency = lazy(() => import("./SettingsFrequency"));
 const SettingsAIAgent = lazy(() => import("./SettingsAIAgent"));
@@ -40,11 +41,11 @@ export default function Settings(props) {
         <CustomSegmentGroup
           value={segment}
           setValue={setSegment}
-          filterOptions={blogSettingOptions}
+          filterOptions={articleSettingOptions}
           onChangeFilterOptions={(val) => {
             if (isModified) {
               setTempSegmentValue(val);
-              setShowsConfirmation(true)              
+              setShowsConfirmation(true)
             } else {
               setSegment(val)
             }
@@ -65,9 +66,16 @@ export default function Settings(props) {
 
       {segment == AI_AGENTS && (
         <>
-
           <Suspense fallback={<CustomSpinner show={true} />}>
             <SettingsAIAgent isModified={isModified} setIsModified={setIsModified} />
+          </Suspense>
+        </>
+      )}
+
+      {segment == CONFIGURABLE && (
+        <>
+          <Suspense fallback={<CustomSpinner show={true} />}>
+            <SettingsConfigurable isModified={isModified} setIsModified={setIsModified} />
           </Suspense>
         </>
       )}

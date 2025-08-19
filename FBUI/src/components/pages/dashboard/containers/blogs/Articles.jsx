@@ -1,5 +1,12 @@
+import { getGeneratedArticles } from "@/components/client/EdgeFunctionRepository";
+import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
+import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
+import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
 import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import CustomSwitch from "@/components/common/element/CustomSwitch";
+import { toast } from "@/components/common/Notification";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { HStack, Wrap } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {
@@ -8,21 +15,15 @@ import {
   filterOptions,
   LIST_LAYOUT
 } from "../../DashboardConstant";
+import ContainerDrawer from "../ContainerDrawer";
+import { API_PARAM_KEY, CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import CommonSearchHeader from "../headers/CommonSearchHeader";
 import ArticlesLayout from "./ArticlesLayout";
-import { getGeneratedArticles } from "@/components/client/EdgeFunctionRepository";
-import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
-import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
-import { toast } from "@/components/common/Notification";
-import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
-import { API_PARAM_KEY, CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
-import ContainerDrawer from "../ContainerDrawer";
 import ArticleTemplate from "./ArticleTemplate";
 
 export default function Articles(props) {
   const limit = props.limit ?? 50
+  const selectView = props.selectView
   const hideFilter = props.hideFilter
 
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
@@ -113,6 +114,7 @@ export default function Articles(props) {
             handlView={handlView}
             handlePublish={handlePublish}
             data={article}
+            selectView={selectView}
           />)
         })}
       </Wrap>
@@ -121,6 +123,8 @@ export default function Articles(props) {
         <ArticleTemplate
           articleMaster={articleMaster}
           setOpenDrawer={setOpenDrawer} />
+
+
       </ContainerDrawer>
     </>
   );

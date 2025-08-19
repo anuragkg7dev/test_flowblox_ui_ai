@@ -1,7 +1,7 @@
 import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import { Heading, HStack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { blogSettingOptions, FREQUENCY } from "../../DashboardConstant";
+import { articleSettingOptions, FREQUENCY } from "../../DashboardConstant";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function Settings() {
 
         <Heading size="lg" color={"brand.pureWhiteTxt"}>Container Settings</Heading>
         <CustomSegmentGroup
-          filterOptions={blogSettingOptions}
+          filterOptions={articleSettingOptions}
           onChangeFilterOptions={(val) => {
             console.log(val);
           }}

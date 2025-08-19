@@ -10,6 +10,7 @@ export default function ArticlesLayout(props) {
   const handlView = props.handlView
   const handlePublish = props.handlePublish
   const data = props.data
+  let selectView = props.selectView;
 
   const getCardLayout = (data) => {
     return (
@@ -26,6 +27,7 @@ export default function ArticlesLayout(props) {
           onClickPublish={handlePublish}
           type={CONTENT_TYPE.ARTICLE_BLOG}
           data={data}
+          selectView={selectView}
         />
       </>
     );
@@ -46,6 +48,7 @@ export default function ArticlesLayout(props) {
           onClickPublish={handlePublish}
           type={CONTENT_TYPE.ARTICLE_BLOG}
           data={data}
+          selectView={selectView}
         />
       </>
     );

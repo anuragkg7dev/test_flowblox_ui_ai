@@ -79,6 +79,19 @@ export const customThemeSystem = createSystem(
 
                 },
               },
+              fbloxT: {
+                bg: 'brand.pureBlackButton',
+                color: 'brand.pureWhiteTxt',
+                borderColor: "brand.greyBrandBorder",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                justifyContent: "flex-start",
+                textAlign: "left",
+                height: "36px",
+                _hover: {
+                  borderColor: 'brand.subBrandBg',
+                },
+              },
               delete: {
                 bg: 'brand.delete',
                 color: 'brand.pureWhiteTxt',
@@ -89,7 +102,7 @@ export const customThemeSystem = createSystem(
               asLabel: {
                 bg: 'brand.pureBlackBg',
                 color: 'brand.pureWhiteTxt',
-                border:"none",
+                border: "none",
                 borderWidth: "0px",
                 _hover: {
                   bg: 'brand.primaryBrandButton',

@@ -48,9 +48,9 @@ export const typeLabels = {
 export const FREQUENCY = "frequency"
 export const AI_AGENTS = "aiagents"
 export const ARTICLE_DETAILS = "articleDetails"
-export const CONFIGURABLE = "published"
+export const CONFIGURABLE = "configurable"
 
-export const blogSettingOptions = [
+export const articleSettingOptions = [
   { label: "Frequency", value: FREQUENCY },
   { label: "AI Agents", value: AI_AGENTS },
   { label: "Article Details", value: ARTICLE_DETAILS },

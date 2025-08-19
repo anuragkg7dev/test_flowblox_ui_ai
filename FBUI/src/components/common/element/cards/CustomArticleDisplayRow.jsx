@@ -3,6 +3,7 @@ import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import CustomSelect from "../CustomSelect";
 import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
+import CustomMenu from "../CustomMenu";
 
 function CustomArticleDisplayRow(props) {
   let cKey = props.cKey;
@@ -55,13 +56,13 @@ function CustomArticleDisplayRow(props) {
 
       <HStack spacing={2}>
         {optionFlag && (<>
-          <CustomSelect
+          <CustomMenu
+            clabel="Action"
             sdata={articleOptions}
-            slabel=""
-            splaceholder="Select"
-            cselectCallback={(data) => onArticleOptionChange(data)}
+            onSelect={(value) => onArticleOptionChange(value)}
             cwidth={"100px"}
           />
+
 
         </>)}
         {viewFlag && (
@@ -83,7 +84,7 @@ function CustomArticleDisplayRow(props) {
             size="sm"
             aria-label="Publish"
             onClick={() => onClickPublish(data)}
-             mt={1.5}
+            mt={1.5}
           >
             Publish
           </Button>

@@ -125,7 +125,7 @@ function appendParams(url, paramMap) {
   if (paramMap) {
     const urlObj = new URL(url);
     paramMap.forEach((value, key) => {
-      urlObj.searchParams.append(key, value.toString());
+      urlObj.searchParams.append(key, value?.toString());
     });
     return urlObj.toString();
   }
