@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => res.json())
         .then(data => {
           const content = data.generated_content;
+          document.title = content.heading || 'Default Page Title';
           const div = document.createElement('div');
           div.innerHTML = \`
             <h1>\${content.heading}</h1>
@@ -32,6 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <p>\${content.conclusion}</p>
             <p>Keywords: \${content.seo_keywords}</p>
           \`;
+          block.parentNode.replaceChild(div, block);
+        })
+        .catch(error => {
+          console.error('Error fetching article:', error);
+          // Optionally, display an error message in the DOM
+          const div = document.createElement('div');
+          div.innerHTML = '<p>Article not available.</p>';
           block.parentNode.replaceChild(div, block);
         });
     }
