@@ -5,6 +5,7 @@ import CustomSelect from "../CustomSelect";
 import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
 import CustomMenu from "../CustomMenu";
 import CustomDateTimeDisplay from "../CustomDateTimeDisplay";
+import { CustomFloatWithOffset } from "../CustomFloatWithOffset";
 
 function CustomArticleDisplayCard(props) {
     let selectView = props.selectView ?? false;
@@ -46,6 +47,9 @@ function CustomArticleDisplayCard(props) {
 
         >
             <Card.Body key={`cb_${cKey}`} p={{ base: 1, md: 2 }} display="flex" flexDirection="column" gap={{ base: 0.5, md: 1 }}>
+
+                <CustomFloatWithOffset value={sequence} offset={5} />
+
                 <VStack key={`hs_${cKey}`} justify="space-between" align="start">
 
                     <Stack key={`st_${cKey}`} gap={0} flex={1} >
@@ -68,8 +72,8 @@ function CustomArticleDisplayCard(props) {
 
                 >
                     {trimString(description, wordLimit)}
-                    <HStack justify={'space-between'} mt={1}>
-                         <Text>Id - {sequence}</Text> 
+                    <HStack justify={'flex-end'} mt={1}>
+                  
                         <CustomDateTimeDisplay cdate={cdate} />
                     </HStack>
                 </Card.Description>

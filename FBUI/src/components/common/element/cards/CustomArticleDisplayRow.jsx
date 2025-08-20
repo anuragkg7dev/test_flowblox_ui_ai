@@ -1,10 +1,11 @@
 import { trimString } from "@/components/common/util/StringUtil";
-import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import CustomSelect from "../CustomSelect";
 import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
 import CustomMenu from "../CustomMenu";
 import CustomDateTimeDisplay from "../CustomDateTimeDisplay";
+import { CustomFloatWithOffset } from "../CustomFloatWithOffset";
 
 function CustomArticleDisplayRow(props) {
   let cKey = props.cKey;
@@ -43,9 +44,12 @@ function CustomArticleDisplayRow(props) {
 
       <HStack flex="1" spacing={4} align="center">
         <VStack flex="1" spacing={2} align={"flex-start"}>
-          <Heading key={`tx_${cKey}`} size="custom20">
-            {trimString(heading, 30)}
-          </Heading>
+          <Box position="relative">
+            <Heading key={`tx_${cKey}`} size="custom20">
+              {trimString(heading, 30)}
+            </Heading>
+            <CustomFloatWithOffset value={sequence} offset={-5} placement={'middle-end'} />
+          </Box>
           {subHeading && (
             <Text color="fg.muted" fontSize="xs" noOfLines={1} minWidth="100px">
               {trimString(subHeading, 30)}
@@ -54,13 +58,14 @@ function CustomArticleDisplayRow(props) {
           <Text fontSize="xs" noOfLines={1} flex="1" color="brand.pureWhiteTxt">
             {trimString(description, 170)}
           </Text>
+
         </VStack>
 
       </HStack>
 
       <HStack spacing={2}>
 
-        <Text>Sequence - ${sequence}</Text>
+
         <CustomDateTimeDisplay cdate={cdate} />
 
         {optionFlag && (<>

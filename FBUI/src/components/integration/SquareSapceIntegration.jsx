@@ -10,7 +10,7 @@ export default function SquarespaceIntegration(props) {
 
     const headScript = () => {
         return (
-            <Code bg={'brand.pureBlackBg'}>
+            <Code bg={'brand.pureBlackBg'} variant="subtle">
                 <SyntaxHighlighter language="javascript" style={vscDarkPlus}>
                     {`<Script> 
 document.addEventListener('DOMContentLoaded', () => {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return (
             <Code p={2} borderRadius="md" bg={'brand.pureBlackBg'}>
-                <SyntaxHighlighter language="html" style={vscDarkPlus}>
+                <SyntaxHighlighter language="html" style={vscDarkPlus} variant={'subtle'}>
                     {`<code>{articleid~YOUR_ARTICLE_ID}</code>`}
                 </SyntaxHighlighter>
             </Code>
