@@ -5,7 +5,8 @@ import CustomClickableHover from './CustomClickableHover';
 const CustomWeekdayPicker = (props) => {
     const cwidth = props.cwidth
     const onChange = props.onChange
-    const [weekdayIndex, setWeekdayIndex] = useState(0);
+    const defaultWeek = props.defaultWeek
+    const [weekdayIndex, setWeekdayIndex] = useState(defaultWeek??0);
 
 
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday']

@@ -265,8 +265,12 @@ function AddEditBlogsContainer(props) {
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = dayOfMonth ? String(dayOfMonth) : undefined;
             tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
-        } else if (value == FREQUENCY_TYPE.WEEKLY) {
+        } else if (frequency == FREQUENCY_TYPE.WEEKLY) {
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = dayOfWeek ? String(dayOfWeek) : undefined;
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
+            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
+        } else if (frequency == FREQUENCY_TYPE.DAILY) {
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
             tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
         }

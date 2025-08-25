@@ -12,7 +12,7 @@ export default function FieldTagEditor(props) {
   const error = props.error
   const validate = props.validate
 
-  
+  console.log('Tags ', tags)
 
   return (
     <>

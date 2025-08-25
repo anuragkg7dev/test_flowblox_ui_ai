@@ -175,7 +175,7 @@ export default function SettingsFrequency(props) {
 
 
   const validateContainerTags = () => {
-    console.log("validateContainerTags ")
+    console.log("validateContainerTags ", tags)
     let err = validate(containerValidationSchema, CONTAINERS_KEY.TAGS, tags)
     setError({
       ...error,
@@ -226,8 +226,12 @@ export default function SettingsFrequency(props) {
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = dayOfMonth ? String(dayOfMonth) : undefined;
             tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
-        } else if (value == FREQUENCY_TYPE.WEEKLY) {
+        } else if (frequency == FREQUENCY_TYPE.WEEKLY) {
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = dayOfWeek ? String(dayOfWeek) : undefined;
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
+            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
+        }else if (frequency == FREQUENCY_TYPE.DAILY) {
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined
             tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
             tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
         }
