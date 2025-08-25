@@ -24,9 +24,6 @@ function CustomContainerDisplayCard(props) {
     let badgeTextColor = props.badgeColor ?? "brand.pureBlackTxt";
     let sliceIndex = getIndexByCharSum(badges, 35) + 1
 
-    console.log("sliceIndex ", sliceIndex, heading)
-
-
     const colors = ["#dc2b37ff", "#46AB50", "#3f36e8ff", "#873AE1"];
 
     const startIndex = Math.floor(Math.random() * colors.length);

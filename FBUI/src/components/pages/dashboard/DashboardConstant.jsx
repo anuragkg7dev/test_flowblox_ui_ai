@@ -80,24 +80,24 @@ export const strictnessOption = [
 
 export const aiEngineOption = [
   { label: "OpenAI", value: "openAI" },
-  { label: "Google AI", value: "googleAI" },
-  { label: "Anthropic", value: "anthropic" },
-  { label: "DeepSeek", value: "deepSeek" },
-  { label: "Mistral AI", value: "mistralAI" },
-  { label: "xAI", value: "xAI" },
-  { label: "Meta AI", value: "metaAI" },
-  { label: "Alibaba Cloud", value: "alibabaCloud" },
-  { label: "Cohere", value: "cohere" },
-  { label: "Microsoft AI", value: "microsoftAI" },
+  // { label: "Google AI", value: "googleAI" },
+  // { label: "Anthropic", value: "anthropic" },
+  // { label: "DeepSeek", value: "deepSeek" },
+  // { label: "Mistral AI", value: "mistralAI" },
+  // { label: "xAI", value: "xAI" },
+  // { label: "Meta AI", value: "metaAI" },
+  // { label: "Alibaba Cloud", value: "alibabaCloud" },
+  // { label: "Cohere", value: "cohere" },
+  // { label: "Microsoft AI", value: "microsoftAI" },
 ];
 
 export const aiModelOption = [
-  // OpenAI Models
-  { label: "GPT-5", value: "gpt-5", engine: "openAI" },
+  // OpenAI Models  
   { label: "GPT-4o", value: "gpt-4o", engine: "openAI" },
-  { label: "o3-mini", value: "o3-mini", engine: "openAI" },
-  { label: "GPT-4.1", value: "gpt-4.1", engine: "openAI" },
-  { label: "GPT-4.5", value: "gpt-4.5", engine: "openAI" },
+  // { label: "o3-mini", value: "o3-mini", engine: "openAI" },
+  // { label: "GPT-4.1", value: "gpt-4.1", engine: "openAI" },
+  // { label: "GPT-4.5", value: "gpt-4.5", engine: "openAI" },
+  // { label: "GPT-5", value: "gpt-5", engine: "openAI" },
   // Google AI Models
   { label: "Gemini 2.5 Pro", value: "gemini-2.5-pro", engine: "googleAI" },
   { label: "Gemini 2.0 Flash", value: "gemini-2.0-flash", engine: "googleAI" },

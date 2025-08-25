@@ -208,18 +208,34 @@ export default function SettingsFrequency(props) {
     tempContainerMaster[CONTAINERS_KEY.DESCRIPTION] = description;
     tempContainerMaster[CONTAINERS_KEY.CONTENT_TYPE] = CONTENT_TYPE.ARTICLE_BLOG;
     tempContainerMaster[CONTAINERS_KEY.TAGS] = joinStrings(tags);
-    tempContainerMaster[CONTAINERS_KEY.QUANTITY] = Number(noOfArticle);
-    tempContainerMaster[CONTAINERS_KEY.FREQUENCY] = frequency;
-    tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = getDateString(publishDate);
-    tempContainerMaster[CONTAINERS_KEY.WORD_COUNT] = Number(noOfWords);
-    tempContainerMaster[CONTAINERS_KEY.MINUTE] = min ? String(min) : undefined;
-    tempContainerMaster[CONTAINERS_KEY.HOUR] = hour ? String(hour) : undefined;
-    tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = dayOfMonth ? String(dayOfMonth) : undefined;
-    tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = dayOfWeek ? String(dayOfWeek) : undefined;
-    tempContainerMaster[CONTAINERS_KEY.CRON] = '* * * * *';
+    tempContainerMaster[CONTAINERS_KEY.QUANTITY] = Number(noOfArticle); 
+    tempContainerMaster[CONTAINERS_KEY.WORD_COUNT] = Number(noOfWords);   
+    tempContainerMaster = updateAsPerFrequency(tempContainerMaster)
     tempContainerMaster[CONTAINERS_KEY.TIMEZONE] = timeZone;
     return tempContainerMaster
   };
+
+      const updateAsPerFrequency = (tempContainerMaster) => {
+       
+        tempContainerMaster[CONTAINERS_KEY.FREQUENCY] = frequency;
+        if (frequency == FREQUENCY_TYPE.CUSTOM) {
+            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = getDateString(publishDate);
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
+        } else if (frequency == FREQUENCY_TYPE.MONTHLY) {
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = dayOfMonth ? String(dayOfMonth) : undefined;
+            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
+        } else if (value == FREQUENCY_TYPE.WEEKLY) {
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = dayOfWeek ? String(dayOfWeek) : undefined;
+            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
+            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
+        }
+        tempContainerMaster[CONTAINERS_KEY.MINUTE] = min ? String(min) : undefined;
+        tempContainerMaster[CONTAINERS_KEY.HOUR] = hour ? String(hour) : undefined;
+
+        return tempContainerMaster
+    };
 
 
   return (
