@@ -15,6 +15,7 @@ import { validate } from "@/components/validation/ValidationUtil";
 import CustomSelect from "@/components/common/element/CustomSelect";
 import { countries } from "@/components/common/constants/Country";
 import { toast } from "@/components/common/Notification";
+import { useUserDetailStore } from "@/components/store/UserDetailStore";
 
 export default function AccountDetails(props) {
   const isModified = props.isModified
@@ -22,9 +23,9 @@ export default function AccountDetails(props) {
 
   const { config, setConfig, updateConfig } = useAppConfigStore();
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
-  const user = config[APP_CONFIG_KEYS.USER_DATA];
+  const { user, setUser } = useUserDetailStore();
 
-
+  console.log('hiiii----->   ',user)
 
   const [fname, setFname] = useState(user?.fname || '');
   const [lname, setLname] = useState(user?.lname || '');
@@ -69,7 +70,7 @@ export default function AccountDetails(props) {
     if (!status) {
       toast.error('Failed to refresh user details !!')
     } else {
-      updateConfig(APP_CONFIG_KEYS.USER_DATA, data);
+      setUser({...data});
       toast.success("Updated");
     }
     setLoader(false);

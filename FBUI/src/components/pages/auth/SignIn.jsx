@@ -30,13 +30,15 @@ import { BsGoogle } from "react-icons/bs"
 import { ImAppleinc } from "react-icons/im"
 import { IoLogoWindows } from "react-icons/io5"
 import { LiaExternalLinkAltSolid } from "react-icons/lia"
+import { useUserDetailStore } from "@/components/store/UserDetailStore"
 
 export default function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loader, setLoader] = useState(false)
   const updateRouterAtSignIn = useAppRouterStore((state) => state.updateRouterAtSignIn)
-  const { config, setConfig , updateConfig} = useAppConfigStore();
+  const { config, setConfig, updateConfig } = useAppConfigStore();
+  const { user, setUser } = useUserDetailStore();
   const navigate = useNavigate()
 
   const siginCallback = async (status, message) => {
@@ -73,8 +75,7 @@ export default function SignIn() {
     if (!status) {
       toast.error('Failed to fetch user details !!')
     } else {
-
-      updateConfig(APP_CONFIG_KEYS.USER_DATA, data );
+       setUser({...data});    
     }
   }
 
