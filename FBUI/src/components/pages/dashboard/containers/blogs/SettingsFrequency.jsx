@@ -156,7 +156,7 @@ export default function SettingsFrequency(props) {
   }
 
   const validateContainerName = () => {
-    console.log("validateContainerName ")
+  
     let containerNameError = validate(containerValidationSchema, CONTAINERS_KEY.NAME, containerName)
     setError({
       ...error,
@@ -165,7 +165,7 @@ export default function SettingsFrequency(props) {
   };
 
   const validateContainerDescription = () => {
-    console.log("validateContainerDescription ")
+
     let err = validate(containerValidationSchema, CONTAINERS_KEY.DESCRIPTION, description)
     setError({
       ...error,
@@ -175,7 +175,7 @@ export default function SettingsFrequency(props) {
 
 
   const validateContainerTags = () => {
-    console.log("validateContainerTags ", tags)
+  
     let err = validate(containerValidationSchema, CONTAINERS_KEY.TAGS, tags)
     setError({
       ...error,

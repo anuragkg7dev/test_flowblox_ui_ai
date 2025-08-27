@@ -13,7 +13,7 @@ export default function SidebarTemplate(props) {
   const previousIcon = GrPrevious;
 
   const setCurrentSelection = (value) => {
-    console.log("setCurrentSelection* ", value);
+ 
     let iConfig = { [APP_CONFIG_KEYS.CURRENT_SELECTION]: value };
     let nconfig = config ? { ...config, ...iConfig } : iConfig;
     setConfig(nconfig);

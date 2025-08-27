@@ -9,7 +9,7 @@ export default function FieldAIEngine(props) {
   const cml = props.cml;
   const cwidth = props.cwidth;
   const labelIconSize = props.labelIconSize;
-console.log("aiEngine ", aiEngine)
+
   return (
     <>
       <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mt={6} >

@@ -9,10 +9,6 @@ export function getProductBundleSubscription(callback) {
   return callEdgeFunctionNonAuth(edgeFunction.GET_BUNDLED_PRODUCTS, undefined, callback)
 }
 
-export function getDropdownOptions(callback) {
-  callEdgeFunction(edgeFunction.GET_DROP_DOWN_OPTIONS, undefined, callback)
-}
-
 export function getStripeCheckoutSession(body, callback) {
   callEdgeFunctionNonAuth(edgeFunction.STRIPE_CHECKOUT_SESSION, body, callback)
 }
@@ -58,6 +54,15 @@ export function getBalance(container_type, callback, authkeyBearer) {
   let paramMap = new Map([[API_PARAM_KEY.CONTAINER_TYPE, container_type],]);
   callEdgeFunctionWithParams(edgeFunction.GET_BALANCE, {}, paramMap, callback, authkeyBearer)
 }
+
+export function updatePersonalDetails(body, callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.UPDATE_PERSONAL_DETAILS, body, callback, authkeyBearer)
+}
+
+export function getUsersPersonalDetails(callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.GET_USERS_PERSONAL_DETAILS, {}, callback, authkeyBearer)
+}
+
 
 
 

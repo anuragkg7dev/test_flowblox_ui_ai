@@ -58,8 +58,7 @@ export const fetchLoggedInUserDetails = async (callback) => {
         console.error('Error fetching session:', error.message);
         if (callback) callback(false, error.message);
     } else {
-        //console.log('User:', session?.user);
-        //console.log('Access Token:', session?.access_token);
+
         if (callback) callback(true, session);
     }
 

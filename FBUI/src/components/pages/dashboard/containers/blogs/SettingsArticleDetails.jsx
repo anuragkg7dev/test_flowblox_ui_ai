@@ -15,7 +15,7 @@ export default function Settings() {
         <CustomSegmentGroup
           filterOptions={articleSettingOptions}
           onChangeFilterOptions={(val) => {
-            console.log(val);
+       
           }}
           defaultValue={FREQUENCY}
         />

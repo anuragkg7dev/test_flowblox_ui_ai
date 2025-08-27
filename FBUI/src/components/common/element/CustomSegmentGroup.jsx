@@ -18,7 +18,10 @@ function CustomSegmentGroup(props) {
             borderWidth="1px"
             borderStyle="solid"
             width={"fit-content"}
-            p={2}
+            paddingBottom={4.5}
+            paddingTop={2}
+            paddingLeft={2}
+            paddingRight={2}
         >
             <SegmentGroup.Root
                 value={value}

@@ -40,6 +40,15 @@ export const APP_CONFIG_KEYS = {
   DESTINATION_DATA_LIST: "destination-data-list",
   CURRENT_SELECTION: "currentSelection",
   CONTAINER_MODIFIED: "containerModified",
+  USER_DATA:"user-data"
 }
 
+export const USERS_KEY = {
+  ID: 'id',
+  FNAME: 'fname',
+  LNAME: 'lname',
+  ADDRESS: 'address',
+  CONTACT: 'contact',
+  COUNTRY: 'country',
+}
 

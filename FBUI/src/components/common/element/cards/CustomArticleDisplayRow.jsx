@@ -25,7 +25,7 @@ function CustomArticleDisplayRow(props) {
   let [articleOption, setArticleOption] = useState("");
 
   const onArticleOptionChange = (value) => {
-    console.log("AKG.......value......", value)
+
     setArticleOption(value)
   };
 

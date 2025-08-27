@@ -63,7 +63,7 @@ export default function AddEditDestination(props) {
     const cvariant = "fbloxD"
 
     useEffect(() => {
-        console.log("AKG Loading AddEditDestination...")
+ 
         updateShowSource(type)
     }, []);
 
@@ -82,19 +82,19 @@ export default function AddEditDestination(props) {
     };
 
     const onSubmit = () => {
-        console.log(setLoader)
+
         let requestPayload = updateMaster()
         let errorFlag = validateFields()
         if (!errorFlag) {
             setLoader?.(true)
-            console.log(requestPayload)
+         
             createAndUpdateSourceAndDestination(requestPayload, onSubmitCallback, authkeyBearer)
         }
 
     };
 
     const onSubmitCallback = (flag, data) => {
-        console.log(flag, data)
+
         if (flag) {
             setOpenDrawer(false)
             loadDestinationData?.();
@@ -132,7 +132,7 @@ export default function AddEditDestination(props) {
 
 
     const validateName = () => {
-        console.log("validateContainerName ")
+        
         let nameError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.TITLE, title)
         setError({
             ...error,
@@ -141,7 +141,7 @@ export default function AddEditDestination(props) {
     };
 
     const validateDescription = () => {
-        console.log("validateContainerDescription ")
+     
         let err = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.DESCRIPTION, description)
         setError({
             ...error,
@@ -152,7 +152,7 @@ export default function AddEditDestination(props) {
     const validateUrl = () => {
         if (show?.[SOURCE_DESTINATION_KEY.URL]) {
 
-            console.log("validateContainerURL ")
+     
             let err = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.URL, config?.[SOURCE_DESTINATION_KEY.URL])
             setError({
                 ...error,

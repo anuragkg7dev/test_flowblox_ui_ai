@@ -55,7 +55,7 @@ export default function SettingsConfigurable() {
           setDestinationList(data?.[CONTENT_TYPE.DESTINATION] ?? []);
           updateConfig(APP_CONFIG_KEYS.DESTINATION_DATA_LIST, data?.[CONTENT_TYPE.DESTINATION] ?? [])
           updateDestinationOptions(data?.[CONTENT_TYPE.DESTINATION] ?? [])
-          console.log('AKG loading data', data)
+        
         } else {
           toast.error('Failed to load destinations!!')
         }

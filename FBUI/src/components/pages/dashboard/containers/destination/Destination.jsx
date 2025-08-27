@@ -92,7 +92,7 @@ export default function Destination() {
 
   const onSwitchChangeCallback = (flag, respData, data, val) => {
     let id = data.id
-    console.log('onSwitchChangeCallback -->  ', id, flag, data, val)
+  
     if (flag) {
       setDestinationList(updatedDestinationListById(id, SOURCE_DESTINATION_KEY.STATUS, getSwitchStringFlag(val)));
       toast.success(`Turned ${COMMON_STATUS.ACTIVE == getSwitchStringFlag(val) ? "on " : "Off "} destination ${data[SOURCE_DESTINATION_KEY.TITLE]}`)

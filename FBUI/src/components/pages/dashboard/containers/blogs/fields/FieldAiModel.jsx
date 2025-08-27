@@ -12,7 +12,7 @@ export default function FieldAiModel(props) {
   const aiEngine = props.aiEngine;
 
   const getAiModelOption = (engine) => {
-    console.log("filter model ", aiEngine)
+
     return aiModelOption.filter(x => x.engine == engine)
   }
 

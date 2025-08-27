@@ -101,7 +101,7 @@ export default function SettingsAIAgent(props) {
   };
 
   const validateAiEditorPrompt = () => {
-
+   
     let err = validate(containerValidationSchema, CONTAINERS_KEY.AI_EDITOR_PROMPT, aiEditorPrompt)
     setError({
       ...error,

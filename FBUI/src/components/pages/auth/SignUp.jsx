@@ -28,7 +28,7 @@ export default function SignUp() {
   const navigate = useNavigate()
 
   const signupCallback = (status, message) => {
-    console.log("AKG 22 signupCallback --> ", status, message)
+  
     if (!status) {
       toast.error(message)
     } else {

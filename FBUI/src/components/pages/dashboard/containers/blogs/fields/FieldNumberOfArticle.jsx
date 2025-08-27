@@ -11,9 +11,7 @@ export default function FieldNumberOfArticle(props) {
   const cvariant = props.variant ?? "fbloxD";
   const labelIconSize = props.labelIconSize;
 
-    useEffect(() => {
-      console.log('AKG FieldNumberOfArticle ', noOfArticle)
-    }, []);
+
 
   return (
     <>

@@ -45,6 +45,7 @@ export const mainSidebarOptions = [
         key: DASHBOARD_ANALYTICS,
         label: "Analytics",
         icon: LuChartPie,
+        hidden: true,
     },
 ];
 

@@ -23,13 +23,13 @@ function CustomArticleDisplayCard(props) {
     let sequence = props.sequence;
     let cdate = props.cdate
 
-    console.log('akg', sequence, cdate)
+
     let wordLimit = selectView ? 340 : 170;
 
     let [articleOption, setArticleOption] = useState("");
 
     const onArticleOptionChange = (value) => {
-        console.log("AKG.......value......", value)
+  
         setArticleOption(value)
     };
 

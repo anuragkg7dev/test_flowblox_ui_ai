@@ -34,6 +34,7 @@ function CustomLoaderButton(props) {
           width={cwidth}
           fontSize={{ base: "sm", md: "md" }}
           onClick={() => { onClickBtn() }}
+          type="button"
         >
           {clabel}
 

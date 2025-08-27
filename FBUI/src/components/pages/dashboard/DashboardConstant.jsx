@@ -49,6 +49,9 @@ export const FREQUENCY = "frequency"
 export const AI_AGENTS = "aiagents"
 export const ARTICLE_DETAILS = "articleDetails"
 export const CONFIGURABLE = "configurable"
+export const PREFRENCES = "prefrences"
+export const SUBSCRIPTIONS_BOLTONS = "subscriptionNboltons"
+export const ACCOUNT_DETAILS = "accountDetails"
 
 export const articleSettingOptions = [
   { label: "Frequency", value: FREQUENCY },
@@ -57,6 +60,11 @@ export const articleSettingOptions = [
   { label: "Configurable", value: CONFIGURABLE },
 ];
 
+export const accountPrefrenceOptions = [
+  { label: "Account Details", value: ACCOUNT_DETAILS },
+  { label: "Prefrences", value: PREFRENCES },
+  { label: "Subscriptions & Bolt ons", value: SUBSCRIPTIONS_BOLTONS },
+];
 
 export const toneOfVoiceOption = [
   { label: "Professional", value: "professional" },

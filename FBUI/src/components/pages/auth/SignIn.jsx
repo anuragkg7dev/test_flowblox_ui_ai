@@ -1,12 +1,10 @@
 import {
-  DASHBOARD_URL,
-  JWT_TOKEN
+  DASHBOARD_URL
 } from "@/components/common/constants/AppRouterConstant"
 import { toast } from "@/components/common/Notification"
 import { useAppRouterStore } from "@/components/store/AppRouterStore"
 import {
   Box,
-  Button,
   Checkbox,
   Field,
   Flex,
@@ -23,21 +21,22 @@ import { handleSignin } from "./AuthLogic"
 import bg1 from "../../../assets/bg1.jpg"
 import logo from "../../../assets/logo1.png"
 
-import { SIDEBAR_SWITCH_FLAG_DEFAULT, SIDEBAR_SWITCH_FLAG_KEY, THEME, THEME_DARK } from "@/components/common/constants/CommonConstant"
+import { getUsersPersonalDetails } from "@/components/client/EdgeFunctionRepository"
+import { supabase } from "@/components/client/SuperbasClient"
+import { APP_CONFIG_KEYS, SIDEBAR_SWITCH_FLAG_DEFAULT, SIDEBAR_SWITCH_FLAG_KEY, THEME, THEME_DARK } from "@/components/common/constants/CommonConstant"
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton"
 import { useAppConfigStore } from "@/components/store/AppConfigStore"
 import { BsGoogle } from "react-icons/bs"
 import { ImAppleinc } from "react-icons/im"
 import { IoLogoWindows } from "react-icons/io5"
 import { LiaExternalLinkAltSolid } from "react-icons/lia"
-import { supabase } from "@/components/client/SuperbasClient"
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton"
 
 export default function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loader, setLoader] = useState(false)
   const updateRouterAtSignIn = useAppRouterStore((state) => state.updateRouterAtSignIn)
-  const { config, setConfig } = useAppConfigStore();
+  const { config, setConfig , updateConfig} = useAppConfigStore();
   const navigate = useNavigate()
 
   const siginCallback = async (status, message) => {
@@ -50,7 +49,6 @@ export default function SignIn() {
       let nconfig = config ? { ...config, ...initConfig } : initConfig
       setConfig(nconfig);
       await updateJwtToken();
-
       toast.success("Logged in!")
       navigate(DASHBOARD_URL)
     }
@@ -63,12 +61,21 @@ export default function SignIn() {
     await supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         jwtToken = session.access_token; // Access token (JWT)
-        setConfig({ ...useAppConfigStore.getState().config, [JWT_TOKEN]: jwtToken }); // Fixed
-
+        setConfig({ ...useAppConfigStore.getState().config, [APP_CONFIG_KEYS.JWT_TOKEN]: jwtToken });
+        getUsersPersonalDetails(getUsersPersonalDetailsCallback, jwtToken);
       } else {
         console.log("AKG , no active session");
       }
     });
+  }
+
+  const getUsersPersonalDetailsCallback = async (status, data) => {
+    if (!status) {
+      toast.error('Failed to fetch user details !!')
+    } else {
+
+      updateConfig(APP_CONFIG_KEYS.USER_DATA, data );
+    }
   }
 
   const handleEmailSignin = () => {

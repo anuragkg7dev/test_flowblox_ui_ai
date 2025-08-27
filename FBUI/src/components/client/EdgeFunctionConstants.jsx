@@ -3,7 +3,6 @@ const api_open_key = import.meta.env.VITE_API_OPEN_KEY;
 export const edgeFunction = {
     GET_BUNDLED_PRODUCTS: "getBundleProducts",
     GET_COMBO_PRODUCTS: "getComboProducts",
-    GET_DROP_DOWN_OPTIONS: "getDropdownOptions",
     STRIPE_CHECKOUT_SESSION: "stripeCreateCheckoutSession",
     VERIFY_REGISTRATION: "verifyRegistration",
     VERIFY_STRIPE_PRE_TRANSACTION: "verifyStripeTransaction",
@@ -14,6 +13,8 @@ export const edgeFunction = {
     GENERATE_ARTICLES_TRIGGER: "generateArticlesTrigger",
     GET_GENERATED_ARTICLES: 'getGeneratedArticles',
     GET_BALANCE: 'getBalance',
+    UPDATE_PERSONAL_DETAILS: 'updatePersonalDetails',
+    GET_USERS_PERSONAL_DETAILS: "getUsersPersonalDetails",
 };
 
 const edgeFunctionKeys = {};

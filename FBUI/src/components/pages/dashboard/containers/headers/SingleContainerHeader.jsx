@@ -63,7 +63,7 @@ export default function SingleContainerHeader(props) {
     getBalance(CONTENT_TYPE.ARTICLE_BLOG,
       (flag, data) => {
         if (flag) {
-          console.log(data?.[CONTENT_TYPE.ARTICLE_BLOG])
+
           setBalance(data?.[CONTENT_TYPE.ARTICLE_BLOG] ?? undefined);
         } else {
           setBalance(undefined)

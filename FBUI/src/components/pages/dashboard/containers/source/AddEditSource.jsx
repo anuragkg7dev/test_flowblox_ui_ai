@@ -57,9 +57,7 @@ export default function AddEditSource(props) {
     const labelIconSize = 20;
     const cvariant = "fbloxD";
 
-    useEffect(() => {
-        console.log("AKG Loading AddEditSource...");
-    }, []);
+
 
     const onClose = () => {
         if (isModified) {
@@ -79,13 +77,13 @@ export default function AddEditSource(props) {
         let errorFlag = validateFields();
         if (!errorFlag) {
             setLoader?.(true);
-            console.log(requestPayload);
+    
             createAndUpdateSourceAndDestination(requestPayload, onSubmitCallback, authkeyBearer);
         }
     };
 
     const onSubmitCallback = (flag, data) => {
-        console.log(flag, data);
+       
         if (flag) {
             setOpenDrawer(false);
             loadSourceData?.();
@@ -124,7 +122,7 @@ export default function AddEditSource(props) {
     };
 
     const validateUrl = () => {
-        console.log("validateContainerURL ")
+     
         let err = validate(sourceValidationSchema, SOURCE_DESTINATION_KEY.URL, config?.[SOURCE_DESTINATION_KEY.URL])
         setError({
             ...error,

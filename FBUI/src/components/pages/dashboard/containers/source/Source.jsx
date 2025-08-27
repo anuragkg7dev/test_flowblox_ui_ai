@@ -39,7 +39,6 @@ export default function Source() {
 
   useEffect(() => {
     setLoader(true);
-    console.log("AKG Loading Sources...");
     loadSourceDataList();
   }, []);
 
@@ -126,7 +125,7 @@ export default function Source() {
   };
 
   const getCardLayout = (data) => {
-    console.log("Data ", data[SOURCE_DESTINATION_KEY.TYPE])
+
     return (
       <CustomSourceDisplayCard
         cKey={"k1" + data[SOURCE_DESTINATION_KEY.ID]}

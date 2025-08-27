@@ -15,7 +15,7 @@ export default function FieldAIWritterEditor(props) {
   const error = props.error
   const validate = props.validate
 
-  console.log("val.... ", value)
+
   return (
     <>
       <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6} invalid={error}>

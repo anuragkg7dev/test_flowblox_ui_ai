@@ -41,7 +41,7 @@ export default function Containers() {
   useEffect(() => {
     cleanUp();
     setLoader(true)
-    console.log("AKG Loading Containers...", config)
+
     updateConfig(APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY, sidebarSwitch.MAIN);
     loadAllContainerData();
   }, []);

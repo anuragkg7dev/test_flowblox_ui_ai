@@ -120,7 +120,7 @@ function AddEditBlogsContainer(props) {
     };
 
     const validateContainerDescription = () => {
-        console.log("validateContainerDescription ")
+      
         let err = validate(containerValidationSchema, CONTAINERS_KEY.DESCRIPTION, description)
         setError({
             ...error,
@@ -130,7 +130,7 @@ function AddEditBlogsContainer(props) {
 
 
     const validateContainerTags = () => {
-        console.log("validateContainerTags ")
+
         let err = validate(containerValidationSchema, CONTAINERS_KEY.TAGS, tags)
         setError({
             ...error,

@@ -13,7 +13,7 @@ export default function ArticlesLayout(props) {
   let selectView = props.selectView;
 
   const getCardLayout = (data) => {
-    console.log(data)
+
     return (
       <>
         <CustomArticleDisplayCard

@@ -11,9 +11,6 @@ export default function FieldNumberOfWords(props) {
   const cvariant = props.variant ?? "fbloxD";
   const labelIconSize = props.labelIconSize;
 
-  useEffect(() => {
-    console.log('AKG FieldNumberOfWords ', noOfWords)
-  }, []);
 
   return (
     <>

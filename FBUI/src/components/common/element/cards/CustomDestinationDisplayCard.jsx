@@ -18,7 +18,7 @@ function CustomDestinationDisplayCard(props) {
     let data = props.data;
 
     let isProcessing = props.isProcessing;
-    console.log("isProcessing ", isProcessing)
+
 
     let onClickEdit = props.onClickEdit;
     let onChangeSwitch = props.onChangeSwitch;

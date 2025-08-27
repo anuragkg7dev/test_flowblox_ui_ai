@@ -81,7 +81,7 @@ export default function CommonSidebar(props) {
               height="60px"
               fontSize={{ base: "sm", md: "md" }}
               onClick={() => {
-                console.log("PROFILE");
+               
                 setCurrentSelection(SIGN_OUT);
               }}
               justifyContent="flex-start"
