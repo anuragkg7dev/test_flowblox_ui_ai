@@ -10,6 +10,7 @@ function CustomLoaderButton(props) {
   let loader = props.loader;
   let onClickBtn = props.onClickBtn;
   let clabel = props.clabel;
+  let cdisabled = props.cdisabled ?? false
 
   return (
     <>
@@ -21,6 +22,7 @@ function CustomLoaderButton(props) {
           variant={cvariant}
           loading
           loadingText={cloadingText}
+          disabled={cdisabled}
         >
           {clabel}
         </Button>
@@ -35,6 +37,7 @@ function CustomLoaderButton(props) {
           fontSize={{ base: "sm", md: "md" }}
           onClick={() => { onClickBtn() }}
           type="button"
+          disabled={cdisabled}
         >
           {clabel}
 

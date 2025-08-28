@@ -20,6 +20,7 @@ import { FaCheck } from "react-icons/fa";
 import logo from "../../../assets/logo1.png";
 import { handleCheckout } from "../stripe/StripeLogic";
 import { calculateTotalPrice, currencyOption, getBundleOptions, getProductStripeBundleSubscription, getSelectedBundle, intervalOption } from "./ProductPricingLogic";
+import StripePaymentButton from "./StripePaymentButton";
 
 export default function ProductPricing() {
 
@@ -38,7 +39,7 @@ export default function ProductPricing() {
   const [emailError, setEmailError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  
+
   useEffect(() => {
     getProductStripeBundleSubscription(initializeBundlePlans);
   }, []);
@@ -176,6 +177,7 @@ export default function ProductPricing() {
                 _focus={{ borderColor: "brand.subBrandBg" }}
                 fontSize={{ base: "sm", md: "md" }}
                 required
+                value={email}
               />
               <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
             </Field.Root>
@@ -206,16 +208,19 @@ export default function ProductPricing() {
             </Text>
 
 
-            <Button
-              disabled={!!emailError || !email}
-              mt={8}
-              variant={"fblox"}
-              width="100%"
-              fontSize={{ base: "sm", md: "md" }}
-              onClick={() => handleCheckout(getUsersDetails(), getLineItems(), getPaymentDetails())}
-            > Buy Now </Button>
+            <StripePaymentButton
+              cwidth="100%"
+              cmt={8}
+              user={getUsersDetails()}
+              lineItems={getLineItems()}
+              paymentDetails={getPaymentDetails()}
+              cdisabled={!!emailError || !email}
+            />
+
 
           </Box>
+
+
         </Flex>
 
         {/* Right Side Box — Always Visible */}

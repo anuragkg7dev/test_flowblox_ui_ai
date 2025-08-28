@@ -63,6 +63,10 @@ export function getUsersPersonalDetails(callback, authkeyBearer) {
   callEdgeFunction(edgeFunction.GET_USERS_PERSONAL_DETAILS, {}, callback, authkeyBearer)
 }
 
+export function getStripeManageBillinPortalUrl(callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.STRIPE_MANAGE_BILLING_PORTAL_URL, { returnUrl: window.location.origin }, callback, authkeyBearer)
+}
+
 
 
 

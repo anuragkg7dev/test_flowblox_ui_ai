@@ -4,6 +4,7 @@ export const edgeFunction = {
     GET_BUNDLED_PRODUCTS: "getBundleProducts",
     GET_COMBO_PRODUCTS: "getComboProducts",
     STRIPE_CHECKOUT_SESSION: "stripeCreateCheckoutSession",
+    STRIPE_MANAGE_BILLING_PORTAL_URL: 'stripeManageBillinPortalUrl',
     VERIFY_REGISTRATION: "verifyRegistration",
     VERIFY_STRIPE_PRE_TRANSACTION: "verifyStripeTransaction",
     CREATE_UPDATE_BLOG_CONTAINERS: "createAndUpdateBlogContainers",
