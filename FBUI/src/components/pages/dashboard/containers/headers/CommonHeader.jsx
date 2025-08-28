@@ -1,3 +1,4 @@
+import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
 import IconSwitch from "@/components/common/element/IconSwitch";
 import {
   Field,
@@ -7,7 +8,7 @@ import {
 
 
 export default function CommonHeader(props) {
-  const name = props.name ?? "My Containers"
+  const name = props.name ?? CommonLabels.MY_BLOX
   const showIcon = props.showIcon;
   const iconType = props.iconType;
   const cmb = props.cmb

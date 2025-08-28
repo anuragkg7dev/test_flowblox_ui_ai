@@ -1,6 +1,7 @@
-import { Box, Code, Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Code, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { CustomClipBoard } from "../common/element/CustomClipBoard";
 
 export default function SquarespaceIntegration(props) {
 
@@ -8,11 +9,7 @@ export default function SquarespaceIntegration(props) {
     const hostUrl = props.hostUrl
     const apiUrl = `${hostUrl}?container_id=${containerId}`
 
-    const headScript = () => {
-        return (
-            <Code bg={'brand.pureBlackBg'} variant="subtle">
-                <SyntaxHighlighter language="javascript" style={vscDarkPlus}>
-                    {`<Script> 
+    const headScriptJs = `<Script> 
 document.addEventListener('DOMContentLoaded', () => {
   const codeBlocks = document.querySelectorAll('code');
   codeBlocks.forEach(block => {
@@ -45,18 +42,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-</Script> `}
-                </SyntaxHighlighter>      </Code>
+</Script> `
+
+    const childScriptJs = `<code>{articleid~YOUR_ARTICLE_ID}</code>`
+
+    const headScript = () => {
+        return (
+            <Code bg={'brand.pureBlackBg'} variant="subtle">
+
+                <SyntaxHighlighter language="javascript" style={vscDarkPlus}>
+                    {headScriptJs}
+                </SyntaxHighlighter>
+            </Code>
         );
     };
-
 
     const placeholderScript = () => {
 
         return (
             <Code p={2} borderRadius="md" bg={'brand.pureBlackBg'}>
                 <SyntaxHighlighter language="html" style={vscDarkPlus} variant={'subtle'}>
-                    {`<code>{articleid~YOUR_ARTICLE_ID}</code>`}
+                    {childScriptJs}
                 </SyntaxHighlighter>
             </Code>
         );
@@ -66,12 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
         <Flex mt={6} ml={6} justify="flex-start">
             <VStack align="start">
                 <Box>
-                    <Text color="brand.pureWhiteTxt">Header Script</Text>
+                    <HStack>
+                        <Text mr={4} color="brand.pureWhiteTxt">Header Script</Text>
+                        <CustomClipBoard cvalue={headScriptJs} />
+                    </HStack>
+
                     <Box>{headScript()}</Box>
                 </Box>
 
                 <Box mt={6}>
-                    <Text color="brand.pureWhiteTxt">Child Page Script</Text>
+                    <HStack>
+                        <Text mr={4} color="brand.pureWhiteTxt">Child Page Script</Text>
+                        <CustomClipBoard cvalue={childScriptJs} />
+                    </HStack>
+
                     <Box>{placeholderScript()}</Box>
                 </Box>
             </VStack>

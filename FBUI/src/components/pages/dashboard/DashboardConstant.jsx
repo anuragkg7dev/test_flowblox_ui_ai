@@ -137,8 +137,8 @@ export const aiModelOption = [
 
 
 export const LABELS = {
-  ADD_CONTAINER: "Add Container",
-  EDIT_CONTAINER: 'Edit Container',
+  ADD_CONTAINER: "Add Blox",
+  EDIT_CONTAINER: 'Edit Blox',
   ADD_SOURCE: "Add Source",
   EDIT_SOURCE: 'Edit Source',
   ADD_DESTINATION: "Add Destination",

@@ -12,10 +12,11 @@ import { IoMdSearch } from "react-icons/io";
 import { LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import { CARD_LAYOUT, LIST_LAYOUT } from "../../DashboardConstant";
 import IconSwitch from "@/components/common/element/IconSwitch";
+import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
 
 
 export default function CommonSearchHeader(props) {
-  const name = props.name ?? "My Containers"
+  const name = props.name ?? CommonLabels.MY_BLOX
   const [searchQuery, setSearchQuery] = useState("");
   const [sortParam, setSortParam] = useState("");
   const layoutStyle = props.layoutStyle;

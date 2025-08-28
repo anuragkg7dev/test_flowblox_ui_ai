@@ -149,7 +149,7 @@ export default function SettingsFrequency(props) {
       });
       toast.success("Updated")
     } else {
-      toast.error("Failed to add container !!")
+      toast.error("Failed to add blox !!")
     }
     setLoader(false)
 

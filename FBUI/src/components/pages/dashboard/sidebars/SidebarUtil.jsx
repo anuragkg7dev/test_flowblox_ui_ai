@@ -20,6 +20,7 @@ import {
     DASHBOARD_URL,
 } from "@/components/common/constants/AppRouterConstant";
 import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
 import { CiShare2 } from "react-icons/ci";
 import { FiCodesandbox } from "react-icons/fi";
 import { GiSettingsKnobs } from "react-icons/gi";
@@ -36,7 +37,7 @@ export const mainSidebarOptions = [
     {
         to: `${DASHBOARD_URL}/${DASHBOARD_CONTAINERS_URL}`,
         key: DASHBOARD_CONTAINERS,
-        label: "My Containers",
+        label: CommonLabels.MY_BLOX,
         icon: FiCodesandbox,
         type: HOME,
     },
@@ -70,7 +71,7 @@ export const containerBlogTopSidebarOptions = [
     {
         to: `${DASHBOARD_URL}/${DASHBOARD_CONTAINERS_URL}`,
         key: DASHBOARD_CONTAINERS,
-        label: "My Containers",
+        label: CommonLabels.MY_BLOX,
         icon: RxDashboard,
         type: PREVIOUS,
     },

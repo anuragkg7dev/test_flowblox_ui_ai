@@ -66,7 +66,7 @@ export default function SettingsAIAgent(props) {
       setIsModified(false)
       toast.success("Updated")
     } else {
-      toast.error("Failed to add container !!")
+      toast.error("Failed to add blox !!")
 
     }
     setLoader(false)

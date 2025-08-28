@@ -15,13 +15,14 @@ import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { CONTAINERS_KEY } from "../ContainersConstant";
 import Articles from "./Articles";
+import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
 
 export default function Manage(props) {
 
   const { config, setConfig } = useAppConfigStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
 
-  const containerName = container.name ?? "My Container"
+  const containerName = container.name ?? CommonLabels.MY_BLOX
   const [status, setStatus] = useState(container[CONTAINERS_KEY.STATUS]);
 
   return (

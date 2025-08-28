@@ -31,7 +31,7 @@ import { containerValidationSchema } from "../validation/ContainerValidation";
 import { toast } from "@/components/common/Notification";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
-import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
 
 
 function AddEditBlogsContainer(props) {
@@ -232,7 +232,7 @@ function AddEditBlogsContainer(props) {
             loadContainerData();
             setOpenDrawer(false)
         } else {
-            toast.error("Failed to add container !!")
+            toast.error("Failed to add blox !!")
             setLoader(false)
         }
 
@@ -411,7 +411,7 @@ function AddEditBlogsContainer(props) {
                         <Field.Label>
                             <HStack>
                                 <HiOutlineExclamationTriangle size={labelIconSize} color="inherit" />
-                                <Text>Manage Containers</Text>
+                                <Text>Manage Blox</Text>
                             </HStack>
                         </Field.Label>
                         <HStack width={fieldWidth} ml={fieldMargin} justify={"space-between"}>
@@ -448,11 +448,11 @@ function AddEditBlogsContainer(props) {
             <ConfirmationDialog
                 show={showConfirmation}
                 setShow={setShowsConfirmation}
-                header={CommonLabels.CLOSE_HEADING}
-                description={CommonLabels.CLOSE_DESCRIPTION}
+                header={CommonMessageLabels.CLOSE_HEADING}
+                description={CommonMessageLabels.CLOSE_DESCRIPTION}
                 onOk={onConfirmationOk}
-                closeLabel={CommonLabels.NO}
-                okLabel={CommonLabels.YES}
+                closeLabel={CommonMessageLabels.NO}
+                okLabel={CommonMessageLabels.YES}
                 status={STATUS.WARNING}
             />
         </>

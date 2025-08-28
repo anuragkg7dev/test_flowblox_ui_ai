@@ -26,7 +26,7 @@ import { SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import FieldUrl from "../fields/FieldUrl";
 import { sourceValidationSchema } from "../validation/ContainerValidation";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
-import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 
 export default function AddEditSource(props) {
@@ -307,11 +307,11 @@ export default function AddEditSource(props) {
             <ConfirmationDialog
                 show={showConfirmation}
                 setShow={setShowsConfirmation}
-                header={CommonLabels.CLOSE_HEADING}
-                description={CommonLabels.CLOSE_DESCRIPTION}
+                header={CommonMessageLabels.CLOSE_HEADING}
+                description={CommonMessageLabels.CLOSE_DESCRIPTION}
                 onOk={onConfirmationOk}
-                closeLabel={CommonLabels.NO}
-                okLabel={CommonLabels.YES}
+                closeLabel={CommonMessageLabels.NO}
+                okLabel={CommonMessageLabels.YES}
                 status={STATUS.WARNING}
             />
         </>

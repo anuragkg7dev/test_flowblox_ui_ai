@@ -3,7 +3,7 @@ import { Heading, HStack } from "@chakra-ui/react";
 import { AI_AGENTS, articleSettingOptions, CONFIGURABLE, FREQUENCY } from "../../DashboardConstant";
 
 import { STATUS } from "@/components/common/constants/CommonConstant";
-import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomSpinner from "@/components/common/element/CustomSpinner";
 import { lazy, Suspense, useState } from "react";
@@ -83,12 +83,12 @@ export default function Settings(props) {
       <ConfirmationDialog
         show={showConfirmation}
         setShow={setShowsConfirmation}
-        header={CommonLabels.CLOSE_HEADING}
-        description={CommonLabels.CLOSE_DESCRIPTION}
+        header={CommonMessageLabels.CLOSE_HEADING}
+        description={CommonMessageLabels.CLOSE_DESCRIPTION}
         onOk={onConfirmationOk}
         onClose={onCloseConfirmation}
-        closeLabel={CommonLabels.NO}
-        okLabel={CommonLabels.YES}
+        closeLabel={CommonMessageLabels.NO}
+        okLabel={CommonMessageLabels.YES}
         status={STATUS.WARNING}
       />
 

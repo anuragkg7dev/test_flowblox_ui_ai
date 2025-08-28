@@ -36,7 +36,7 @@ export const CONTAINERS_KEY = {
 };
 
 export const CONTAINERS_BLOG_BASE = {
-    [CONTAINERS_KEY.NAME]: 'My Article Container',
+    [CONTAINERS_KEY.NAME]: 'My Article Blox',
     [CONTAINERS_KEY.DESCRIPTION]: '',
     [CONTAINERS_KEY.TAGS]: '',
     [CONTAINERS_KEY.QUANTITY]: 1,
