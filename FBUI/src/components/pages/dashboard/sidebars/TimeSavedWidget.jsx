@@ -6,7 +6,7 @@ import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { TbClockHour5 } from "react-icons/tb";
-import { BeatLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 export default function TimeSavedWidget(props) {
 
@@ -60,7 +60,7 @@ export default function TimeSavedWidget(props) {
                 justifyContent="space-between"
                 alignItems="center"
             >
-                <TbClockHour5 size={22} color="inherit" />
+                <TbClockHour5 size={22} color="inherit" onClick={loadStatsData} />
                 
                 {!loader && (<>
                     <Text fontSize="40px" fontWeight={100} color="brand.subBrandBg">
@@ -69,7 +69,7 @@ export default function TimeSavedWidget(props) {
                 </>)}
 
                 {loader && (<>
-                    <BeatLoader size={8} color="white" />
+                    <PacmanLoader size={15} color="white" />
                 </>)}
 
                 <VStack align="start" flexShrink={0}>
