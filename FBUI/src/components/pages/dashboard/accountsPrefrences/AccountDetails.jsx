@@ -25,8 +25,6 @@ export default function AccountDetails(props) {
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
   const { user, setUser } = useUserDetailStore();
 
-  console.log('hiiii----->   ', user)
-
   const [fname, setFname] = useState(user?.fname || '');
   const [lname, setLname] = useState(user?.lname || '');
   const [email, setEmail] = useState(user?.email || '');
@@ -329,10 +327,10 @@ export default function AccountDetails(props) {
 
                 <CustomCountry
                   sdata={countries}
-                  defaultSelected={'IN'}
+                  defaultSelected={country}
                   slabel=""
                   splaceholder="Select"
-                  cselectCallback={(data) => { setCountry(data); console.log(data); }}
+                  cselectCallback={(data) => { onCountryChange(data) }}
                   cml={fieldMargin}
                   cwidth={fieldWidth} />
 
