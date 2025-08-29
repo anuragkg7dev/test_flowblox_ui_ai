@@ -16,6 +16,7 @@ export const edgeFunction = {
     GET_BALANCE: 'getBalance',
     UPDATE_PERSONAL_DETAILS: 'updatePersonalDetails',
     GET_USERS_PERSONAL_DETAILS: "getUsersPersonalDetails",
+    GET_COUNT_STATS: "getCountStats",
 };
 
 const edgeFunctionKeys = {};

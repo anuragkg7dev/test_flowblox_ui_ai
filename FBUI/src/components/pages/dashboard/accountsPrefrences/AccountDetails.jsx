@@ -25,7 +25,7 @@ export default function AccountDetails(props) {
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
   const { user, setUser } = useUserDetailStore();
 
-  console.log('hiiii----->   ',user)
+  console.log('hiiii----->   ', user)
 
   const [fname, setFname] = useState(user?.fname || '');
   const [lname, setLname] = useState(user?.lname || '');
@@ -70,7 +70,7 @@ export default function AccountDetails(props) {
     if (!status) {
       toast.error('Failed to refresh user details !!')
     } else {
-      setUser({...data});
+      setUser({ ...data });
       toast.success("Updated");
     }
     setLoader(false);
@@ -305,6 +305,7 @@ export default function AccountDetails(props) {
                 onBlur={validateAddress}
                 size={{ base: "sm", md: "md" }}
                 maxH={{ base: "150px", md: "200px" }}
+                minHeight={"130px"}
                 resize="vertical"
               />
               <Field.ErrorText ml={fieldMargin} fontSize={{ base: "xs", md: "sm" }}>
@@ -312,85 +313,85 @@ export default function AccountDetails(props) {
               </Field.ErrorText>
             </Field.Root>
 
-            <Field.Root
-              w="100%"
-              color="brand.pureWhiteTxt"
-              fontSize={{ base: "sm", md: "md", lg: "lg" }}
-              invalid={error[USERS_KEY.COUNTRY]}
-            >
-              <Field.Label>
-                <HStack>
-                  <GoGlobe size={labelIconSize} color="inherit" />
-                  <Text>Country</Text>
-                </HStack>
-              </Field.Label>
-              {/* <CustomCountry
-                selected={country}
-                setSelected={onCountryChange}
-                cwidth={fieldWidth}
-                cml={fieldMargin}
-              /> */}
-
-
-              <CustomCountry
-                sdata={countries}
-                defaultSelected={'IN'}
-                slabel=""
-                splaceholder="Select"
-                cselectCallback={(data) => { setCountry(data); console.log(data); }}
-                cml={fieldMargin}
-                cwidth={fieldWidth} />
-
-
-              <Field.ErrorText ml={fieldMargin} fontSize={{ base: "xs", md: "sm" }}>
-                {error[USERS_KEY.COUNTRY]}
-              </Field.ErrorText>
-            </Field.Root>
-          </HStack>
-
-          <HStack
-            w="100%"
-            justify="flex-end"
-            spacing={{ base: 2, md: 4 }}
-            flexDirection={{ base: "column", md: "row" }}
-          >
-            <Field.Root
-              w={{ base: "100%", md: "auto" }}
-              color="brand.pureWhiteTxt"
-              fontSize={{ base: "sm", md: "md", lg: "lg" }}
-            >
-              <Field.Label>
-                <HStack>
-                  <FiShield size={labelIconSize} color="inherit" />
-                  <Text>Set Changes</Text>
-                </HStack>
-              </Field.Label>
-              <HStack
-                ml={fieldMargin}
-                justifyContent={{ base: "center", md: "flex-end" }}
-                spacing={{ base: 2, md: 4 }}
+            <VStack  w="100%">
+              <Field.Root
+                w="100%"
+                color="brand.pureWhiteTxt"
+                fontSize={{ base: "sm", md: "md", lg: "lg" }}
+                invalid={error[USERS_KEY.COUNTRY]}
               >
-                <Button
-                  height={{ base: "35px", md: "40px" }}
-                  variant={cvariant}
-                  fontSize={{ base: "sm", md: "md" }}
-                  w={{ base: "100%", sm: "120px" }}
-                  onClick={() => { }}
+                <Field.Label>
+                  <HStack>
+                    <GoGlobe size={labelIconSize} color="inherit" />
+                    <Text>Country</Text>
+                  </HStack>
+                </Field.Label>
+
+                <CustomCountry
+                  sdata={countries}
+                  defaultSelected={'IN'}
+                  slabel=""
+                  splaceholder="Select"
+                  cselectCallback={(data) => { setCountry(data); console.log(data); }}
+                  cml={fieldMargin}
+                  cwidth={fieldWidth} />
+
+
+                <Field.ErrorText ml={fieldMargin} fontSize={{ base: "xs", md: "sm" }}>
+                  {error[USERS_KEY.COUNTRY]}
+                </Field.ErrorText>
+              </Field.Root>
+
+              <HStack
+                w="100%"
+                justify="flex-start"
+                spacing={{ base: 2, md: 4 }}
+                flexDirection={{ base: "column", md: "row" }}
+                mt={2}
+              >
+                <Field.Root
+                  w={{ base: "100%", md: "auto" }}
+                  color="brand.pureWhiteTxt"
+                  fontSize={{ base: "sm", md: "md", lg: "lg" }}
                 >
-                  Cancel
-                </Button>
-                <CustomLoaderButton
-                  cheight={{ base: "35px", md: "40px" }}
-                  cvariant="fblox"
-                  cloadingText="Set"
-                  loader={loader}
-                  onClickBtn={onSubmit}
-                  clabel="set"
-                  w={{ base: "100%", sm: "120px" }}
-                />
+                  <Field.Label>
+                    <HStack>
+                      <FiShield size={labelIconSize} color="inherit" />
+                      <Text>Set Changes</Text>
+                    </HStack>
+                  </Field.Label>
+                  <HStack
+                    ml={fieldMargin}
+                    justifyContent={{ base: "center", md: "flex-end" }}
+                    spacing={{ base: 2, md: 4 }}
+                  >
+                    <Button
+                      height={{ base: "35px", md: "40px" }}
+                      variant={cvariant}
+                      fontSize={{ base: "sm", md: "md" }}
+                      w={{ base: "100%", sm: "120px" }}
+                      onClick={() => { }}
+                    >
+                      Cancel
+                    </Button>
+                    <CustomLoaderButton
+                      cheight={{ base: "35px", md: "40px" }}
+                      cvariant="fblox"
+                      cloadingText="Set"
+                      loader={loader}
+                      onClickBtn={onSubmit}
+                      clabel="set"
+                      w={{ base: "100%", sm: "120px" }}
+                    />
+                  </HStack>
+                </Field.Root>
               </HStack>
-            </Field.Root>
+
+            </VStack>
+
           </HStack>
+
+
         </VStack>
       </VStack>
     </>

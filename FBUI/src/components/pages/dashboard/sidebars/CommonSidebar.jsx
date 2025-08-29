@@ -11,6 +11,7 @@ import { TbClockHour5 } from "react-icons/tb";
 import SidebarTemplate from "./SidebarTemplate";
 import SidebarTopSwitch from "./SidebarTopSwitch";
 import { getCurrentSelection, getSBarButtonStyles, mainSidebarBottomOptions } from "./SidebarUtil";
+import TimeSavedWidget from "./TimeSavedWidget";
 
 export default function CommonSidebar(props) {
 
@@ -49,7 +50,7 @@ export default function CommonSidebar(props) {
 
           {/* Bottom Group: Settings and Profile */}
           <Flex direction="column" gap={1} mb={2}>
-            <Box
+            {/* <Box
               p={4}
               borderRadius="md"
               w="100%" // Ensure full width for spacing
@@ -72,7 +73,9 @@ export default function CommonSidebar(props) {
                   <Text fontSize="10px">Using this tool</Text>
                 </VStack>
               </HStack>
-            </Box>
+            </Box> */}
+
+            <TimeSavedWidget/>
 
             <SidebarTemplate options={mainSidebarBottomOptions} />
 

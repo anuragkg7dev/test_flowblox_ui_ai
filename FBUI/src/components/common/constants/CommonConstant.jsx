@@ -40,7 +40,7 @@ export const APP_CONFIG_KEYS = {
   DESTINATION_DATA_LIST: "destination-data-list",
   CURRENT_SELECTION: "currentSelection",
   CONTAINER_MODIFIED: "containerModified",
-  USER_DATA:"user-data"
+  COUNT_STATS:"count_stats"
 }
 
 export const USERS_KEY = {

@@ -1,5 +1,4 @@
 import { getGeneratedArticles } from "@/components/client/EdgeFunctionRepository";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
 import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
@@ -25,6 +24,7 @@ export default function Articles(props) {
   const limit = props.limit ?? 50
   const selectView = props.selectView
   const hideFilter = props.hideFilter
+  const setTotalArticle = props.setTotalArticle
 
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
   const [articles, setArticles] = useState([]);
@@ -33,7 +33,7 @@ export default function Articles(props) {
   const [articleMaster, setArticleMaster] = useState()
 
   const { config, setConfig, updateConfig } = useAppConfigStore();
-  const authkeyBearer = config[JWT_TOKEN];
+  const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
 
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
 
@@ -59,6 +59,8 @@ export default function Articles(props) {
       (flag, data) => {
         if (flag) {
           setArticles(data?.articles ?? []);
+
+          setTotalArticle?.(data?.articles ? data?.articles[0]?.sequence : 0)
 
         } else {
           toast.error('Failed to load articles!!')

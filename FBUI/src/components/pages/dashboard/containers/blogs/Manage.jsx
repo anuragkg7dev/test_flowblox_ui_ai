@@ -16,6 +16,8 @@ import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { CONTAINERS_KEY } from "../ContainersConstant";
 import Articles from "./Articles";
 import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
+import { getTimeInHours, getTimeSavedOnArticle } from "@/components/common/util/TimeSaveCaluclatorUtil";
+import { BeatLoader } from "react-spinners";
 
 export default function Manage(props) {
 
@@ -24,6 +26,22 @@ export default function Manage(props) {
 
   const containerName = container.name ?? CommonLabels.MY_BLOX
   const [status, setStatus] = useState(container[CONTAINERS_KEY.STATUS]);
+  const [totalArticle, setTotalArticle] = useState(-1);
+  const [totalPublishedArticle, setTotalPublishedArticle] = useState(1024);
+
+  const getFormatNumber = (cnum) => {
+    if (cnum == -1) {
+      return (<BeatLoader size={8} color="white" />)
+    }
+    return (<FormatNumber value={cnum} />)
+  }
+
+  const getTimeString = (cnum) => {
+    if (cnum == -1) {
+      return (<BeatLoader size={8} color="white" />)
+    }
+    return getTimeInHours(getTimeSavedOnArticle(totalArticle))
+  }
 
   return (
     <>
@@ -46,28 +64,28 @@ export default function Manage(props) {
           cKey={"article"}
           name={"Total Article"}
           xicon={PiPulseBold}
-          stats={<FormatNumber value={12345} />}
+          stats={getFormatNumber(totalArticle)}
         />
 
         <CustomBoldDisplayCard
           cKey={"article"}
           name={"Number of Live Articles"}
           xicon={ImNewspaper}
-          stats={<FormatNumber value={1024} />}
+          stats={getFormatNumber(totalPublishedArticle)}
         />
 
         <CustomBoldDisplayCard
           cKey={"article"}
           name={"Time Saved"}
           xicon={FaRegClock}
-          stats={"12:30"}
+          stats={getTimeString(totalArticle)}
         />
 
       </HStack>
 
       <CustomLine cmt={10} cmb={10} />
 
-      <Articles hideFilter={true} limit={5} />
+      <Articles hideFilter={true} limit={5} setTotalArticle={setTotalArticle} />
 
     </>
   );

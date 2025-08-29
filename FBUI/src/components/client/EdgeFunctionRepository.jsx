@@ -67,6 +67,11 @@ export function getStripeManageBillinPortalUrl(callback, authkeyBearer) {
   callEdgeFunction(edgeFunction.STRIPE_MANAGE_BILLING_PORTAL_URL, { returnUrl: window.location.origin }, callback, authkeyBearer)
 }
 
+export function getCountStats(callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.GET_COUNT_STATS, {}, callback, authkeyBearer)
+}
+
+
 
 
 

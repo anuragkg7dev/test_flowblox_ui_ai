@@ -1,5 +1,6 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
 import { memo } from "react";
+import { BeatLoader } from "react-spinners";
 
 function CustomLoaderButton(props) {
   let cwidth = props.cwidth;
@@ -11,6 +12,15 @@ function CustomLoaderButton(props) {
   let onClickBtn = props.onClickBtn;
   let clabel = props.clabel;
   let cdisabled = props.cdisabled ?? false
+  let loaderType = props.loaderType
+
+  const getLoader = () => {
+    if (loaderType == 'beat') {
+      return (<BeatLoader size={5} color="white" />)
+    }
+    return (<Spinner size="sm" />)
+  }
+
 
   return (
     <>
@@ -21,6 +31,7 @@ function CustomLoaderButton(props) {
           mt={cmt}
           variant={cvariant}
           loading
+          spinner={getLoader()}
           loadingText={cloadingText}
           disabled={cdisabled}
         >
