@@ -10,7 +10,7 @@ import FieldAIWritterEditor from "./fields/FieldAIWritterEditor";
 import { LuTriangleAlert } from "react-icons/lu";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
-import { CONTAINERS_KEY } from "../ContainersConstant";
+
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import { containerValidationSchema } from "../validation/ContainerValidation";
 import { validate } from "@/components/validation/ValidationUtil";
@@ -18,6 +18,7 @@ import { createAndUpdateBlogContainers } from "@/components/client/EdgeFunctionR
 import { toast } from "@/components/common/Notification";
 import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { getBlogContainerFromresponse } from "../ContainersUtil";
+import { CONTAINERS_KEY } from "../ContainersConstant";
 
 export default function SettingsAIAgent(props) {
 
@@ -58,7 +59,7 @@ export default function SettingsAIAgent(props) {
 
   const onSubmitCallback = (flag, data) => {
     if (flag) {
-      updateConfig({
+      setXConfig({
         ...xconfig,
         [APP_CONFIG_KEYS.CONTAINER_DATA]: getBlogContainerFromresponse(data), // update current container data in context
         [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data

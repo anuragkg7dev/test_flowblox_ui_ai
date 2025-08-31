@@ -1,16 +1,19 @@
+import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
 import CustomArticleDisplayCard from "@/components/common/element/cards/CustomArticleDisplayCard";
 import CustomArticleDisplayRow from "@/components/common/element/cards/CustomArticleDisplayRow";
 import {
   LIST_LAYOUT
 } from "../../DashboardConstant";
-import { CONTENT_TYPE } from "@/components/client/EdgeConstant";
 
 export default function ArticlesLayout(props) {
   const layoutStyle = props.layoutStyle
   const handlView = props.handlView
-  const handlePublish = props.handlePublish
+  const handleStatusChange = props.handleStatusChange
   const data = props.data
-  let selectView = props.selectView;
+  const selectView = props.selectView;
+  const publishFlag = data.status == COMMON_STATUS.PUBLISHED
+  const isProcessing = data[COMMON_STATUS.PROCESSING]
+  const showPublishButton = !(data.status == COMMON_STATUS.PUBLISHED || data.status == COMMON_STATUS.ARCHIVED)
 
   const getCardLayout = (data) => {
 
@@ -23,14 +26,17 @@ export default function ArticlesLayout(props) {
           subHeading={undefined}
           description={data?.generated_content?.introduction ?? ''}
           viewFlag={true}
-          publishFlag={true}
+          publishFlag={publishFlag}
           onClickView={handlView}
-          onClickPublish={handlePublish}
+          handleStatusChange={handleStatusChange}
           type={CONTENT_TYPE.ARTICLE_BLOG}
           data={data}
           selectView={selectView}
           cdate={data.created_at}
           sequence={data.sequence}
+          isProcessing={isProcessing}
+          showPublishButton={showPublishButton}
+          status={data.status}
         />
       </>
     );
@@ -46,14 +52,17 @@ export default function ArticlesLayout(props) {
           subHeading={undefined}
           description={data?.generated_content?.introduction ?? ''}
           viewFlag={true}
-          publishFlag={true}
+          publishFlag={publishFlag}
           onClickView={handlView}
-          onClickPublish={handlePublish}
+          handleStatusChange={handleStatusChange}
           type={CONTENT_TYPE.ARTICLE_BLOG}
           data={data}
           selectView={selectView}
           cdate={data.created_at}
           sequence={data.sequence}
+          isProcessing={isProcessing}
+          showPublishButton={showPublishButton}
+          status={data.status}
         />
       </>
     );

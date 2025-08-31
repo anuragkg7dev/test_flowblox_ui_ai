@@ -71,6 +71,19 @@ export function getCountStats(callback, authkeyBearer) {
   callEdgeFunction(edgeFunction.GET_COUNT_STATS, {}, callback, authkeyBearer)
 }
 
+export function updateArticleStatus(body, callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.UPDATE_ARTICLE_STATUS, body, callback, authkeyBearer)
+}
+
+export function getPublishCountStats(body, callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.GET_PUBLISH_COUNT_STATS, body, callback, authkeyBearer)
+}
+
+export function updateContainerAutoPublish(body, callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.UPDATE_CONTAINER_AUTOPUBLISH, body, callback, authkeyBearer)
+}
+
+
 
 
 

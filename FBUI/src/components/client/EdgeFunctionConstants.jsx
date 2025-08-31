@@ -17,6 +17,9 @@ export const edgeFunction = {
     UPDATE_PERSONAL_DETAILS: 'updatePersonalDetails',
     GET_USERS_PERSONAL_DETAILS: "getUsersPersonalDetails",
     GET_COUNT_STATS: "getCountStats",
+    UPDATE_ARTICLE_STATUS: "updateArticleStatus",
+    GET_PUBLISH_COUNT_STATS: "getPublishCountStats",
+    UPDATE_CONTAINER_AUTOPUBLISH : "updateContainerAutoPublish",
 };
 
 const edgeFunctionKeys = {};

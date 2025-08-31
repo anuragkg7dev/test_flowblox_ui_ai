@@ -1,8 +1,5 @@
-import { containerValidationSchema } from "@/components/pages/dashboard/containers/validation/ContainerValidation";
-import { validate } from "@/components/validation/ValidationUtil";
 import { Field, HStack, Input, Text } from "@chakra-ui/react";
 import { FiCodesandbox } from "react-icons/fi";
-import { CONTAINERS_KEY } from "../ContainersConstant";
 
 export default function FieldContainerName(props) {
   const containerName = props.containerName;

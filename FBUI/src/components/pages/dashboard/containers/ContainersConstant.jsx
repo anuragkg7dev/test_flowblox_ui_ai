@@ -33,6 +33,7 @@ export const CONTAINERS_KEY = {
     CONTAINERS_PUBLISH_CONFIGS: 'containers_publish_configs',
     STATUS: 'status',
     SOURCES: 'sources',
+    AUTO_PUBLISH: 'auto_publish',
 };
 
 export const CONTAINERS_BLOG_BASE = {

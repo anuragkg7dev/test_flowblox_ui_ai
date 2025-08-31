@@ -58,7 +58,7 @@ export default function SettingsAIAgent(props) {
 
   const onSubmitCallback = (flag, data) => {
     if (flag) {
-      updateConfig({
+      setXConfig({
         ...xconfig,
         [APP_CONFIG_KEYS.CONTAINER_DATA]: getBlogContainerFromresponse(data), // update current container data in context
         [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data

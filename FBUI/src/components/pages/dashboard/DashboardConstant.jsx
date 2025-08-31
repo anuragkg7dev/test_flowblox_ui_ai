@@ -1,5 +1,5 @@
 import { DESTINATION_TYPE } from "@/components/client/EdgeConstant";
-import { CUSTOM, DAILY, MONTHLY, SQUARESPACE, WEEKLY } from "@/components/common/constants/CommonConstant";
+import { CUSTOM, DAILY, MONTHLY, WEEKLY } from "@/components/common/constants/CommonConstant";
 
 export const CARD_LAYOUT = "card_layout"
 export const LIST_LAYOUT = "list_layout"
@@ -15,15 +15,13 @@ export const sourceOutputOption = [
   { label: "Squarespace", value: DESTINATION_TYPE.SQUARESPACE }
 ];
 
-export const articleOptions = [
-  { label: "View", value: "view" },
-  { label: "Delete", value: "delete" }
-];
 
 export const ALL = "all"
 export const DRAFT = "draft"
 export const ARCHIVED = "archived"
 export const PUBLISHED = "published"
+export const UNPUBLISHED = "unpublished"
+export const GENERATED = "generated"
 
 export const filterOptions = [
   { label: "All", value: ALL },

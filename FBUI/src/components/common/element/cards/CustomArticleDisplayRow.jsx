@@ -1,33 +1,39 @@
 import { trimString } from "@/components/common/util/StringUtil";
 import { Box, Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
-import CustomSelect from "../CustomSelect";
-import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
-import CustomMenu from "../CustomMenu";
+import React from "react";
+import { actions, dot, getArticleOptions } from "../../constants/CommonUtilityAndOptions";
 import CustomDateTimeDisplay from "../CustomDateTimeDisplay";
 import { CustomFloatWithOffset } from "../CustomFloatWithOffset";
+import CustomMenu from "../CustomMenu";
+import CustomStatusDot from "../CustomStatusDot";
+import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
 
 function CustomArticleDisplayRow(props) {
-  let cKey = props.cKey;
-  let heading = props.heading;
-  let subHeading = props.subHeading;
-  let description = props.description;
-  let data = props.data;
-  let viewFlag = props.viewFlag ?? true;
-  let publishFlag = props.publishFlag ?? true;
-  let optionFlag = props.optionFlag ?? true
-  let onClickView = props.onClickView;
-  let onClickPublish = props.onClickPublish;
-  let sequence = props.sequence;
-  let cdate = props.cdate
+  const selectView = props.selectView ?? false;
+  const cKey = props.cKey;
+  const heading = props.heading;
+  const subHeading = props.subHeading;
+  const description = props.description;
+  const data = props.data;
+  const optionFlag = props.optionFlag == undefined ? true : props.optionFlag;
+  const viewFlag = props.viewFlag == undefined ? true : props.viewFlag;
+  const publishFlag = props.publishFlag == undefined ? false : props.publishFlag;
+  const onClickView = props.onClickView;
+  const handleStatusChange = props.handleStatusChange;
+  const onCardClick = props.onCardClick;
+  const sequence = props.sequence;
+  const cdate = props.cdate
+  const isProcessing = props.isProcessing
+  const showPublishButton=props.showPublishButton
+  const status = props.status 
 
 
-  let [articleOption, setArticleOption] = useState("");
 
-  const onArticleOptionChange = (value) => {
-
-    setArticleOption(value)
+  const onActionChange = (value, data) => {
+    setAction(value)
+    handleStatusChange(data, value)
   };
+
 
   return (
     <HStack
@@ -40,14 +46,19 @@ function CustomArticleDisplayRow(props) {
       borderBottomColor='brand.greyBrandBorder'
       spacing={4}
       align="center"
+      userSelect="none"
+      position="relative"
     >
 
       <HStack flex="1" spacing={4} align="center">
         <VStack flex="1" spacing={2} align={"flex-start"}>
           <Box position="relative">
-            <Heading key={`tx_${cKey}`} size="custom20">
-              {trimString(heading, 30)}
-            </Heading>
+            <HStack>
+              {publishFlag && (<CustomStatusDot type={dot.SUCCESS} cmr={2} cmb={0} csize={'md'} />)}
+              <Heading key={`tx_${cKey}`} size="custom20">
+                {trimString(heading, 30)}
+              </Heading>
+            </HStack>
             <CustomFloatWithOffset value={sequence} offset={-5} placement={'middle-end'} />
           </Box>
           {subHeading && (
@@ -55,24 +66,30 @@ function CustomArticleDisplayRow(props) {
               {trimString(subHeading, 30)}
             </Text>
           )}
+
           <Text fontSize="xs" noOfLines={1} flex="1" color="brand.pureWhiteTxt">
             {trimString(description, 170)}
           </Text>
+
+          <CustomDateTimeDisplay cdate={cdate} cfontSize="xs" />
 
         </VStack>
 
       </HStack>
 
+
       <HStack spacing={2}>
 
 
-        <CustomDateTimeDisplay cdate={cdate} />
+        {/* Spinner overlay for footer only */}
+        <CustomSpinnerOverlay show={isProcessing} type={'syncLoader'} />
+
 
         {optionFlag && (<>
           <CustomMenu
             clabel="Action"
-            sdata={articleOptions}
-            onSelect={(value) => onArticleOptionChange(value)}
+            sdata={getArticleOptions(status)}
+            onSelect={(value) => onActionChange(value, data)}
             cwidth={"100px"}
           />
 
@@ -90,14 +107,18 @@ function CustomArticleDisplayRow(props) {
             View
           </Button>
         )}
-        {publishFlag && (
+
+
+
+        {showPublishButton && (
           <Button
+            mt={1}
             key={`btm_${cKey}`}
             variant={"fblox"}
-            size="sm"
-            aria-label="Publish"
-            onClick={() => onClickPublish(data)}
-            mt={1.5}
+            width="auto"
+            height="35px"
+            aria-label="Manage"
+            onClick={() => handleStatusChange(data, actions.PUBLISH)}
           >
             Publish
           </Button>

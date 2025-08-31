@@ -8,7 +8,7 @@ export default function CustomMenu(props) {
     const cwidth = props.cwidth
 
     return (
-        <Menu.Root onSelect={(value) => onSelect?.(value)} >
+        <Menu.Root onSelect={(e) => onSelect?.(e?.value)} >
             <Menu.Trigger asChild width={cwidth} bg="brand.pureBlackBg"
                 color="brand.pureWhiteTxt"
                 borderColor={"brand.greyBrandBorder"}

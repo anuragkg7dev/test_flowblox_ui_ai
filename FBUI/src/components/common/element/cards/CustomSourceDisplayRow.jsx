@@ -1,10 +1,8 @@
 import { trimString } from "@/components/common/util/StringUtil";
-import { Button, Heading, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
-import CustomSelect from "../CustomSelect";
-import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
-import CustomTag from "../CustomTag";
+import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import React from "react";
 import CustomSwitch from "../CustomSwitch";
+import CustomTag from "../CustomTag";
 import IconSwitch from "../IconSwitch";
 import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
 
@@ -43,9 +41,6 @@ function CustomSourceDisplayRow(props) {
         <HStack>
 
           <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" />
-
-
-
 
         </HStack>
         <VStack flex="1" spacing={2} align={"flex-start"}>

@@ -1,9 +1,9 @@
 import { trimString } from "@/components/common/util/StringUtil";
 import { Avatar, Button, Card, Heading, HStack, Stack, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import CustomSwitch from "../CustomSwitch";
-import IconSwitch from "../IconSwitch";
 import CustomTag from "../CustomTag";
+import IconSwitch from "../IconSwitch";
 import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
 
 function CustomSourceDisplayCard(props) {

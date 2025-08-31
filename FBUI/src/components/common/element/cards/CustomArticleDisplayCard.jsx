@@ -1,36 +1,39 @@
 import { trimString } from "@/components/common/util/StringUtil";
 import { Button, Card, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
-import CustomSelect from "../CustomSelect";
-import { articleOptions } from "@/components/pages/dashboard/DashboardConstant";
-import CustomMenu from "../CustomMenu";
+import React from "react";
+import { actions, dot, getArticleOptions } from "../../constants/CommonUtilityAndOptions";
 import CustomDateTimeDisplay from "../CustomDateTimeDisplay";
 import { CustomFloatWithOffset } from "../CustomFloatWithOffset";
+import CustomMenu from "../CustomMenu";
+import CustomStatusDot from "../CustomStatusDot";
+import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
+
 
 function CustomArticleDisplayCard(props) {
-    let selectView = props.selectView ?? false;
-    let cKey = props.cKey;
-    let heading = props.heading;
-    let subHeading = props.subHeading;
-    let description = props.description;
-    let data = props.data;
-    let optionFlag = props.optionFlag == undefined ? true : props.optionFlag;
-    let viewFlag = props.viewFlag == undefined ? true : props.viewFlag;
-    let publishFlag = props.publishFlag == undefined ? true : props.publishFlag;
-    let onClickView = props.onClickView;
-    let onClickPublish = props.onClickPublish;
-    let onCardClick = props.onCardClick;
-    let sequence = props.sequence;
-    let cdate = props.cdate
+    const selectView = props.selectView ?? false;
+    const cKey = props.cKey;
+    const heading = props.heading;
+    const subHeading = props.subHeading;
+    const description = props.description;
+    const data = props.data;
+    const optionFlag = props.optionFlag == undefined ? true : props.optionFlag;
+    const viewFlag = props.viewFlag == undefined ? true : props.viewFlag;
+    const publishFlag = props.publishFlag == undefined ? false : props.publishFlag;
+    const onClickView = props.onClickView;
+    const handleStatusChange = props.handleStatusChange;
+    const onCardClick = props.onCardClick;
+    const sequence = props.sequence;
+    const cdate = props.cdate
+    const isProcessing = props.isProcessing
+    const showPublishButton = props.showPublishButton
+    const status = props.status
 
 
-    let wordLimit = selectView ? 340 : 170;
 
-    let [articleOption, setArticleOption] = useState("");
+    let wordLimit = selectView ? 300 : 150;
 
-    const onArticleOptionChange = (value) => {
-  
-        setArticleOption(value)
+    const onActionChange = (value, data) => {     
+        handleStatusChange(data, value)
     };
 
     return (
@@ -53,9 +56,12 @@ function CustomArticleDisplayCard(props) {
                 <VStack key={`hs_${cKey}`} justify="space-between" align="start">
 
                     <Stack key={`st_${cKey}`} gap={0} flex={1} >
-                        <Heading key={`tx_${cKey}`} size="custom20">
-                            {trimString(heading, 30)} {/* Reduced to fit */}
-                        </Heading>
+                        <HStack>
+                            {publishFlag && (<CustomStatusDot type={dot.SUCCESS} cmr={2} cmb={0} csize={'md'} />)}
+                            <Heading key={`tx_${cKey}`} size="custom20">
+                                {trimString(heading, 30)} {/* Reduced to fit */}
+                            </Heading>
+                        </HStack>
                         {subHeading && (
                             <Text color="fg.muted" fontSize="16px" noOfLines={1} minWidth="100px">
                                 {trimString(subHeading, 30)}
@@ -69,14 +75,17 @@ function CustomArticleDisplayCard(props) {
                     noOfLines={2}
                     flex="1"
                     color={"brand.pureWhiteTxt"}
-
                 >
                     {trimString(description, wordLimit)}
-                    <HStack justify={'flex-end'} mt={1}>
-                  
-                        <CustomDateTimeDisplay cdate={cdate} />
-                    </HStack>
                 </Card.Description>
+
+                <HStack >
+                    <CustomDateTimeDisplay cmt={2} cdate={cdate} />
+                    {/* Spinner overlay for footer only */}
+                    <CustomSpinnerOverlay show={isProcessing} cml={7} cmt={2} type={'syncLoader'} />
+                </HStack>
+
+
 
             </Card.Body>
             <Card.Footer width={"100%"} key={`cf_${cKey}`} p={1} mb={2}>
@@ -85,8 +94,8 @@ function CustomArticleDisplayCard(props) {
                         {optionFlag && (<>
                             <CustomMenu
                                 clabel="Action"
-                                sdata={articleOptions}
-                                onSelect={(value) => onArticleOptionChange(value)}
+                                sdata={getArticleOptions(status)}
+                                onSelect={(value) => onActionChange(value, data)}
                                 cwidth={"33%"}
                             />
 
@@ -105,7 +114,9 @@ function CustomArticleDisplayCard(props) {
                                 View
                             </Button>
                         )}
-                        {publishFlag && (
+
+
+                        {showPublishButton && (
                             <Button
                                 mt={1}
                                 key={`btm_${cKey}`}
@@ -113,7 +124,7 @@ function CustomArticleDisplayCard(props) {
                                 width="auto"
                                 height="35px"
                                 aria-label="Manage"
-                                onClick={() => onClickPublish(data)}
+                                onClick={() => handleStatusChange(data, actions.PUBLISH)}
                             >
                                 Publish
                             </Button>

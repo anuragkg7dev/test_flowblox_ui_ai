@@ -12,6 +12,9 @@ const ConfirmationDialog = (props) => {
     let closeLabel = props.closeLabel ?? "Close";
     let okLabel = props.okLabel ?? "Ok";
     let status = props.status ?? STATUS.INFO;
+    let okVariant = props.okVariant ?? "fbloxD";
+
+
     // Responsive dialog width and font sizes
     const dialogWidth = useBreakpointValue({
         base: "90%", // Mobile
@@ -93,7 +96,7 @@ const ConfirmationDialog = (props) => {
                                     {closeLabel}
                                 </Button>
                                 <Button
-                                    variant="fbloxD"
+                                    variant={okVariant}
                                     size={buttonSize}
                                     onClick={onOk}
                                 >

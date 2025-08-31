@@ -1,22 +1,28 @@
-import { getGeneratedArticles } from "@/components/client/EdgeFunctionRepository";
-import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import { COMMON_STATUS } from "@/components/client/EdgeConstant";
+import { getGeneratedArticles, updateArticleStatus, updateContainerAutoPublish } from "@/components/client/EdgeFunctionRepository";
+import { APP_CONFIG_KEYS, STATUS } from "@/components/common/constants/CommonConstant";
+import { actions } from "@/components/common/constants/CommonUtilityAndOptions";
 import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
 import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
+import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import CustomSwitch from "@/components/common/element/CustomSwitch";
 import { toast } from "@/components/common/Notification";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { HStack, Wrap } from "@chakra-ui/react";
+import { Box, HStack, Wrap } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {
   ALL,
   CARD_LAYOUT,
+  DRAFT,
   filterOptions,
-  LIST_LAYOUT
+  GENERATED,
+  LIST_LAYOUT,
+  UNPUBLISHED
 } from "../../DashboardConstant";
 import ContainerDrawer from "../ContainerDrawer";
 import { API_PARAM_KEY, CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
-import CommonSearchHeader from "../headers/CommonSearchHeader";
+import CommonSearchHeaderWithPublish from "../headers/CommonSearchHeaderWithPublish";
 import ArticlesLayout from "./ArticlesLayout";
 import ArticleTemplate from "./ArticleTemplate";
 
@@ -25,17 +31,28 @@ export default function Articles(props) {
   const selectView = props.selectView
   const hideFilter = props.hideFilter
   const setTotalArticle = props.setTotalArticle
-
-  const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
-  const [articles, setArticles] = useState([]);
-  const [loader, setLoader] = useState(false);
-  const [openDrawer, setOpenDrawer] = useState(false)
-  const [articleMaster, setArticleMaster] = useState()
+  const loadPublishCount = props.loadPublishCount
+  const showAutoPublish = props.showAutoPublish
 
   const { config, setConfig, updateConfig } = useAppConfigStore();
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
-
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
+
+  const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
+  const [autoPublish, setAutoPublish] = useState(container?.[CONTAINERS_KEY.AUTO_PUBLISH]);
+  const [articles, setArticles] = useState([]);
+
+  const [openDrawer, setOpenDrawer] = useState(false)
+  const [articleMaster, setArticleMaster] = useState()
+
+  const [action, setAction] = useState()
+  const [selectedItemForAction, setSelectedItemForAction] = useState()
+  const [statusFilter, setStatusFilter] = useState(ALL)
+
+  const [showConfirmation, setShowsConfirmation] = useState(false)
+  const [loader, setLoader] = useState(false);
+  const [autoPublishloader, setautoPublishLoader] = useState(false);
+
 
   const [pageConfigParams, setPageConfigParams] = useState(new Map([
     [SOURCE_DESTINATION_KEY.CONTAINERS_ID, container[CONTAINERS_KEY.ID]],
@@ -43,7 +60,7 @@ export default function Articles(props) {
   ]));
 
   useEffect(() => {
-    loadArticleData();
+    loadArticleData(pageConfigParams);
   }, []);
 
   const handlView = (data) => {
@@ -51,16 +68,74 @@ export default function Articles(props) {
     setOpenDrawer(true)
   };
 
-  const handlePublish = (e) => { };
+  const handleStatusChange = (data, iaction) => {
+    setAction(iaction)
+    setSelectedItemForAction(data)
+    setShowsConfirmation(true)
+  }
 
-  const loadArticleData = () => {
+
+  let onConfirmationOk = () => {
+    let status = confirmationData?.[action]?.dbStatus
+    let id = selectedItemForAction?.id
+    let oldStatus = selectedItemForAction?.status
+
+    if (id && status) {
+      setShowsConfirmation(false)
+
+      updatedArticleListById(id, COMMON_STATUS.PROCESSING, true)
+
+      updateArticleStatus({ id, status }, (flag, data) => {
+        handleStatusChangeCallback(flag, data, status, oldStatus, id)
+      }, authkeyBearer)
+
+    }
+  }
+
+  const handleStatusChangeCallback = (flag, data, status, oldStatus, id) => {
+    if (flag) {
+      setArticles(updatedArticleListById(id, 'status', status))
+      toast.success(confirmationData?.[action]?.success)
+      loadPublishCount?.()
+    } else {
+      setArticles(updatedArticleListById(id, 'status', oldStatus))
+      toast.error('Failed to update !!')
+    }
+
+  }
+
+  const updatedArticleListById = (id, key, value) => {
+    let tempArticle = articles.map(x => {
+      if (x.id == id) {
+        x[key] = value;
+        if (key && COMMON_STATUS.PROCESSING != String(key)) {
+          x[COMMON_STATUS.PROCESSING] = false;
+        }
+      }
+      return x;
+    });
+
+    return tempArticle.filter(article => article.status !== COMMON_STATUS.DELETED && getFilterCondition(statusFilter, article.status));
+
+  };
+
+  const getFilterCondition = (statusFilter, articleStatus) => {
+    if (statusFilter == ALL) {
+      return true
+    } else if (statusFilter == DRAFT) {
+      return articleStatus == GENERATED || articleStatus == UNPUBLISHED
+    }
+    return articleStatus == statusFilter
+  }
+
+  const loadArticleData = (pConfigParams) => {
     setLoader(true)
-    getGeneratedArticles(pageConfigParams,
+    getGeneratedArticles(pConfigParams,
       (flag, data) => {
         if (flag) {
           setArticles(data?.articles ?? []);
 
-          setTotalArticle?.(data?.articles ? data?.articles[0]?.sequence : 0)
+          setTotalArticle?.(data?.articles[0]?.sequence ?? 0)
 
         } else {
           toast.error('Failed to load articles!!')
@@ -77,13 +152,100 @@ export default function Articles(props) {
     return (<CustomLoaderCard />)
   }
 
+  const addStatusToPageConfigParams = (status) => {
+    let tempMap = new Map(pageConfigParams.set('status', status))
+    setPageConfigParams(tempMap);
+    return tempMap
+  };
+
+  const onAutoPublishSwitchChange = (val) => {
+    console.log(val)
+    setAutoPublish(val)
+    setautoPublishLoader(true)
+    updateContainerAutoPublish({ id: container.id, autoPublish: val },
+      (flag, data) => { onAutoPublishSwitchChangeCallback(flag, data, val) },
+      authkeyBearer)
+  }
+
+  const onAutoPublishSwitchChangeCallback = (flag, data, val) => {
+    if (flag) {
+      setConfig({
+        ...config,
+        [APP_CONFIG_KEYS.CONTAINER_DATA]: { ...container, auto_publish: val }, // update current container data in context
+        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data
+      });
+      toast.success('Updated')
+    } else {
+      setAutoPublish(!val)
+      toast.error('Failed to updated autopublish !!')
+    }
+    setautoPublishLoader(false)
+  }
+
+
+  const confirmationData = {
+    [actions.PUBLISH]: {
+      header: 'Publish',
+      description: 'Would you like to publish this article?',
+      okLabel: 'Yes',
+      cancelLabel: 'Cancel',
+      status: STATUS.WARNING,
+      success: "Article published successfully.",
+      dbStatus: COMMON_STATUS.PUBLISHED
+    },
+    [actions.UNPUBLISH]: {
+      header: 'Unpublish',
+      description: 'Unpublish this article? It will no longer be visible to users.',
+      okLabel: 'Yes',
+      cancelLabel: 'Cancel',
+      status: STATUS.WARNING,
+      success: "Article unpublished successfully.",
+      dbStatus: COMMON_STATUS.UNPUBLISHED
+    },
+    [actions.UNARCHIVE]: {
+      header: 'Unarchive',
+      description: 'Unarchive this article?',
+      okLabel: 'Yes',
+      cancelLabel: 'Cancel',
+      status: STATUS.WARNING,
+      success: "Article unarchived successfully.",
+      dbStatus: COMMON_STATUS.UNPUBLISHED
+    },
+    [actions.DELETE]: {
+      header: 'Delete',
+      description: 'Delete this item? This action cannot be undone.',
+      okLabel: 'Delete',
+      cancelLabel: 'Cancel',
+      status: STATUS.WARNING,
+      success: 'Article successfully deleted.',
+      dbStatus: COMMON_STATUS.DELETED,
+      okVariant: 'delete'
+    },
+    [actions.ARCHIVE]: {
+      header: 'Archive',
+      description: 'Are you sure you want to archive this article?',
+      okLabel: 'Archive',
+      cancelLabel: 'Cancel',
+      status: STATUS.WARNING,
+      success: 'Article archived successfully.',
+      dbStatus: COMMON_STATUS.ARCHIVED
+    }
+  }
+
 
   return (
     <>
-      <CommonSearchHeader
+      <CommonSearchHeaderWithPublish
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
         name={"Articles"}
+
+        onAutoPublishSwitchChange={onAutoPublishSwitchChange}
+        autoPublishloader={autoPublishloader}
+        autoPublish={autoPublish}
+        setAutoPublish={setAutoPublish}
+        showAutoPublish={showAutoPublish}
+        cml={2}
       />
 
       {!hideFilter && (
@@ -91,18 +253,31 @@ export default function Articles(props) {
           <CustomSegmentGroup
             filterOptions={filterOptions}
             onChangeFilterOptions={(val) => {
-              console.log(val);
-            }}
-            defaultValue={ALL}
-          />
 
-          <CustomSwitch
-            label={"Auto Publish"}
-            onSwitchChange={(val) => {
-              console.log(val);
+              setArticles([])
+              setStatusFilter(val)
+              let paramMap = addStatusToPageConfigParams(val)
+              loadArticleData(paramMap)
             }}
-            defaultValue={true}
+            defaultValue={statusFilter}
+            value={statusFilter}
+            setValue={setStatusFilter}
+
           />
+          <Box userSelect="none" position="relative">
+
+            <CustomSwitch
+              label={"Auto Publish"}
+              onSwitchChange={(val) => { onAutoPublishSwitchChange(val) }}
+              defaultValue={autoPublish}
+              cheight={'57px'}
+              switchLoader={autoPublishloader}
+              checked={autoPublish}
+              setChecked={setAutoPublish}
+            />
+
+          </Box>
+
         </HStack>
       )}
 
@@ -114,9 +289,10 @@ export default function Articles(props) {
           return (<ArticlesLayout
             layoutStyle={layoutStyle}
             handlView={handlView}
-            handlePublish={handlePublish}
+            handleStatusChange={handleStatusChange}
             data={article}
             selectView={selectView}
+
           />)
         })}
       </Wrap>
@@ -128,6 +304,18 @@ export default function Articles(props) {
 
 
       </ContainerDrawer>
+
+      <ConfirmationDialog
+        show={action && showConfirmation}
+        setShow={setShowsConfirmation}
+        header={confirmationData?.[action]?.header}
+        description={confirmationData?.[action]?.description}
+        onOk={onConfirmationOk}
+        closeLabel={confirmationData?.[action]?.cancelLabel}
+        okLabel={confirmationData?.[action]?.okLabel}
+        status={confirmationData?.[action]?.status}
+        okVariant={confirmationData?.[action]?.okVariant}
+      />
     </>
   );
 }
