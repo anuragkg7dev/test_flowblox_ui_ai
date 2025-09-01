@@ -84,5 +84,13 @@ export const SOURCE_BASE = {
 
 export const API_PARAM_KEY = {
     LIMIT: 'limit',
-    CONTAINER_TYPE: 'container_type'
+    CONTAINER_TYPE: 'container_type',
+    CONTAINERS_ID: "containers_id",
+    PAGE: 'page',
+    SORT: 'sort',
+    HEADING: 'heading',
+    STATUS: 'status',
+    CURRENT_PAGE: 'current_page',
+    TOTAL_COUNT: 'total_count',
+    TOTAL_PAGES: 'total_pages',
 }

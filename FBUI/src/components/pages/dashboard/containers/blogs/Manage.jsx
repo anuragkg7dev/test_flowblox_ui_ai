@@ -43,9 +43,11 @@ export default function Manage(props) {
   const loadPublishCountCallback = (flag, data) => {
     if (flag) {
       setTotalPublishedArticle(data?.publishedCount)
+      setTotalArticle(data?.totalCount)
     } else {
-      toast.error('Unable to load Number of Live Articles !!')
+      toast.error('Unable to load Stats for Articles !!')
       setTotalPublishedArticle(0)
+      setTotalArticle(0)
     }
   }
 
@@ -107,9 +109,11 @@ export default function Manage(props) {
 
       <Articles
         hideFilter={true}
-        limit={5} setTotalArticle={setTotalArticle}
+        limit={5}
         loadPublishCount={loadPublishCount}
-        showAutoPublish={true} />
+        showAutoPublish={true}
+        disableScrollLoad={true}
+      />
     </>
   );
 }

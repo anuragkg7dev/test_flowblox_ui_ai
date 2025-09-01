@@ -1,3 +1,4 @@
+import { isNotUndefinedOrWhitespace } from "../common/util/StringUtil"
 import { API_PARAM_KEY, SOURCE_DESTINATION_KEY } from "../pages/dashboard/containers/ContainersConstant"
 import { edgeFunction, getEdgeFunctionApiKeys } from "./EdgeFunctionConstants"
 
@@ -152,7 +153,9 @@ function appendParams(url, paramMap) {
   if (paramMap) {
     const urlObj = new URL(url);
     paramMap.forEach((value, key) => {
-      urlObj.searchParams.append(key, value?.toString());
+      if (isNotUndefinedOrWhitespace(value)) {
+        urlObj.searchParams.append(key, value?.toString());
+      }
     });
     return urlObj.toString();
   }

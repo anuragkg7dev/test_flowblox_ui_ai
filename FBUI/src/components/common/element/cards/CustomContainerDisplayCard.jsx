@@ -1,5 +1,5 @@
 import { splitString, trimString } from "@/components/common/util/StringUtil";
-import { Avatar, Badge, Button, Card, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Badge, Button, Card, Heading, HStack, Stack, Text, VisuallyHidden, VStack } from "@chakra-ui/react";
 import React from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { LuVoicemail } from "react-icons/lu";
@@ -57,6 +57,7 @@ function CustomContainerDisplayCard(props) {
                         <Heading key={`tx_${cKey}`} size="custom20">
                             {trimString(heading, 40)} {/* Reduced to fit */}
                         </Heading>
+                        <VisuallyHidden>{data?.id}</VisuallyHidden>
                         {subHeading && (
                             <Text
                                 key={`tx2_${cKey}`}

@@ -44,3 +44,7 @@ export const isEmptyString = (value) => value == "";
 // Join STring present in array
 export const joinStrings = (arr) => { return arr.filter(item => item && item.trim() !== "").join(", "); }
 
+export function isNotUndefinedOrWhitespace(str) {
+  return str !== undefined && String(str).trim().length > 0;
+}
+

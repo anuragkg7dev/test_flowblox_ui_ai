@@ -5,12 +5,13 @@ import { actions } from "@/components/common/constants/CommonUtilityAndOptions";
 import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
 import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
+import CustomPageScrollObserverBottom from "@/components/common/element/CustomPageScrollObserverBottom";
 import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import CustomSwitch from "@/components/common/element/CustomSwitch";
 import { toast } from "@/components/common/Notification";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Box, HStack, Wrap } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ALL,
   CARD_LAYOUT,
@@ -21,18 +22,19 @@ import {
   UNPUBLISHED
 } from "../../DashboardConstant";
 import ContainerDrawer from "../ContainerDrawer";
-import { API_PARAM_KEY, CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
+import { API_PARAM_KEY, CONTAINERS_KEY } from "../ContainersConstant";
 import CommonSearchHeaderWithPublish from "../headers/CommonSearchHeaderWithPublish";
 import ArticlesLayout from "./ArticlesLayout";
 import ArticleTemplate from "./ArticleTemplate";
 
 export default function Articles(props) {
-  const limit = props.limit ?? 50
+  const limit = props.limit ?? 10
   const selectView = props.selectView
   const hideFilter = props.hideFilter
-  const setTotalArticle = props.setTotalArticle
   const loadPublishCount = props.loadPublishCount
   const showAutoPublish = props.showAutoPublish
+
+  const disableScrollLoad = props.disableScrollLoad ?? false
 
   const { config, setConfig, updateConfig } = useAppConfigStore();
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
@@ -52,16 +54,61 @@ export default function Articles(props) {
   const [showConfirmation, setShowsConfirmation] = useState(false)
   const [loader, setLoader] = useState(false);
   const [autoPublishloader, setautoPublishLoader] = useState(false);
+  const [showLoadMore, setShowLoadMore] = useState(false);
 
+  let initUrlParam = new Map([
+    [API_PARAM_KEY.CONTAINERS_ID, container[CONTAINERS_KEY.ID]],
+    [API_PARAM_KEY.LIMIT, limit],
+    [API_PARAM_KEY.PAGE, 1],
+    [API_PARAM_KEY.STATUS, statusFilter],
+    [API_PARAM_KEY.HEADING, undefined],
+  ])
 
-  const [pageConfigParams, setPageConfigParams] = useState(new Map([
-    [SOURCE_DESTINATION_KEY.CONTAINERS_ID, container[CONTAINERS_KEY.ID]],
-    [API_PARAM_KEY.LIMIT, limit]
-  ]));
+  const [pageMetadata, setPageMetadata] = useState({});
+  const [pageConfigParams, setPageConfigParams] = useState(new Map());
+  const [isFetching, setIsFetching] = useState(false);
+
+  const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    loadArticleData(pageConfigParams);
+    setPageConfigParams(initUrlParam)
+    setArticles([])
+    loadArticleData(initUrlParam);
   }, []);
+
+  useEffect(() => {
+
+    if (!loadMoreRef.current || !showLoadMore || disableScrollLoad || isFetching) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && showLoadMore) {
+          debouncedLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [showLoadMore, pageMetadata]);
+
+  // Debounced load more function
+  const debouncedLoadMore = useCallback(() => {
+    if (!isFetching && showLoadMore) {
+      setIsFetching(true);
+      onClickLoadMore();
+    }
+  }, [isFetching, showLoadMore, pageMetadata]);
 
   const handlView = (data) => {
     setArticleMaster(data)
@@ -130,19 +177,24 @@ export default function Articles(props) {
 
   const loadArticleData = (pConfigParams) => {
     setLoader(true)
-    getGeneratedArticles(pConfigParams,
-      (flag, data) => {
-        if (flag) {
-          setArticles(data?.articles ?? []);
+    getGeneratedArticles(pConfigParams, loadArticleDataCallback, authkeyBearer)
+  }
 
-          setTotalArticle?.(data?.articles[0]?.sequence ?? 0)
+  const loadArticleDataCallback = (flag, data) => {
+    if (flag) {
+      //setArticles(data?.articles ?? []);
+      setArticles(prev => [...prev, ...(data?.articles ?? [])])
 
-        } else {
-          toast.error('Failed to load articles!!')
-        }
-        setLoader(false);
-      },
-      authkeyBearer)
+      setPageMetadata({ [API_PARAM_KEY.CURRENT_PAGE]: data?.[API_PARAM_KEY.CURRENT_PAGE], [API_PARAM_KEY.TOTAL_COUNT]: data?.[API_PARAM_KEY.TOTAL_COUNT], [API_PARAM_KEY.TOTAL_PAGES]: data?.[API_PARAM_KEY.TOTAL_PAGES] })
+
+      setShowLoadMore(data?.[API_PARAM_KEY.CURRENT_PAGE] < data?.[API_PARAM_KEY.TOTAL_PAGES])
+
+    } else {
+      setShowLoadMore(data?.[API_PARAM_KEY.CURRENT_PAGE] < data?.[API_PARAM_KEY.TOTAL_PAGES])
+      toast.error('Failed to load articles!!')
+    }
+    setLoader(false);
+    setIsFetching(false);
   }
 
   const getLoader = () => {
@@ -232,6 +284,15 @@ export default function Articles(props) {
     }
   }
 
+  const onClickLoadMore = () => {
+    let totalPages = pageMetadata?.total_pages ?? 0
+    let currentPage = pageMetadata?.current_page ?? 0
+    let incrementor = currentPage < totalPages ? 1 : 0
+    let tempMap = new Map(pageConfigParams.set(API_PARAM_KEY.PAGE, Number(currentPage) + incrementor))
+    setPageConfigParams(tempMap);
+    loadArticleData(tempMap)
+    setShowLoadMore(false)
+  }
 
   return (
     <>
@@ -297,12 +358,16 @@ export default function Articles(props) {
         })}
       </Wrap>
 
+      <CustomPageScrollObserverBottom
+        cloadMoreRef={loadMoreRef}
+        showLoadMore={showLoadMore}
+        isFetching={isFetching}
+      />
+
       <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer} csize="xl">
         <ArticleTemplate
           articleMaster={articleMaster}
           setOpenDrawer={setOpenDrawer} />
-
-
       </ContainerDrawer>
 
       <ConfirmationDialog

@@ -18,9 +18,12 @@ import CustomSwitch from "@/components/common/element/CustomSwitch";
 
 
 export default function CommonSearchHeaderWithPublish(props) {
+  const [xsearchQuery, setXSearchQuery] = useState("");
+
+  const searchQuery = props.searchQuery ?? xsearchQuery
+  const setSearchQuery = props.setSearchQuery ?? setXSearchQuery
+
   const name = props.name ?? CommonLabels.MY_BLOX
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortParam, setSortParam] = useState("");
   const layoutStyle = props.layoutStyle;
   const setLayoutStyle = props.setLayoutStyle;
   const showIcon = props.showIcon;
@@ -32,16 +35,9 @@ export default function CommonSearchHeaderWithPublish(props) {
   const setAutoPublish = props.setChecked
   const showAutoPublish = props.showAutoPublish
 
-  const sortOptions = [
-    { label: "Name", value: "name" },
-    { label: "Date", value: "date" },
-  ];
-
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
-
-  const onClickBurgerMenu = (e) => { };
 
   const onChangeLayoutStyle = (e) => {
     setLayoutStyle(layoutStyle === CARD_LAYOUT ? LIST_LAYOUT : CARD_LAYOUT);
@@ -76,16 +72,10 @@ export default function CommonSearchHeaderWithPublish(props) {
             variant={"fbloxD"}
             onChange={handleSearch}
             height={"37px"}
+            value = {searchQuery}
           />
         </InputGroup>
 
-        <CustomSelect
-          sdata={sortOptions}
-          slabel=""
-          splaceholder="Select"
-          cselectCallback={(data) => setSortParam(data)}
-          cwidth="131px"
-        />
 
         <IconButton
           key="layout"
