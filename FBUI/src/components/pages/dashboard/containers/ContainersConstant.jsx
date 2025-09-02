@@ -93,4 +93,7 @@ export const API_PARAM_KEY = {
     CURRENT_PAGE: 'current_page',
     TOTAL_COUNT: 'total_count',
     TOTAL_PAGES: 'total_pages',
+    NAME: 'name',
+    TAGS: 'tags',
+    CONTENT_TYPE: 'content_type'
 }

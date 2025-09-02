@@ -55,7 +55,7 @@ export default function Articles(props) {
   const [showConfirmation, setShowsConfirmation] = useState(false)
   const [loader, setLoader] = useState(false);
   const [autoPublishloader, setautoPublishLoader] = useState(false);
-  const [showLoadMore, setShowLoadMore] = useState(false);
+
 
   let initUrlParam = new Map([
     [API_PARAM_KEY.CONTAINERS_ID, container[CONTAINERS_KEY.ID]],
@@ -65,6 +65,7 @@ export default function Articles(props) {
     [API_PARAM_KEY.HEADING, undefined],
   ])
 
+  const [showLoadMore, setShowLoadMore] = useState(false);
   const [pageMetadata, setPageMetadata] = useState({});
   const [pageConfigParams, setPageConfigParams] = useState(new Map());
   const [isFetching, setIsFetching] = useState(false);
@@ -72,8 +73,7 @@ export default function Articles(props) {
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    setPageConfigParams(initUrlParam)
-   API_PARAM_KEY.STATUS
+    reset(initUrlParam)
     loadArticleData(initUrlParam);
   }, []);
 
@@ -149,7 +149,7 @@ export default function Articles(props) {
 
   const loadArticleDataCallback = (flag, data) => {
     if (flag) {
-      //setArticles(data?.articles ?? []);
+
       setArticles(prev => [...prev, ...(data?.articles ?? [])])
 
       setPageMetadata({ [API_PARAM_KEY.CURRENT_PAGE]: data?.[API_PARAM_KEY.CURRENT_PAGE], [API_PARAM_KEY.TOTAL_COUNT]: data?.[API_PARAM_KEY.TOTAL_COUNT], [API_PARAM_KEY.TOTAL_PAGES]: data?.[API_PARAM_KEY.TOTAL_PAGES] })
@@ -201,6 +201,12 @@ export default function Articles(props) {
     setautoPublishLoader(false)
   }
 
+  const reset = (paramMap) => {
+    setArticles([])
+    setPageConfigParams(paramMap)
+    setShowLoadMore(false)
+    setPageMetadata(undefined)
+  }
 
   const confirmationData = {
     [actions.PUBLISH]: {
@@ -251,15 +257,6 @@ export default function Articles(props) {
     }
   }
 
-  const onClickLoadMore = () => {
-    let totalPages = pageMetadata?.total_pages ?? 0
-    let currentPage = pageMetadata?.current_page ?? 0
-    let incrementor = currentPage < totalPages ? 1 : 0
-    let tempMap = new Map(pageConfigParams.set(API_PARAM_KEY.PAGE, Number(currentPage) + incrementor))
-    setPageConfigParams(tempMap);
-    loadArticleData(tempMap)
-    setShowLoadMore(false)
-  }
 
   return (
     <>
@@ -267,34 +264,36 @@ export default function Articles(props) {
         disableScrollLoad={disableScrollLoad}
         showLoadMore={showLoadMore}
         cloadMoreRef={loadMoreRef}
-        isFetching={isFetching}
         pageMetadata={pageMetadata}
+        isFetching={isFetching}
         setIsFetching={setIsFetching}
-        onClickLoadMore={onClickLoadMore}
+        pageConfigParams={pageConfigParams}
+        setPageConfigParams={setPageConfigParams}
+        loadData={loadArticleData}
+        setShowLoadMore={setShowLoadMore}
       />
 
       <CommonSearchHeaderWithPublish
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
         name={"Articles"}
-
         onAutoPublishSwitchChange={onAutoPublishSwitchChange}
         autoPublishloader={autoPublishloader}
         autoPublish={autoPublish}
         setAutoPublish={setAutoPublish}
         showAutoPublish={showAutoPublish}
-        cml={2}
+
       />
 
       {!hideFilter && (
-        <HStack justify={"flex-end"} mb={12} mt={12}>
+        <HStack justify={"flex-end"} mr={"60px"} mt={"10px"}>
           <CustomSegmentGroup
             filterOptions={filterOptions}
             onChangeFilterOptions={(val) => {
-
-              setArticles([])
-              setStatusFilter(val)
+              console.log(val)
               let paramMap = addStatusToPageConfigParams(val)
+              reset(paramMap)
+              setStatusFilter(val)
               loadArticleData(paramMap)
             }}
             defaultValue={statusFilter}
@@ -319,7 +318,7 @@ export default function Articles(props) {
         </HStack>
       )}
 
-      <Wrap>
+      <Wrap pl={"30px"} pr={layoutStyle == CARD_LAYOUT ? "0px" : "60px"} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"} mt={!hideFilter ? "60px" : "30px"}>
 
         {loader && (getLoader())}
 

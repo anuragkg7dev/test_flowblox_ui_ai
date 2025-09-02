@@ -51,8 +51,8 @@ function CustomArticleDisplayRow(props) {
     >
 
       <HStack flex="1" spacing={4} align="center">
-        <VStack flex="1" spacing={2} align={"flex-start"}>
-          <Box position="relative">
+        <VStack flex="1" spacing={2} align={"flex-start"}  mb={"10px"} width={"70%"}>
+          <Box position="relative" >
             <HStack>
               {publishFlag && (<CustomStatusDot type={dot.SUCCESS} cmr={2} cmb={0} csize={'md'} />)}
               <Heading key={`tx_${cKey}`} size="custom20">

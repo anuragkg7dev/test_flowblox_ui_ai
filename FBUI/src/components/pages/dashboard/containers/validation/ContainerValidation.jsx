@@ -13,7 +13,7 @@ export const containerValidationSchema = {
         .max(1000, 'Maximum 1000 characters')
         .required('Description is required'),
     [CONTAINERS_KEY.TAGS]: Yup.array()
-        .of(Yup.string().min(3, 'Each tag must be at least 3 characters').max(25, 'Each tag must be at most 25 characters').required('Tag is required'))
+        .of(Yup.string().min(2, 'Each tag must be at least 2 characters').max(20, 'Each tag must be at most 20 characters').required('Tag is required'))
         .min(1, 'At least 1 tag is required')
         .max(10, 'Maximum 10 tags allowed')
         .required('Tags are required'),

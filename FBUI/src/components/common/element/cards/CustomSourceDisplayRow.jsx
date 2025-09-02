@@ -37,7 +37,7 @@ function CustomSourceDisplayRow(props) {
       position="relative" 
     >
 
-      <HStack flex="1" spacing={4} align="center">
+      <HStack flex="1" spacing={4} align="center"  mb={"10px"} width={"70%"}>
         <HStack>
 
           <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" />

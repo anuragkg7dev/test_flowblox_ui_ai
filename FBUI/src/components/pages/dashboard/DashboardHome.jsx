@@ -87,11 +87,11 @@ const DashboardHome = () => {
               display="flex"
               justifyContent="center"
               alignItems="center"
-              height="80px"
+              height="100px"
             >
               <CustomBrandLogoMiniBlackBG
-                ch="61px"
-                cw="61px"
+                ch="60px"
+                cw="60px"
                 ccolor="brand.pureWhiteBg"
               />
             </Box>

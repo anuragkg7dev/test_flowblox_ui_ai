@@ -23,6 +23,9 @@ export default function CommonSearchHeader(props) {
   const setLayoutStyle = props.setLayoutStyle;
   const showIcon = props.showIcon;
   const iconType = props.iconType;
+  const cpl = props.cpl ??  '30px';
+  const cpr = props.cpr ??  '60px';
+  const cpb = props.cpb ??  '10px';
 
   const sortOptions = [
     { label: "Name", value: "name" },
@@ -40,7 +43,7 @@ export default function CommonSearchHeader(props) {
   };
 
   return (
-    <HStack justifyContent="space-between" width="100%" mb={4}>
+    <HStack pl={cpl} pr={cpr} height={"80px"} justifyContent="space-between" width="100%" mb={4}>
       <HStack>
         {showIcon && (
           <IconSwitch type={iconType} boxSize={5} />

@@ -20,19 +20,21 @@ function CustomAddRow(props) {
             align="center"
             onClick={() => onClickAdd()}
         >
-            <Icon
-                as={IoIosAddCircleOutline}
-                boxSize={{ base: 7, md: 10 }} // Match CustomDisplayCard
-                color="brand.pureWhiteTxt"
-            />
-            <Text
-                fontSize={{ base: "2xs", md: "xs" }} // Match CustomDisplayRow heading
-                fontWeight="semibold"
-                noOfLines={1}
-                color="brand.pureWhiteTxt"
-            >
-                {trimString(clabel || "Add New", 30)} {/* Fallback if clabel undefined */}
-            </Text>
+            <HStack flex="1" spacing={4} align="center" mb={"10px"} width={"70%"}>
+                <Icon
+                    as={IoIosAddCircleOutline}
+                    boxSize={{ base: 7, md: 10 }} // Match CustomDisplayCard
+                    color="brand.pureWhiteTxt"
+                />
+                <Text
+                    fontSize={{ base: "2xs", md: "xs" }} // Match CustomDisplayRow heading
+                    fontWeight="semibold"
+                    noOfLines={1}
+                    color="brand.pureWhiteTxt"
+                >
+                    {trimString(clabel || "Add New", 30)} {/* Fallback if clabel undefined */}
+                </Text>
+            </HStack>
         </HStack>
     );
 }

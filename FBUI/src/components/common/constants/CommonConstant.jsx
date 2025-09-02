@@ -41,6 +41,8 @@ export const APP_CONFIG_KEYS = {
   CURRENT_SELECTION: "currentSelection",
   CONTAINER_MODIFIED: "containerModified",
   COUNT_STATS:"count_stats",
+  CONTAINER_PAGE_METADATA:"containerPageMetadata",
+  CONTAINER_PAGE_CONFIG_PARAMS:"pageConfigParams",
 
 }
 

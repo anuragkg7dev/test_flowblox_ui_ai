@@ -1,5 +1,4 @@
-import { trimString } from "@/components/common/util/StringUtil";
-import { Button, Card, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
+import { Button, Card, Heading, HStack, Stack, Text, VisuallyHidden, VStack } from "@chakra-ui/react";
 import React from "react";
 import { actions, dot, getArticleOptions } from "../../constants/CommonUtilityAndOptions";
 import CustomDateTimeDisplay from "../CustomDateTimeDisplay";
@@ -32,39 +31,43 @@ function CustomArticleDisplayCard(props) {
 
     let wordLimit = selectView ? 300 : 150;
 
-    const onActionChange = (value, data) => {     
+    const onActionChange = (value, data) => {
         handleStatusChange(data, value)
     };
 
     return (
         <Card.Root
             key={`cr_${cKey}`}
-            width={{ base: "100%", sm: "280px", md: "340px" }}
-            height="203px"
+            width={{ base: "100%", sm: "300px", md: "360px" }}
+            height="230px"
             overflow="hidden"
             _hover={{ borderStyle: "solid", borderWidth: "0.1px", borderColor: "brand.primaryBrandBorder", boxShadow: "md" }}
             bg={"brand.OffBlackBg"}
             color={"brand.pureWhiteTxt"}
             variant={"elevated"}
             onClick={onCardClick?.(data)}
+            mr={"30px"}
+            mb={"20px"}
+            p={2}
 
         >
             <Card.Body key={`cb_${cKey}`} p={{ base: 1, md: 2 }} display="flex" flexDirection="column" gap={{ base: 0.5, md: 1 }}>
 
                 <CustomFloatWithOffset value={sequence} offset={5} />
 
-                <VStack key={`hs_${cKey}`} justify="space-between" align="start">
+                <VStack key={`hs_${cKey}`} justify="space-between" align="start" mb={"10px"}>
 
-                    <Stack key={`st_${cKey}`} gap={0} flex={1} >
+                    <Stack key={`st_${cKey}`} gap={0} flex={1} width={"80%"} >
                         <HStack>
                             {publishFlag && (<CustomStatusDot type={dot.SUCCESS} cmr={2} cmb={0} csize={'md'} />)}
-                            <Heading key={`tx_${cKey}`} size="custom20">
-                                {trimString(heading, 30)} {/* Reduced to fit */}
+                            <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
+                                {heading}
                             </Heading>
+                            <VisuallyHidden>{data?.id}</VisuallyHidden>
                         </HStack>
                         {subHeading && (
-                            <Text color="fg.muted" fontSize="16px" noOfLines={1} minWidth="100px">
-                                {trimString(subHeading, 30)}
+                            <Text color="fg.muted" fontSize="16px" lineClamp={1} minWidth="100px">
+                                {subHeading}
                             </Text>
                         )}
                     </Stack>
@@ -72,15 +75,14 @@ function CustomArticleDisplayCard(props) {
                 <Card.Description
                     key={`cd_${cKey}`}
                     fontSize="12px"
-                    noOfLines={2}
                     flex="1"
-                    color={"brand.pureWhiteTxt"}
+                    color={"brand.pureWhiteTxt"}                    
                 >
-                    {trimString(description, wordLimit)}
+                    <Text lineClamp={4}> {description}</Text>
                 </Card.Description>
 
                 <HStack >
-                    <CustomDateTimeDisplay cmt={2} cdate={cdate} />
+                    <CustomDateTimeDisplay cdate={cdate} cfontSize={"12px"} />
                     {/* Spinner overlay for footer only */}
                     <CustomSpinnerOverlay show={isProcessing} cml={7} cmt={2} type={'syncLoader'} />
                 </HStack>
@@ -88,7 +90,7 @@ function CustomArticleDisplayCard(props) {
 
 
             </Card.Body>
-            <Card.Footer width={"100%"} key={`cf_${cKey}`} p={1} mb={2}>
+            <Card.Footer width={"100%"} key={`cf_${cKey}`} p={1} mb={1}>
                 {!selectView && (
                     <HStack justify="space-between" width={"100%"} p={2}>
                         {optionFlag && (<>

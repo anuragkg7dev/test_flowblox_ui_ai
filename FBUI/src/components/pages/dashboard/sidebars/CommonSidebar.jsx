@@ -40,7 +40,7 @@ export default function CommonSidebar(props) {
           minH="calc(100vh - 96px)" // Adjusted for logo (80px) + padding (8px) + margin (8px)
           maxH="calc(100vh - 96px)" // Prevent overflow
           justifyContent="space-between"
-          mt={2}
+          mt={0}
           mb={2}
         >
           {/* Top Group: My Containers and Analytics */}
@@ -50,30 +50,7 @@ export default function CommonSidebar(props) {
 
           {/* Bottom Group: Settings and Profile */}
           <Flex direction="column" gap={1} mb={2}>
-            {/* <Box
-              p={4}
-              borderRadius="md"
-              w="100%" // Ensure full width for spacing
-            >
-              <HStack
-                spacing={2}
-                flexShrink={0}
-                w="100%"
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <TbClockHour5 size={22} color="inherit" />
-                <Text fontSize="40px" fontWeight={100} color="brand.subBrandBg">
-                  37:30
-                </Text>
-
-                <VStack align="start" flexShrink={0}>
-                  <Text>Saved</Text>
-                  <Text fontSize="10px">Using this tool</Text>
-                </VStack>
-              </HStack>
-            </Box> */}
+         
 
             <TimeSavedWidget/>
 

@@ -1,20 +1,18 @@
-import CustomSelect from "@/components/common/element/CustomSelect";
+import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
+import CustomSwitch from "@/components/common/element/CustomSwitch";
+import IconSwitch from "@/components/common/element/IconSwitch";
 import {
   Box,
   Heading,
   HStack,
   IconButton,
   Input,
-  InputGroup,
-  Text
+  InputGroup
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import { CARD_LAYOUT, LIST_LAYOUT } from "../../DashboardConstant";
-import IconSwitch from "@/components/common/element/IconSwitch";
-import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
-import CustomSwitch from "@/components/common/element/CustomSwitch";
 
 
 export default function CommonSearchHeaderWithPublish(props) {
@@ -35,6 +33,10 @@ export default function CommonSearchHeaderWithPublish(props) {
   const setAutoPublish = props.setChecked
   const showAutoPublish = props.showAutoPublish
 
+  const cpl = props.cpl ?? '30px';
+  const cpr = props.cpr ?? '60px';
+  
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -44,7 +46,7 @@ export default function CommonSearchHeaderWithPublish(props) {
   };
 
   return (
-    <HStack justifyContent="space-between" width="100%" mb={4}>
+    <HStack pl={cpl} pr={cpr} height={"80px"} justifyContent="space-between" width="100%" >
       <HStack>
         {showIcon && (
           <IconSwitch type={iconType} boxSize={5} />
@@ -72,7 +74,7 @@ export default function CommonSearchHeaderWithPublish(props) {
             variant={"fbloxD"}
             onChange={handleSearch}
             height={"37px"}
-            value = {searchQuery}
+            value={searchQuery}
           />
         </InputGroup>
 

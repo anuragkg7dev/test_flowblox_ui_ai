@@ -10,8 +10,6 @@ function CustomSegmentGroup(props) {
     let value = props.value ?? segment
     let setValue = props.setValue ?? setSegment
 
-
-
     return (
         <Flex
             borderColor="brand.greyBrandBorder"
@@ -22,6 +20,7 @@ function CustomSegmentGroup(props) {
             paddingTop={2}
             paddingLeft={2}
             paddingRight={2}
+            
         >
             <SegmentGroup.Root
                 value={value}

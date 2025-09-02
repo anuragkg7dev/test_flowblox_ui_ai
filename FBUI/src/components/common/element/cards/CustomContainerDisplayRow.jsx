@@ -1,8 +1,9 @@
 import { trimString } from "@/components/common/util/StringUtil";
-import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Button, Heading, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
 import React from "react";
 import CustomTag from "../CustomTag";
 import IconSwitch from "../IconSwitch";
+import { getIndexByCharSum } from "../../util/JsonUtil";
 
 function CustomContainerDisplayRow(props) {
   let cKey = props.cKey;
@@ -23,6 +24,7 @@ function CustomContainerDisplayRow(props) {
 
   const colors = ["#dc2b37ff", "#46AB50", "#3f36e8ff", "#873AE1"];
   const startIndex = Math.floor(Math.random() * colors.length);
+  let sliceIndex = getIndexByCharSum(badges, 35) + 1
 
   const getRandomColor = (index) => {
     if (enableRandomColor) {
@@ -35,20 +37,21 @@ function CustomContainerDisplayRow(props) {
     <HStack
       key={`row_${cKey}`}
       width="100%"
-      p={{ base: 2, md: 3 }}
+      p={"10px"}
       bg="brand.OffBlackBg"
       color="brand.pureWhiteTxt"
       borderBottom='0.1px solid'
       borderBottomColor='brand.greyBrandBorder'
       spacing={4}
       align="center"
+      
     >
-      <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" />
-
-      <HStack flex="1" spacing={4} align="center">
-        <VStack flex="1" spacing={2} align={"flex-start"}>
-          <Heading key={`tx_${cKey}`} size="custom20">
-            {trimString(heading, 100)}
+      <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" cml={"10px"} cmr={"10px"} />
+ 
+      <HStack flex="1" spacing={4} align="center" >
+        <VStack flex="1" spacing={2} align={"flex-start"} mb={"10px"} width={"70%"}>
+          <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
+            {heading}
           </Heading>
           {subHeading && (
             <Text color="fg.muted" fontSize="xs" noOfLines={1} minWidth="100px">
@@ -61,7 +64,8 @@ function CustomContainerDisplayRow(props) {
         </VStack>
 
         <HStack spacing={1} maxWidth="auto">
-          {badges.slice(0, 6)?.map(
+          <Wrap>
+          {badges.slice(0, sliceIndex)?.map(
             (badge, index) =>
               badge.trim() && (
                 <CustomTag
@@ -75,6 +79,7 @@ function CustomContainerDisplayRow(props) {
 
               )
           )}
+          </Wrap>
         </HStack>
       </HStack>
 

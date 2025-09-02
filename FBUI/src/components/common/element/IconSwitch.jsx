@@ -22,6 +22,8 @@ function IconSwitch(props) {
   const color = props.color ?? "brand.pureWhiteTxt";
   const bgColor = props.bgColor;
   const offset = 3;
+  const cml=props.cml
+  const cmr=props.cmr
 
 
   // Map type to icon
@@ -62,7 +64,9 @@ function IconSwitch(props) {
       alignItems="center"
       justifyContent="center"
       boxSize={{ base: typeof boxSize === "object" ? boxSize.base + offset : boxSize + offset, md: typeof boxSize === "object" ? boxSize.md + offset : boxSize + offset }} // Add padding to boxSize
-    >
+      ml={cml}
+      mr={cmr}
+   >
       <Icon
         as={SelectedIcon}
         boxSize={boxSize} // Icon size

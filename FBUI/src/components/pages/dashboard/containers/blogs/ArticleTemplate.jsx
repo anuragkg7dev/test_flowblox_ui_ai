@@ -1,5 +1,5 @@
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
-import { Box, Center, Container, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Container, Heading, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
 import { getTagsArrayFromString } from "../ContainersUtil";
 import CustomTag from "@/components/common/element/CustomTag";
 import { trimString } from "@/components/common/util/StringUtil";
@@ -84,23 +84,24 @@ export default function ArticleTemplate(props) {
 
 
                 <HStack spacing={1} alignItems="center" justifyContent="center" maxWidth="auto">
-                    {getTagsArrayFromString(article.seo_keywords)?.map(
-                        (badge, index) =>
-                            badge.trim() && (
-                                <CustomTag
-                                    key={`bdg_art_${index}`}
-                                    cbg={getRandomColor(index)}
-                                    txtColor={badgeTextColor}
-                                    name={trimString(badge, 20)}
-                                    cpx={1}
-                                    cmt={1}
-                                    csize={"sm"} />
+                    <Wrap>
+                        {getTagsArrayFromString(article.seo_keywords)?.map(
+                            (badge, index) =>
+                                badge.trim() && (
+                                    <CustomTag
+                                        key={`bdg_art_${index}`}
+                                        cbg={getRandomColor(index)}
+                                        txtColor={badgeTextColor}
+                                        name={trimString(badge, 20)}
+                                        cpx={1}
+                                        cmt={1}
+                                        csize={"sm"} />
 
-                            )
-                    )}
+                                )
+                        )}
+                    </Wrap>
                 </HStack>
-
             </VStack>
-        </Container>
+        </Container >
     );
 };

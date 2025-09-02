@@ -191,7 +191,7 @@ export default function Source() {
         setLayoutStyle={setLayoutStyle}
         name={"Sources"}
       />
-      <HStack justify={"flex-end"} mt={6} mb={6}>
+      <HStack justify={"flex-end"}  mr={"60px"} mt={"10px"}>
         <Button
           mt={1}
           key={`btm_addSource`}
@@ -205,7 +205,8 @@ export default function Source() {
         </Button>
       </HStack>
 
-      <Wrap>
+       <Wrap mt={"60px"} pl={"30px"} pr={layoutStyle == CARD_LAYOUT ? "0px" : "60px"} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
+
         {loader && getLoader()}
         {sourceList?.map((x) => getLayout(x))}
         {getAddLayout()}

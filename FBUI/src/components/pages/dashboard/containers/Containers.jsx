@@ -1,27 +1,29 @@
-import { ACTION, APP_CONFIG_KEYS, SIDEBAR_SWITCH_FLAG_KEY } from "@/components/common/constants/CommonConstant";
+import { ACTION, APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 import CustomAddCard from "@/components/common/element/cards/CustomAddCard";
 import CustomAddRow from "@/components/common/element/cards/CustomAddRow";
 import CustomContainerDisplayCard from "@/components/common/element/cards/CustomContainerDisplayCard";
 import CustomContainerDisplayRow from "@/components/common/element/cards/CustomContainerDisplayRow";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Wrap } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CARD_LAYOUT, LABELS, LIST_LAYOUT } from "../DashboardConstant";
 import { containerBlogTopSidebarOptions, HOME, sidebarSwitch } from "../sidebars/SidebarUtil";
 import ContainerDrawer from "./ContainerDrawer";
 import AddEditBlogsContainer from "./blogs/AddEditBlogsContainer";
 
-import { getHomeRoute } from "@/components/common/util/RouteUtil";
-import { useNavigate } from "react-router-dom";
-import CommonSearchHeader from "./headers/CommonSearchHeader";
-import { CONTAINERS_BLOG_BASE, CONTAINERS_KEY } from "./ContainersConstant";
 import { getContainers } from "@/components/client/EdgeFunctionRepository";
+import { toast } from "@/components/common/Notification";
 import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
-import { getBlogContainerFromresponse } from "./ContainersUtil";
-import { COMMA, splitString } from "@/components/common/util/StringUtil";
+import CustomPageScrollObserverBottom from "@/components/common/element/CustomPageScrollObserverBottom";
+import CustomPageScrollObserverTop from "@/components/common/element/CustomPageScrollObserverTop";
 import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
 import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
-import { toast } from "@/components/common/Notification";
+import { getHomeRoute } from "@/components/common/util/RouteUtil";
+import { COMMA, splitString } from "@/components/common/util/StringUtil";
+import { useNavigate } from "react-router-dom";
+import { API_PARAM_KEY, CONTAINERS_BLOG_BASE, CONTAINERS_KEY } from "./ContainersConstant";
+import { getBlogContainerFromresponse } from "./ContainersUtil";
+import CommonSearchHeader from "./headers/CommonSearchHeader";
 
 
 export default function Containers() {
@@ -38,43 +40,81 @@ export default function Containers() {
 
   const authkeyBearer = config[JWT_TOKEN];
 
+  const limit = 2
+  const status = ''
+
+  let initUrlParam = new Map([
+    [API_PARAM_KEY.LIMIT, limit],
+    [API_PARAM_KEY.PAGE, 1],
+    [API_PARAM_KEY.STATUS, status],
+    [API_PARAM_KEY.TAGS, undefined],
+    [API_PARAM_KEY.NAME, undefined],
+  ])
+
+  const [showLoadMore, setShowLoadMore] = useState(false);
+  const [pageMetadata, setPageMetadata] = useState({});
+  const [pageConfigParams, setPageConfigParams] = useState(new Map());
+  const [isFetching, setIsFetching] = useState(false);
+
+  const loadMoreRef = useRef(null);
+
   useEffect(() => {
     cleanUp();
-    setLoader(true)
-
     updateConfig(APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY, sidebarSwitch.MAIN);
-    loadAllContainerData();
+    setPageConfigParams(initUrlParam)
+    loadAllContainerData(initUrlParam);
   }, []);
 
-  const loadAllContainerData = () => {
+  const loadAllContainerData = (urlParam) => {
     if (config?.[APP_CONFIG_KEYS.CONTAINER_MODIFIED] == true || config?.[APP_CONFIG_KEYS.CONTAINER_MODIFIED] == undefined) {
-      loadContainerData();
+      loadContainerData(urlParam);
     } else {
+      let cpageMetadata = config?.[APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]
       setContainerList(config?.[APP_CONFIG_KEYS.CONTAINER_DATA_LIST]);
+      setPageConfigParams(config?.[APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS] ?? initUrlParam)
+      setPageMetadata(cpageMetadata)
+      updateShowLoadMore(cpageMetadata)
       setLoader(false)
     }
 
   }
 
-  const loadContainerData = () => {
-    getContainers(undefined,
-      (flag, data) => {
-        if (flag) {
-          setContainerList(data?.containers ?? []);
-          setConfig({
-            ...config,
-            [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: data?.containers ?? [],
-            [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: false
-          });
-
-        } else {
-          toast.error('Failed to load container!!')
-        }
-        setLoader(false);
-      },
-      authkeyBearer)
+  const loadContainerData = (urlParam) => {
+    setLoader(true)
+    getContainers(urlParam, loadContainerDataCallback, authkeyBearer)
   }
 
+  const loadContainerDataOnSaveUpdate = () => {
+    loadContainerData(pageConfigParams)
+  }
+
+  const loadContainerDataCallback = (flag, data) => {
+    
+    if (flag) {
+      const cpageMetadat = { [API_PARAM_KEY.CURRENT_PAGE]: data?.[API_PARAM_KEY.CURRENT_PAGE], [API_PARAM_KEY.TOTAL_COUNT]: data?.[API_PARAM_KEY.TOTAL_COUNT], [API_PARAM_KEY.TOTAL_PAGES]: data?.[API_PARAM_KEY.TOTAL_PAGES] }
+
+      setContainerList(prev => [...prev, ...(data?.containers ?? [])]);
+      setConfig({
+        ...config,
+        [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [...(config[APP_CONFIG_KEYS.CONTAINER_DATA_LIST] ?? []), ...(data?.containers ?? [])],
+        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: false,
+        [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]: { ...cpageMetadat },
+        [APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS]: pageConfigParams
+      });
+
+      setPageMetadata(cpageMetadat)
+      updateShowLoadMore(data)
+    } else {
+      updateShowLoadMore(data)
+      toast.error('Failed to load container!!')
+    }
+    setLoader(false);
+    setIsFetching(false);
+  }
+
+  const updateShowLoadMore = (data) => {
+    setShowLoadMore(data?.[API_PARAM_KEY.CURRENT_PAGE] < data?.[API_PARAM_KEY.TOTAL_PAGES])
+  }
 
   const handleEdit = (data) => {
     setAction(ACTION.EDIT)
@@ -173,23 +213,37 @@ export default function Containers() {
     return (<CustomAddCard clabel="Create New Container" onClickAdd={handleAdd} />)
   }
 
-  const cleanUp=()=>{
-        setConfig({
-      ...config,     
+  const cleanUp = () => {
+    setConfig({
+      ...config,
       [APP_CONFIG_KEYS.CONTAINER_DATA]: undefined,
       [APP_CONFIG_KEYS.SOURCE_DATA_LIST]: undefined,
-      [APP_CONFIG_KEYS.DESTINATION_DATA_LIST]: undefined,     
+      [APP_CONFIG_KEYS.DESTINATION_DATA_LIST]: undefined,
     });
   }
 
   return (
     <>
+      <CustomPageScrollObserverTop
+        disableScrollLoad={false}
+        showLoadMore={showLoadMore}
+        cloadMoreRef={loadMoreRef}
+        pageMetadata={pageMetadata}
+        isFetching={isFetching}
+        setIsFetching={setIsFetching}
+        pageConfigParams={pageConfigParams}
+        setPageConfigParams={setPageConfigParams}
+        loadData={loadContainerData}
+        setShowLoadMore={setShowLoadMore}
+      />
+
       <CommonSearchHeader
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
+        
       />
 
-      <Wrap gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
+      <Wrap pl={"30px"} pr={layoutStyle == CARD_LAYOUT ? "0px" : "60px"} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
 
         {loader && (getLoader())}
 
@@ -201,6 +255,12 @@ export default function Containers() {
 
       </Wrap>
 
+      <CustomPageScrollObserverBottom
+        cloadMoreRef={loadMoreRef}
+        showLoadMore={showLoadMore}
+        isFetching={isFetching}
+      />
+
       <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer} >
         <AddEditBlogsContainer
           setOpenDrawer={setOpenDrawer}
@@ -208,7 +268,7 @@ export default function Containers() {
           containerMaster={containerMaster}
           setContainerMaster={setContainerMaster}
           action={action}
-          loadContainerData={loadContainerData}
+          loadContainerData={loadContainerDataOnSaveUpdate}
           setLoader={setLoader}
           loader={loader}
         />

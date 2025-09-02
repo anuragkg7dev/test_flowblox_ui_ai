@@ -1,11 +1,9 @@
-import { splitString, trimString } from "@/components/common/util/StringUtil";
-import { Avatar, Badge, Button, Card, Heading, HStack, Stack, Text, VisuallyHidden, VStack } from "@chakra-ui/react";
+import { trimString } from "@/components/common/util/StringUtil";
+import { Avatar, Button, Card, Heading, HStack, Stack, Text, VisuallyHidden, VStack } from "@chakra-ui/react";
 import React from "react";
-import { FaRegEdit } from "react-icons/fa";
-import { LuVoicemail } from "react-icons/lu";
-import IconSwitch from "../IconSwitch";
-import CustomTag from "../CustomTag";
 import { getIndexByCharSum } from "../../util/JsonUtil";
+import CustomTag from "../CustomTag";
+import IconSwitch from "../IconSwitch";
 
 function CustomContainerDisplayCard(props) {
     let cKey = props.cKey;
@@ -39,13 +37,16 @@ function CustomContainerDisplayCard(props) {
     return (
         <Card.Root
             key={`cr_${cKey}`}
-            width={{ base: "100%", sm: "280px", md: "340px" }}
-            height="203px"
+            width={{ base: "100%", sm: "300px", md: "360px" }}
+            height="230px"
             overflow="hidden"
             _hover={{ borderStyle: "solid", borderWidth: "0.1px", borderColor: "brand.primaryBrandBorder", boxShadow: "md" }}
             bg={"brand.OffBlackBg"}
             color={"brand.pureWhiteTxt"}
             variant={"elevated"}
+            mr={"30px"}
+            mb={"20px"}
+            p={2}
 
         >
             <Card.Body key={`cb_${cKey}`} p={{ base: 1, md: 2 }} display="flex" flexDirection="column" gap={{ base: 0.5, md: 1 }}>
@@ -54,8 +55,8 @@ function CustomContainerDisplayCard(props) {
                         <IconSwitch type={type} boxSize={5} />
                     </Avatar.Root>
                     <Stack key={`st_${cKey}`} gap={0} flex={1} >
-                        <Heading key={`tx_${cKey}`} size="custom20">
-                            {trimString(heading, 40)} {/* Reduced to fit */}
+                        <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
+                            {heading}
                         </Heading>
                         <VisuallyHidden>{data?.id}</VisuallyHidden>
                         {subHeading && (
@@ -63,9 +64,9 @@ function CustomContainerDisplayCard(props) {
                                 key={`tx2_${cKey}`}
                                 color="fg.muted"
                                 fontSize="2xs"
-                                noOfLines={1}
+                                lineClamp={1}
                             >
-                                {trimString(subHeading, 30)}
+                                <Text lineClamp={1}> {subHeading}</Text>
                             </Text>
                         )}
                     </Stack>
@@ -73,13 +74,13 @@ function CustomContainerDisplayCard(props) {
                 <Card.Description
                     key={`cd_${cKey}`}
                     fontSize="12px"
-                    noOfLines={2}
                     flex="1"
                     color={"brand.pureWhiteTxt"}
-
+                    lineClamp={3}
                 >
-                    {trimString(description, 170)}
+                    <Text lineClamp={3}> {description}</Text>
                 </Card.Description>
+
                 <HStack key={`hs2_${cKey}`} gap={1}>
                     <Stack key={`st2_${cKey}`} direction="row" wrap="wrap" gap={1}>
                         {badges.slice(0, sliceIndex)?.map(

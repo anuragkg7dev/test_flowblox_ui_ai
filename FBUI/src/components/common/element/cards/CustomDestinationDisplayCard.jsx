@@ -27,13 +27,16 @@ function CustomDestinationDisplayCard(props) {
     return (
         <Card.Root
             key={`cr_${cKey}`}
-            width={{ base: "100%", sm: "280px", md: "340px" }}
-            height="203px"
+            width={{ base: "100%", sm: "300px", md: "360px" }}
+            height="230px"
             overflow="hidden"
             _hover={{ borderStyle: "solid", borderWidth: "0.1px", borderColor: "brand.primaryBrandBorder", boxShadow: "md" }}
             bg={"brand.OffBlackBg"}
             color={"brand.pureWhiteTxt"}
             variant={"elevated"}
+            mr={"30px"}
+            mb={"20px"}
+            p={2}
 
         >
             <Card.Body key={`cb_${cKey}`} p={{ base: 1, md: 2 }} display="flex" flexDirection="column" gap={{ base: 0.5, md: 1 }}>
@@ -46,12 +49,12 @@ function CustomDestinationDisplayCard(props) {
                     </HStack>
 
                     <Stack key={`st_${cKey}`} gap={0} flex={1} >
-                        <Heading key={`tx_${cKey}`} size="custom20">
-                            {trimString(heading, 30)} {/* Reduced to fit */}
+                        <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
+                            {heading}
                         </Heading>
                         {subHeading && (
-                            <Text color="fg.muted" fontSize="xs" noOfLines={1} minWidth="100px">
-                                {trimString(subHeading, 30)}
+                            <Text color="fg.muted" fontSize="xs" lineClamp={1} minWidth="100px">
+                                {subHeading}
                             </Text>
                         )}
                     </Stack>
@@ -62,9 +65,9 @@ function CustomDestinationDisplayCard(props) {
                     noOfLines={2}
                     flex="1"
                     color={"brand.pureWhiteTxt"}
-
+                    lineClamp={3}
                 >
-                    {trimString(description, 170)}
+                    {description}
                 </Card.Description>
 
             </Card.Body>

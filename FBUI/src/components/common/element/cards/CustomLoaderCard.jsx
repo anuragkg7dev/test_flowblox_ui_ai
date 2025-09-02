@@ -6,8 +6,8 @@ export default function CustomLoaderCard(props) {
     return (
         <>
             <Card.Root
-                width={{ base: "100%", sm: "280px", md: "340px" }}
-                height="203px"
+                width={{ base: "100%", sm: "300px", md: "360px" }}
+                height="230px"
                 overflow="hidden"
                 borderWidth="0.1px"
                 borderStyle="solid"
@@ -16,6 +16,9 @@ export default function CustomLoaderCard(props) {
                 bg="brand.OffBlackBg"
                 color="brand.pureWhiteTxt"
                 variant="elevated"
+                mr={"30px"}
+                mb={"20px"}
+                p={2}
 
             >
 
@@ -29,9 +32,9 @@ export default function CustomLoaderCard(props) {
 
                         </Stack>
                     </VStack>
-                   
-                        <SkeletonText noOfLines={2}  variant="pulse"/>
-                  
+
+                    <SkeletonText noOfLines={2} variant="pulse" />
+
                 </Card.Body>
 
                 <Card.Footer p={1} mb={2} />

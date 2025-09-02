@@ -5,7 +5,7 @@ import CustomSwitch from "../CustomSwitch";
 import IconSwitch from "../IconSwitch";
 import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
 
-function CustomDestinationDisplayRow(props) {
+function CustomDestinationDisplayRow(props) { 
   const cKey = props.cKey;
   const heading = props.heading;
   const subHeading = props.subHeading;
@@ -35,7 +35,7 @@ function CustomDestinationDisplayRow(props) {
       position="relative"
     >
 
-      <HStack flex="1" spacing={4} align="center">
+      <HStack flex="1" spacing={4} align="center"  mb={"10px"} width={"70%"}>
         <HStack>
           <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" />
         </HStack>
