@@ -26,9 +26,10 @@ import { API_PARAM_KEY, CONTAINERS_KEY } from "../ContainersConstant";
 import CommonSearchHeaderWithPublish from "../headers/CommonSearchHeaderWithPublish";
 import ArticlesLayout from "./ArticlesLayout";
 import ArticleTemplate from "./ArticleTemplate";
+import CustomPageScrollObserverTop from "@/components/common/element/CustomPageScrollObserverTop";
 
 export default function Articles(props) {
-  const limit = props.limit ?? 10
+  const limit = props.limit ?? 7
   const selectView = props.selectView
   const hideFilter = props.hideFilter
   const loadPublishCount = props.loadPublishCount
@@ -72,43 +73,9 @@ export default function Articles(props) {
 
   useEffect(() => {
     setPageConfigParams(initUrlParam)
-    setArticles([])
+   API_PARAM_KEY.STATUS
     loadArticleData(initUrlParam);
   }, []);
-
-  useEffect(() => {
-
-    if (!loadMoreRef.current || !showLoadMore || disableScrollLoad || isFetching) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && showLoadMore) {
-          debouncedLoadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
-
-    return () => {
-      if (loadMoreRef.current) {
-        observer.unobserve(loadMoreRef.current);
-      }
-    };
-  }, [showLoadMore, pageMetadata]);
-
-  // Debounced load more function
-  const debouncedLoadMore = useCallback(() => {
-    if (!isFetching && showLoadMore) {
-      setIsFetching(true);
-      onClickLoadMore();
-    }
-  }, [isFetching, showLoadMore, pageMetadata]);
 
   const handlView = (data) => {
     setArticleMaster(data)
@@ -205,7 +172,7 @@ export default function Articles(props) {
   }
 
   const addStatusToPageConfigParams = (status) => {
-    let tempMap = new Map(pageConfigParams.set('status', status))
+    let tempMap = new Map(pageConfigParams.set(API_PARAM_KEY.STATUS, status).set(API_PARAM_KEY.PAGE, 1))
     setPageConfigParams(tempMap);
     return tempMap
   };
@@ -296,6 +263,16 @@ export default function Articles(props) {
 
   return (
     <>
+      <CustomPageScrollObserverTop
+        disableScrollLoad={disableScrollLoad}
+        showLoadMore={showLoadMore}
+        cloadMoreRef={loadMoreRef}
+        isFetching={isFetching}
+        pageMetadata={pageMetadata}
+        setIsFetching={setIsFetching}
+        onClickLoadMore={onClickLoadMore}
+      />
+
       <CommonSearchHeaderWithPublish
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
