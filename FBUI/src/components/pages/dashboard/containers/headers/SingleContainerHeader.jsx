@@ -26,6 +26,8 @@ export default function SingleContainerHeader(props) {
   const disableStop = props.disableStop ?? false;
   const disableStart = props.disableStart ?? false;
   const disablePause = props.disablePause ?? false;
+  const cpl = props.cpl ?? '30px';
+  const cpr = props.cpr ?? '60px';
 
   const [loader, setLoader] = useState(false)
 
@@ -75,7 +77,7 @@ export default function SingleContainerHeader(props) {
   };
 
   return (
-    <HStack justifyContent="space-between" width="100%" mb={4} pr={7}>
+    <HStack justifyContent="space-between" width="100%" mb={4} pr={cpr} pl={cpl}>
       <Text color="brand.pureWhiteTxt">{containerName}</Text>
       <HStack>
 
@@ -86,7 +88,7 @@ export default function SingleContainerHeader(props) {
           cloadingText={'Loading...'}
           loader={balanceLoader}
           onClickBtn={loadBalance}
-          clabel={balance == undefined ? 'Fetch Balance' : balance +' Units' }
+          clabel={balance == undefined ? 'Fetch Balance' : balance + ' Units'}
         />
 
         <CustomLoaderButton

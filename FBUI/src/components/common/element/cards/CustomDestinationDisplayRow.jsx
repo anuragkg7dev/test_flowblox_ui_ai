@@ -59,12 +59,11 @@ function CustomDestinationDisplayRow(props) {
 
 
         {editFlag && (
-          <Button
-            mt={1}
+          <Button            
             key={`btm_${cKey}`}
             variant={"fblox"}
             width="auto"
-            height={"34px"}
+            height={"30px"}
             aria-label="Manage"
             onClick={() => onClickEdit(data)}
           >
@@ -80,7 +79,7 @@ function CustomDestinationDisplayRow(props) {
             label={"Destination On/Off"}
             onSwitchChange={(val) => { onChangeSwitch?.(val, data); }}
             defaultValue={enabled}
-
+            cheight="30px"
             cp={2}
           />
         )}

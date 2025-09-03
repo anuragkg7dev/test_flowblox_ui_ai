@@ -91,6 +91,7 @@ function CustomContainerDisplayRow(props) {
             size="sm"
             aria-label="Edit"
             onClick={() => onClickEdit(data)}
+            height={"30px"}
           >
             Edit
           </Button>
@@ -102,6 +103,7 @@ function CustomContainerDisplayRow(props) {
             size="sm"
             aria-label="Manage"
             onClick={() => onClickManage(data)}
+            height={"30px"}
           >
             Manage
           </Button>

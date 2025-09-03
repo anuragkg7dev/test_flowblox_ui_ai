@@ -91,6 +91,7 @@ function CustomArticleDisplayRow(props) {
             sdata={getArticleOptions(status)}
             onSelect={(value) => onActionChange(value, data)}
             cwidth={"100px"}
+            cheight="30px"
           />
 
 
@@ -102,7 +103,8 @@ function CustomArticleDisplayRow(props) {
             size="sm"
             aria-label="View"
             onClick={() => onClickView(data)}
-            mt={1.5}
+           
+            height="30px"
           >
             View
           </Button>
@@ -112,11 +114,11 @@ function CustomArticleDisplayRow(props) {
 
         {showPublishButton && (
           <Button
-            mt={1}
+           
             key={`btm_${cKey}`}
             variant={"fblox"}
             width="auto"
-            height="35px"
+            height="30px"
             aria-label="Manage"
             onClick={() => handleStatusChange(data, actions.PUBLISH)}
           >

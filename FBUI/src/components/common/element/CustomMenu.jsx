@@ -6,20 +6,21 @@ export default function CustomMenu(props) {
     const sdata = props.sdata;
     const onSelect = props.onSelect;
     const cwidth = props.cwidth
+    const cheight = props.cheight
 
     return (
-        <Menu.Root onSelect={(e) => onSelect?.(e?.value)} >
+        <Menu.Root onSelect={(e) => onSelect?.(e?.value)}  >
             <Menu.Trigger asChild width={cwidth} bg="brand.pureBlackBg"
                 color="brand.pureWhiteTxt"
                 borderColor={"brand.greyBrandBorder"}
                 borderWidth="1px"
                 borderStyle="solid"
                 _focus={{ borderColor: "brand.subBrandBg" }}>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" h={cheight} >
                     {clabel || "Open"}
                 </Button>
             </Menu.Trigger>
-            <Portal>
+            <Portal >
                 <Menu.Positioner>
                     <Menu.Content bg={'brand.pureBlackBg'}>
                         {sdata.map((option) => (

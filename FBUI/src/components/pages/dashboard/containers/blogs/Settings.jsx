@@ -35,13 +35,14 @@ export default function Settings(props) {
   return (
     <>
 
-      <HStack justify={"space-between"}>
+      <HStack justify={"space-between"} pl={"30px"} pr={"60px"}>
 
         <Heading size="lg" color={"brand.pureWhiteTxt"}>Container Settings</Heading>
         <CustomSegmentGroup
           value={segment}
           setValue={setSegment}
           filterOptions={articleSettingOptions}
+          cmt={8}
           onChangeFilterOptions={(val) => {
             if (isModified) {
               setTempSegmentValue(val);

@@ -70,14 +70,13 @@ function CustomSourceDisplayRow(props) {
           csize={"sm"} />
 
         {editFlag && (
-          <Button
-            mt={1}
+          <Button           
             key={`btm_${cKey}`}
             variant={"fblox"}
-            width="auto"
-            height={"34px"}
+            width="auto"          
             aria-label="Manage"
             onClick={() => onClickEdit(data)}
+            height="30px"
           >
             Edit
           </Button>
@@ -90,7 +89,7 @@ function CustomSourceDisplayRow(props) {
             label={"Enable Source"}
             onSwitchChange={(val) => { onChangeSwitch?.(val, data); }}
             defaultValue={enabled}
-
+            cheight="30px"
             cp={2}
           />
         )}

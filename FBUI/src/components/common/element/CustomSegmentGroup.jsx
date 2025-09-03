@@ -2,13 +2,14 @@ import { Flex, SegmentGroup } from "@chakra-ui/react";
 import { memo, useState } from "react";
 
 function CustomSegmentGroup(props) {
-    let filterOptions = props.filterOptions ?? []
-    let onChangeFilterOptions = props.onChangeFilterOptions;
-    let ckey = props.ckey
-    let defaultValue = props.defaultValue
+    const filterOptions = props.filterOptions ?? []
+    const onChangeFilterOptions = props.onChangeFilterOptions;
+    const ckey = props.ckey
+    const defaultValue = props.defaultValue
     const [segment, setSegment] = useState(defaultValue);
-    let value = props.value ?? segment
-    let setValue = props.setValue ?? setSegment
+    const value = props.value ?? segment
+    const setValue = props.setValue ?? setSegment
+    const cmt=props.cmt
 
     return (
         <Flex
@@ -20,6 +21,7 @@ function CustomSegmentGroup(props) {
             paddingTop={2}
             paddingLeft={2}
             paddingRight={2}
+            mt={cmt}
             
         >
             <SegmentGroup.Root

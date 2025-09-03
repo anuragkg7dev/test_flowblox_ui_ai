@@ -36,7 +36,8 @@ function CustomSourceDisplayCard(props) {
             mr={"30px"}
             mb={"20px"}
             p={2}
-
+            position="relative"
+            userSelect="none"
         >
             <Card.Body key={`cb_${cKey}`} p={{ base: 1, md: 2 }} display="flex" flexDirection="column" gap={{ base: 0.5, md: 1 }}>
                 <VStack key={`hs_${cKey}`} justify="space-between" align="start">
@@ -82,12 +83,12 @@ function CustomSourceDisplayCard(props) {
                 </Card.Description>
 
             </Card.Body>
-            <Card.Footer width={"100%"} key={`cf_${cKey}`} p={1} mb={2} position="relative">
-                <HStack justify="space-between" width={"100%"} p={2} userSelect="none">
+            <Card.Footer width={"100%"} key={`cf_${cKey}`} p={1} mb={2}>
+                <HStack justify="flex-start" width={"100%"} p={2} >
 
                     {editFlag && (
                         <Button
-                            mt={1}
+
                             key={`btm_${cKey}`}
                             variant={"fblox"}
                             width="auto"
@@ -99,18 +100,19 @@ function CustomSourceDisplayCard(props) {
                         </Button>
                     )}
 
-                    {/* Spinner overlay for footer only */}
-                    <CustomSpinnerOverlay show={isProcessing} />
 
                     {sourceFlag && (
                         <CustomSwitch
                             label={"Enable Source"}
                             onSwitchChange={(val) => { onChangeSwitch?.(val, data); }}
                             defaultValue={enabled}
-                            cheight="25px"
-                            cp={2}
+                            cheight="30px"
+                            cp={4}
                         />
                     )}
+                    {/* Spinner overlay for footer only */}
+                    <CustomSpinnerOverlay show={isProcessing} type='beat' />
+
                 </HStack>
             </Card.Footer>
         </Card.Root>

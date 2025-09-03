@@ -21,16 +21,16 @@ function CustomSwitch(props) {
             borderWidth="1px"
             borderStyle="solid"
             width={"fit-content"}
-            p={cp}
+           
             key={ckey}
             height={cheight}
             mt={cmt}
         >
-            <Switch.Root checked={checked} onCheckedChange={(e) => { setChecked(e.checked); onSwitchChange?.(e.checked) }}>
+            <Switch.Root  p={cp} checked={checked} onCheckedChange={(e) => { setChecked(e.checked); onSwitchChange?.(e.checked) }}>
                 <Switch.HiddenInput />
                 <CustomSpinnerOverlay show={switchLoader} cml={7} cmt={2} csize={4} type={'syncLoader'} />
                 {!switchLoader && (<Switch.Label color={"brand.pureWhiteTxt"} >{label}</Switch.Label>)}
-                <Switch.Control bg={"brand.greyBrandBg"} _checked={{ bg: "brand.primaryBrandBg" }} />
+                <Switch.Control  bg={"brand.greyBrandBg"} _checked={{ bg: "brand.primaryBrandBg" }} />
             </Switch.Root>
         </Flex>
     );

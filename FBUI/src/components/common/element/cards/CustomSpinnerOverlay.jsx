@@ -1,5 +1,5 @@
 import { Avatar, Box, Card, Flex, Skeleton, SkeletonCircle, SkeletonText, Spinner, Stack, VStack } from "@chakra-ui/react";
-import { SyncLoader } from "react-spinners";
+import { BeatLoader, SyncLoader } from "react-spinners";
 
 export default function CustomSpinnerOverlay(props) {
 
@@ -21,6 +21,7 @@ export default function CustomSpinnerOverlay(props) {
                     </Box>
                     {type == 'spinner' && (<Spinner color="brand.primaryBrandBg" />)}
                     {type == 'syncLoader' && (<SyncLoader size={csize} color="#D2B5F9" />)}
+                    {type == 'beat' && (<BeatLoader size={csize} color="#D2B5F9" />)}
 
                 </Box>
             </>)}

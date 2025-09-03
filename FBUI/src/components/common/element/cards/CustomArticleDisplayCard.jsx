@@ -76,7 +76,7 @@ function CustomArticleDisplayCard(props) {
                     key={`cd_${cKey}`}
                     fontSize="12px"
                     flex="1"
-                    color={"brand.pureWhiteTxt"}                    
+                    color={"brand.pureWhiteTxt"}
                 >
                     <Text lineClamp={4}> {description}</Text>
                 </Card.Description>
@@ -84,7 +84,7 @@ function CustomArticleDisplayCard(props) {
                 <HStack >
                     <CustomDateTimeDisplay cdate={cdate} cfontSize={"12px"} />
                     {/* Spinner overlay for footer only */}
-                    <CustomSpinnerOverlay show={isProcessing} cml={7} cmt={2} type={'syncLoader'} />
+                    <CustomSpinnerOverlay show={isProcessing} cml={7} cmt={2} type={'beat'} />
                 </HStack>
 
 
@@ -99,38 +99,38 @@ function CustomArticleDisplayCard(props) {
                                 sdata={getArticleOptions(status)}
                                 onSelect={(value) => onActionChange(value, data)}
                                 cwidth={"33%"}
+                                cheight={"25px"}
                             />
 
                         </>)}
+                        <HStack>
+                            {viewFlag && (
+                                <Button                                    
+                                    key={`bte_${cKey}`}
+                                    variant={"fbloxD"}
+                                    width="auto"
+                                    height="25px"
+                                    aria-label="Edit"
+                                    onClick={() => onClickView(data)}
+                                >
+                                    View
+                                </Button>
+                            )}
 
-                        {viewFlag && (
-                            <Button
-                                mt={1}
-                                key={`bte_${cKey}`}
-                                variant={"fbloxD"}
-                                width="auto"
-                                height="35px"
-                                aria-label="Edit"
-                                onClick={() => onClickView(data)}
-                            >
-                                View
-                            </Button>
-                        )}
 
-
-                        {showPublishButton && (
-                            <Button
-                                mt={1}
-                                key={`btm_${cKey}`}
-                                variant={"fblox"}
-                                width="auto"
-                                height="35px"
-                                aria-label="Manage"
-                                onClick={() => handleStatusChange(data, actions.PUBLISH)}
-                            >
-                                Publish
-                            </Button>
-                        )}
+                            {showPublishButton && (
+                                <Button                                   
+                                    key={`btm_${cKey}`}
+                                    variant={"fblox"}
+                                    width="auto"
+                                    height="25px"
+                                    aria-label="Manage"
+                                    onClick={() => handleStatusChange(data, actions.PUBLISH)}
+                                >
+                                    Publish
+                                </Button>
+                            )}
+                        </HStack>
                     </HStack>
                 )}
             </Card.Footer>
