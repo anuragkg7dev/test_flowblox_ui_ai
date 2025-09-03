@@ -40,7 +40,7 @@ export default function Containers() {
 
   const authkeyBearer = config[JWT_TOKEN];
 
-  const limit = 2
+  const limit = 10
   const status = ''
 
   let initUrlParam = new Map([
