@@ -27,24 +27,23 @@ function CustomSourceDisplayRow(props) {
     <HStack
       key={`row_${cKey}`}
       width="100%"
-      p={{ base: 2, md: 3 }}
       bg="brand.OffBlackBg"
       color="brand.pureWhiteTxt"
-      borderBottom='0.1px solid'
-      borderBottomColor='brand.greyBrandBorder'
+      pt={"10px"}
+      pb={"10px"}
       spacing={4}
       align="center"
-      position="relative" 
+      position="relative"
     >
 
-      <HStack flex="1" spacing={4} align="center"  mb={"10px"} width={"70%"}>
+      <HStack flex="1" spacing={4} align="center" mb={"10px"} width={"70%"}>
         <HStack>
 
           <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" />
 
         </HStack>
         <VStack flex="1" spacing={2} align={"flex-start"}>
-         <Heading key={`tx_${cKey}`} size="custom20">  
+          <Heading key={`tx_${cKey}`} size="custom20">
             {trimString(heading, 30)}
           </Heading>
           {subHeading && (
@@ -70,13 +69,15 @@ function CustomSourceDisplayRow(props) {
           csize={"sm"} />
 
         {editFlag && (
-          <Button           
+          <Button
             key={`btm_${cKey}`}
             variant={"fblox"}
-            width="auto"          
+            width="auto"
             aria-label="Manage"
             onClick={() => onClickEdit(data)}
             height="30px"
+            mr={"5px"}
+            ml={"5px"}
           >
             Edit
           </Button>

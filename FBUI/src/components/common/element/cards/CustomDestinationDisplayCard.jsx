@@ -4,6 +4,7 @@ import React from "react";
 import CustomSwitch from "../CustomSwitch";
 import IconSwitch from "../IconSwitch";
 import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
+import { UX } from "../../constants/CommonConstant";
 
 function CustomDestinationDisplayCard(props) {
     let cKey = props.cKey;
@@ -34,8 +35,8 @@ function CustomDestinationDisplayCard(props) {
             bg={"brand.OffBlackBg"}
             color={"brand.pureWhiteTxt"}
             variant={"elevated"}
-            mr={"30px"}
-            mb={"20px"}
+            mr={UX.card_mr}
+            mb={UX.card_mb}
             p={2}
             userSelect="none"
             position="relative"

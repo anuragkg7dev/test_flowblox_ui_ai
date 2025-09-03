@@ -6,6 +6,7 @@ import { CustomFloatWithOffset } from "../CustomFloatWithOffset";
 import CustomMenu from "../CustomMenu";
 import CustomStatusDot from "../CustomStatusDot";
 import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
+import { UX } from "../../constants/CommonConstant";
 
 
 function CustomArticleDisplayCard(props) {
@@ -46,8 +47,8 @@ function CustomArticleDisplayCard(props) {
             color={"brand.pureWhiteTxt"}
             variant={"elevated"}
             onClick={onCardClick?.(data)}
-            mr={"30px"}
-            mb={"20px"}
+            mr={UX.card_mr}
+            mb={UX.card_mb}
             p={2}
 
         >
@@ -105,7 +106,7 @@ function CustomArticleDisplayCard(props) {
                         </>)}
                         <HStack>
                             {viewFlag && (
-                                <Button                                    
+                                <Button
                                     key={`bte_${cKey}`}
                                     variant={"fbloxD"}
                                     width="auto"
@@ -119,7 +120,7 @@ function CustomArticleDisplayCard(props) {
 
 
                             {showPublishButton && (
-                                <Button                                   
+                                <Button
                                     key={`btm_${cKey}`}
                                     variant={"fblox"}
                                     width="auto"

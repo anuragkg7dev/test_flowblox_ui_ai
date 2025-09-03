@@ -1,3 +1,4 @@
+import { UX } from "@/components/common/constants/CommonConstant";
 import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
 import IconSwitch from "@/components/common/element/IconSwitch";
 import {
@@ -11,12 +12,14 @@ export default function CommonHeader(props) {
   const name = props.name ?? CommonLabels.MY_BLOX
   const showIcon = props.showIcon;
   const iconType = props.iconType;
-  const cmb = props.cmb
-  const cmt = props.cmt
-  const cml = props.cml
   const cwidth = props.cwidth ?? "100%"
   const cjustifySelf = props.justifySelf ?? "center"
   const cboxSize = props.cboxSize ?? 5
+  const cmb = props.cmb
+  const cmt = props.cmt
+  const cml = props.cml
+  const cpl = props.cpl != undefined ? props.cpl : UX.global_left_padding;
+  const cpr = props.cpr != undefined ? props.cpr : UX.global_right_padding;
 
 
   return (
@@ -25,6 +28,8 @@ export default function CommonHeader(props) {
       ml={cml}
       mb={cmb}
       mt={cmt}
+      pl={cpl}
+      pr={cpr}
       justifySelf={cjustifySelf}
     >
 

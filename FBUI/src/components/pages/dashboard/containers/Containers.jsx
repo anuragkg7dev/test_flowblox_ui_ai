@@ -1,4 +1,4 @@
-import { ACTION, APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import { ACTION, APP_CONFIG_KEYS, UX } from "@/components/common/constants/CommonConstant";
 import CustomAddCard from "@/components/common/element/cards/CustomAddCard";
 import CustomAddRow from "@/components/common/element/cards/CustomAddRow";
 import CustomContainerDisplayCard from "@/components/common/element/cards/CustomContainerDisplayCard";
@@ -40,7 +40,7 @@ export default function Containers() {
 
   const authkeyBearer = config[JWT_TOKEN];
 
-  const limit = 10
+  const limit = 20
   const status = ''
 
   let initUrlParam = new Map([
@@ -243,7 +243,7 @@ export default function Containers() {
         
       />
 
-      <Wrap pl={"30px"} pr={layoutStyle == CARD_LAYOUT ? "0px" : "60px"} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
+      <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
 
         {loader && (getLoader())}
 

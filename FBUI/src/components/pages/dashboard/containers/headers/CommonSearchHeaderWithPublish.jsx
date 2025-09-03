@@ -13,6 +13,7 @@ import { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import { CARD_LAYOUT, LIST_LAYOUT } from "../../DashboardConstant";
+import { UX } from "@/components/common/constants/CommonConstant";
 
 
 export default function CommonSearchHeaderWithPublish(props) {
@@ -33,9 +34,10 @@ export default function CommonSearchHeaderWithPublish(props) {
   const setAutoPublish = props.setChecked
   const showAutoPublish = props.showAutoPublish
 
-  const cpl = props.cpl ?? '30px';
-  const cpr = props.cpr ?? '60px';
-  
+  const cpl = props.cpl ?? UX.global_left_padding;
+  const cpr = props.cpr ?? UX.global_right_padding;
+  const cheight = "40px"
+
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -60,7 +62,7 @@ export default function CommonSearchHeaderWithPublish(props) {
             label={"Auto Publish"}
             onSwitchChange={(val) => { onAutoPublishSwitchChange?.(val) }}
             defaultValue={autoPublish}
-            cheight={'37px'}
+            cheight={cheight}
             switchLoader={autoPublishloader}
             checked={autoPublish}
             setChecked={setAutoPublish}
@@ -73,7 +75,7 @@ export default function CommonSearchHeaderWithPublish(props) {
             placeholder="Search"
             variant={"fbloxD"}
             onChange={handleSearch}
-            height={"37px"}
+            height={cheight}
             value={searchQuery}
           />
         </InputGroup>
@@ -85,7 +87,8 @@ export default function CommonSearchHeaderWithPublish(props) {
           onClick={onChangeLayoutStyle}
           variant="solid"
           size="sm"
-          mt={1}
+          boxSize={cheight}
+          mt={2}
         >
           {layoutStyle === CARD_LAYOUT ? (
             <LuLayoutGrid color="brand.pureWhiteBg" />

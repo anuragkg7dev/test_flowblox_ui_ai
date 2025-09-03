@@ -10,7 +10,7 @@ import CustomAddCard from "@/components/common/element/cards/CustomAddCard";
 import ContainerDrawer from "../ContainerDrawer";
 import AddEditDestination from "./AddEditDestination";
 import { CONTAINERS_KEY, DESTINATION_BASE, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
-import { ACTION, APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import { ACTION, APP_CONFIG_KEYS, UX } from "@/components/common/constants/CommonConstant";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { createAndUpdateSourceAndDestination, getSourceAndDestination } from "@/components/client/EdgeFunctionRepository";
 import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
@@ -45,7 +45,7 @@ export default function Destination() {
 
   const loadDestinationDataList = () => {
     if (xconfig?.[APP_CONFIG_KEYS.DESTINATION_DATA_LIST]) {
-      setDestinationList(xconfig?.[APP_CONFIG_KEYS.DESTINATION_DATA_LIST]);
+      setDestinationList(xconfig?.[APP_CONFIG_KEYS.DESTINATION_DATA_LIST] ?? []);
       setLoader(false);
     } else {
       loadDestinationData();
@@ -92,7 +92,7 @@ export default function Destination() {
 
   const onSwitchChangeCallback = (flag, respData, data, val) => {
     let id = data.id
-  
+
     if (flag) {
       setDestinationList(updatedDestinationListById(id, SOURCE_DESTINATION_KEY.STATUS, getSwitchStringFlag(val)));
       toast.success(`Turned ${COMMON_STATUS.ACTIVE == getSwitchStringFlag(val) ? "on " : "Off "} destination ${data[SOURCE_DESTINATION_KEY.TITLE]}`)
@@ -185,15 +185,16 @@ export default function Destination() {
     }
     return (<CustomLoaderCard />)
   }
- 
+
   return (
     <>
       <CommonSearchHeader
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
         name={"Sources"}
+        enableSelect={false}
       />
-       <HStack justify={"flex-end"}  mr={"60px"} mt={"10px"}>
+      <HStack justify={"flex-end"} mr={UX.global_right_padding} mt={"10px"}>
         <Button
           mt={1}
           key={`btm_addSource`}
@@ -209,7 +210,7 @@ export default function Destination() {
 
       </HStack>
 
-       <Wrap mt={"60px"} pl={"30px"} pr={layoutStyle == CARD_LAYOUT ? "0px" : "60px"} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
+      <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
 
 
         {loader && (getLoader())}
@@ -218,7 +219,7 @@ export default function Destination() {
           return getLayout(x);
         })}
 
-        {getAddLayout()}
+        {destinationList?.length < 5 && getAddLayout()}
       </Wrap>
 
       <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer} >

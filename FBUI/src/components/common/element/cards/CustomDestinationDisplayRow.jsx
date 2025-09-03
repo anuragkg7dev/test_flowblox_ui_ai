@@ -5,7 +5,7 @@ import CustomSwitch from "../CustomSwitch";
 import IconSwitch from "../IconSwitch";
 import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
 
-function CustomDestinationDisplayRow(props) { 
+function CustomDestinationDisplayRow(props) {
   const cKey = props.cKey;
   const heading = props.heading;
   const subHeading = props.subHeading;
@@ -25,22 +25,21 @@ function CustomDestinationDisplayRow(props) {
     <HStack
       key={`row_${cKey}`}
       width="100%"
-      p={{ base: 2, md: 3 }}
       bg="brand.OffBlackBg"
       color="brand.pureWhiteTxt"
-      borderBottom='0.1px solid'
-      borderBottomColor='brand.greyBrandBorder'
+      pt={"10px"}
+      pb={"10px"}
       spacing={4}
       align="center"
       position="relative"
     >
 
-      <HStack flex="1" spacing={4} align="center"  mb={"10px"} width={"70%"}>
+      <HStack flex="1" spacing={4} align="center" mb={"10px"} width={"70%"}>
         <HStack>
           <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" />
         </HStack>
         <VStack flex="1" spacing={2} align={"flex-start"}>
-          <Heading key={`tx_${cKey}`} size="custom20">  
+          <Heading key={`tx_${cKey}`} size="custom20">
             {trimString(heading, 30)}
           </Heading>
           {subHeading && (
@@ -59,13 +58,15 @@ function CustomDestinationDisplayRow(props) {
 
 
         {editFlag && (
-          <Button            
+          <Button
             key={`btm_${cKey}`}
             variant={"fblox"}
             width="auto"
             height={"30px"}
             aria-label="Manage"
             onClick={() => onClickEdit(data)}
+            mr={"5px"}
+            ml={"5px"}
           >
             Edit
           </Button>

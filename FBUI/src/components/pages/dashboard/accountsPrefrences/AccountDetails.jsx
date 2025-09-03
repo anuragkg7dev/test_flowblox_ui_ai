@@ -1,21 +1,19 @@
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { Button, Field, HStack, Input, InputGroup, Text, Textarea, VStack } from "@chakra-ui/react";
-import { useState } from "react";
 import { getUsersPersonalDetails, updatePersonalDetails } from "@/components/client/EdgeFunctionRepository";
-import { APP_CONFIG_KEYS, USERS_KEY } from "@/components/common/constants/CommonConstant";
+import { APP_CONFIG_KEYS, USERS_KEY, UX } from "@/components/common/constants/CommonConstant";
+import { countries } from "@/components/common/constants/Country";
 import CustomCountry from "@/components/common/element/CustomCountry";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
+import { toast } from "@/components/common/Notification";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { useUserDetailStore } from "@/components/store/UserDetailStore";
+import { validate } from "@/components/validation/ValidationUtil";
+import { Button, Field, HStack, Input, Text, Textarea, VStack } from "@chakra-ui/react";
+import { useState } from "react";
 import { FiHome, FiPhone, FiShield } from "react-icons/fi";
 import { GoGlobe, GoPerson } from "react-icons/go";
 import { MdOutlineMail } from "react-icons/md";
 import CommonHeader from "../containers/headers/CommonHeader";
 import { usersValidationSchema } from "../containers/validation/userValidation";
-import { validate } from "@/components/validation/ValidationUtil";
-import CustomSelect from "@/components/common/element/CustomSelect";
-import { countries } from "@/components/common/constants/Country";
-import { toast } from "@/components/common/Notification";
-import { useUserDetailStore } from "@/components/store/UserDetailStore";
 
 export default function AccountDetails(props) {
   const isModified = props.isModified
@@ -149,7 +147,9 @@ export default function AccountDetails(props) {
         w="100%"
         minH="100vh"
         spacing={{ base: 4, md: 6, lg: 8 }}
-        p={{ base: 2, md: 4, lg: 6 }}
+        mt={"20px"}
+        pl={UX.global_left_padding}
+        pr={UX.global_right_padding}
         align="flex-start"
         justify="flex-start"
       >

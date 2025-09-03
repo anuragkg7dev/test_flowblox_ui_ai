@@ -10,6 +10,7 @@ export default function CustomSelect(props) {
     let cselectCallback = props.cselectCallback;
     let smultiple = props.smultiple ?? false;
     let cwidth = props.cwidth ?? "320px";
+    let cheight = props.cheight
     let cml = props.cml
     let cborderColor = props.cborderColor ?? "brand.greyBrandBorder"
 
@@ -43,20 +44,22 @@ export default function CustomSelect(props) {
             onValueChange={(e) => onSelectValueChange(e.items)}
             size="sm"
             width={cwidth}
+
             ml={cml}
 
         >
             <Select.HiddenSelect />
             <Select.Label>{slabel}</Select.Label>
             <Select.Control
-
+                
             >
                 <Select.Trigger bg="brand.pureBlackBg"
                     color="brand.pureWhiteTxt"
                     borderColor={cborderColor}
                     borderWidth="1px"
                     borderStyle="solid"
-                    _focus={{ borderColor: "brand.subBrandBg"}}
+                    _focus={{ borderColor: "brand.subBrandBg" }}
+                    height={cheight}
                 >
                     <Select.ValueText placeholder={splaceholder} />
                 </Select.Trigger>
@@ -71,7 +74,7 @@ export default function CustomSelect(props) {
                     color="brand.pureWhiteTxt"
                     borderColor={cborderColor}
                     borderWidth="1px"
-                    borderStyle="solid"                   
+                    borderStyle="solid"
                 >
                     {sdata.items.map((data) => (
                         <Select.Item item={data} key={data.value}>

@@ -8,11 +8,10 @@ function CustomLoaderRow(props) {
         <HStack
             key={`row_add`}
             width="100%"
-            p={{ base: 2, md: 3 }}
             bg="brand.OffBlackBg"
             color="brand.pureWhiteTxt"
-            borderBottom='0.1px solid'
-            borderBottomColor='brand.greyBrandBorder'
+            pt={"10px"}
+            pb={"10px"}
             spacing={4}
             align="center"
         >

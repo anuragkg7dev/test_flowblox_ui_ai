@@ -1,10 +1,11 @@
 import { Avatar, Card, Flex, Skeleton, SkeletonCircle, SkeletonText, Stack, VStack } from "@chakra-ui/react";
+import { UX } from "../../constants/CommonConstant";
 
 export default function CustomLoaderCard(props) {
 
 
     return (
-        <>
+        <> 
             <Card.Root
                 width={{ base: "100%", sm: "300px", md: "360px" }}
                 height="230px"
@@ -16,8 +17,8 @@ export default function CustomLoaderCard(props) {
                 bg="brand.OffBlackBg"
                 color="brand.pureWhiteTxt"
                 variant="elevated"
-                mr={"30px"}
-                mb={"20px"}
+                mr={UX.card_mr}
+                mb={UX.card_mb}
                 p={2}
 
             >

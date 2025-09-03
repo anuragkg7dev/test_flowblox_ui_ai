@@ -2,7 +2,7 @@ import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import { Heading, HStack } from "@chakra-ui/react";
 import { AI_AGENTS, articleSettingOptions, CONFIGURABLE, FREQUENCY } from "../../DashboardConstant";
 
-import { STATUS } from "@/components/common/constants/CommonConstant";
+import { STATUS, UX } from "@/components/common/constants/CommonConstant";
 import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomSpinner from "@/components/common/element/CustomSpinner";
@@ -35,7 +35,7 @@ export default function Settings(props) {
   return (
     <>
 
-      <HStack justify={"space-between"} pl={"30px"} pr={"60px"}>
+      <HStack justify={"space-between"} pl={UX.global_left_padding} pr={UX.global_right_padding}>
 
         <Heading size="lg" color={"brand.pureWhiteTxt"}>Container Settings</Heading>
         <CustomSegmentGroup

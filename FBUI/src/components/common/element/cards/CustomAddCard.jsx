@@ -1,5 +1,6 @@
 import { Card, Flex, Icon, Text, VStack } from "@chakra-ui/react";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { UX } from "../../constants/CommonConstant";
 
 export default function CustomAddCard(props) {
     let onClickAdd = props.onClickAdd;
@@ -9,9 +10,9 @@ export default function CustomAddCard(props) {
             width={{ base: "100%", sm: "300px", md: "360px" }}
             height="230px"
             overflow="hidden"
-            borderWidth="0.1px"
-            borderStyle="solid"
-            borderColor="transparent"
+            border={UX.dashed_border}
+            borderColor='brand.greyBrandBorder'
+            borderRadius="md"
             _hover={{ borderStyle: "solid", borderWidth: "0.1px", borderColor: "brand.primaryBrandBorder", boxShadow: "md" }}
             bg="brand.OffBlackBg"
             color="brand.pureWhiteTxt"

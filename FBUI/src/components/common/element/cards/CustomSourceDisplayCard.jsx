@@ -5,6 +5,7 @@ import CustomSwitch from "../CustomSwitch";
 import CustomTag from "../CustomTag";
 import IconSwitch from "../IconSwitch";
 import CustomSpinnerOverlay from "./CustomSpinnerOverlay";
+import { UX } from "../../constants/CommonConstant";
 
 function CustomSourceDisplayCard(props) {
     const cKey = props.cKey;
@@ -33,8 +34,8 @@ function CustomSourceDisplayCard(props) {
             bg={"brand.OffBlackBg"}
             color={"brand.pureWhiteTxt"}
             variant={"elevated"}
-            mr={"30px"}
-            mb={"20px"}
+            mr={UX.card_mr}
+            mb={UX.card_mb}
             p={2}
             position="relative"
             userSelect="none"

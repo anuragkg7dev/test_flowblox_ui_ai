@@ -244,7 +244,7 @@ export default function SettingsFrequency(props) {
 
   return (
     <>
-      <CommonHeader cboxSize={7} cwidth={{ base: "100%", md: "82%" }} showIcon={true} iconType={"container"} cmt={4} cml={10} name="Container Details" />
+      <CommonHeader cboxSize={7} cwidth={{ base: "100%", md: "82%" }} showIcon={true} iconType={"container"} cmt={4} cpl={4} name="Container Details" />
 
       <VStack
         w="100%" // Full viewport width
@@ -310,7 +310,7 @@ export default function SettingsFrequency(props) {
 
       <CustomLine />
 
-      <CommonHeader cboxSize={7} cwidth={{ base: "100%", md: "82%" }} showIcon={true} iconType={"frequency"} cmt={4} cml={10} name="Frequency Settings" />
+      <CommonHeader cboxSize={7} cwidth={{ base: "100%", md: "82%" }} showIcon={true} iconType={"frequency"} cmt={4} cpl={4} name="Frequency Settings" />
 
       <VStack w="100%" // Full viewport width
         display="flex"
@@ -334,7 +334,7 @@ export default function SettingsFrequency(props) {
             spacing={{ base: 4, md: 8 }}
             flexDirection={{ base: "column", md: "row" }}
           >
-            <VStack key="tag" width={vstackWidth} height={"100%"} align={"start"} mt={6}>
+            <VStack key="tag" width={vstackWidth} height={"100%"} align={"start"} >
               <FieldNumberOfArticle
                 noOfArticle={noOfArticle}
                 setNoOfArticle={onNoOfArticleChange}

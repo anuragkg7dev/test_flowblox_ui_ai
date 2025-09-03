@@ -13,6 +13,7 @@ import { LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import { CARD_LAYOUT, LIST_LAYOUT } from "../../DashboardConstant";
 import IconSwitch from "@/components/common/element/IconSwitch";
 import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
+import { UX } from "@/components/common/constants/CommonConstant";
 
 
 export default function CommonSearchHeader(props) {
@@ -23,9 +24,11 @@ export default function CommonSearchHeader(props) {
   const setLayoutStyle = props.setLayoutStyle;
   const showIcon = props.showIcon;
   const iconType = props.iconType;
-  const cpl = props.cpl ??  '30px';
-  const cpr = props.cpr ??  '60px';
-  const cpb = props.cpb ??  '10px';
+  const cpl = props.cpl ?? UX.global_left_padding;
+  const cpr = props.cpr ?? UX.global_right_padding;
+  const enableSelect = props.enableSelect == undefined ?? true;
+  const cheight = "40px"
+
 
   const sortOptions = [
     { label: "Name", value: "name" },
@@ -43,7 +46,7 @@ export default function CommonSearchHeader(props) {
   };
 
   return (
-    <HStack pl={cpl} pr={cpr} height={"80px"} justifyContent="space-between" width="100%" mb={4}>
+    <HStack pl={cpl} pr={cpr} height={UX.global_main_header_width} justifyContent="space-between" width="100%" mb={4}>
       <HStack>
         {showIcon && (
           <IconSwitch type={iconType} boxSize={5} />
@@ -51,22 +54,25 @@ export default function CommonSearchHeader(props) {
         <Heading size="lg" color={"brand.pureWhiteTxt"}>{name}</Heading>
       </HStack>
       <HStack>
-        <InputGroup endElement={<IoMdSearch />} width="131px" mt={2}>
+        <InputGroup endElement={<IoMdSearch />} width="131px" mt={1} >
           <Input
             placeholder="Search"
             variant={"fbloxD"}
             onChange={handleSearch}
-            height={"37px"}
+            height={cheight}
           />
         </InputGroup>
 
-        <CustomSelect
-          sdata={sortOptions}
-          slabel=""
-          splaceholder="Select"
-          cselectCallback={(data) => setSortParam(data)}
-          cwidth="131px"
-        />
+        {enableSelect && (
+          <CustomSelect
+            sdata={sortOptions}
+            slabel=""
+            splaceholder="Select"
+            cselectCallback={(data) => setSortParam(data)}
+            cwidth="131px"
+            cheight={cheight}
+          />
+        )}
 
         <IconButton
           key="layout"
@@ -74,6 +80,7 @@ export default function CommonSearchHeader(props) {
           onClick={onChangeLayoutStyle}
           variant="solid"
           size="sm"
+          boxSize={cheight}
           mt={1}
         >
           {layoutStyle === CARD_LAYOUT ? (

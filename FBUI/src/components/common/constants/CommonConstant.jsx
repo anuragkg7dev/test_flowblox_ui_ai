@@ -40,9 +40,9 @@ export const APP_CONFIG_KEYS = {
   DESTINATION_DATA_LIST: "destination-data-list",
   CURRENT_SELECTION: "currentSelection",
   CONTAINER_MODIFIED: "containerModified",
-  COUNT_STATS:"count_stats",
-  CONTAINER_PAGE_METADATA:"containerPageMetadata",
-  CONTAINER_PAGE_CONFIG_PARAMS:"pageConfigParams",
+  COUNT_STATS: "count_stats",
+  CONTAINER_PAGE_METADATA: "containerPageMetadata",
+  CONTAINER_PAGE_CONFIG_PARAMS: "pageConfigParams",
 
 }
 
@@ -55,3 +55,13 @@ export const USERS_KEY = {
   COUNTRY: 'country',
 }
 
+
+export const UX = {
+  global_left_padding: '30px',
+  global_right_padding: '30px',
+  global_main_header_width: '80px',
+  dashed_border:'0.1px dashed',
+  card_mb:'10px',
+  card_mr:'10px',
+
+}

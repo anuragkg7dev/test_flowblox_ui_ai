@@ -32,22 +32,21 @@ function CustomContainerDisplayRow(props) {
     }
     return badgeColor
   }
-
+ 
   return (
     <HStack
       key={`row_${cKey}`}
-      width="100%"
-      p={"10px"}
+      width="100%"     
       bg="brand.OffBlackBg"
-      color="brand.pureWhiteTxt"
-      borderBottom='0.1px solid'
-      borderBottomColor='brand.greyBrandBorder'
+      color="brand.pureWhiteTxt"      
       spacing={4}
       align="center"
-      
+      pt={"10px"}
+      pb={"10px"}
+      borderRadius="md"
     >
       <IconSwitch type={type} boxSize={6} bgColor="brand.primaryBrandBorder" cml={"10px"} cmr={"10px"} />
- 
+
       <HStack flex="1" spacing={4} align="center" >
         <VStack flex="1" spacing={2} align={"flex-start"} mb={"10px"} width={"70%"}>
           <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
@@ -65,20 +64,20 @@ function CustomContainerDisplayRow(props) {
 
         <HStack spacing={1} maxWidth="auto">
           <Wrap>
-          {badges.slice(0, sliceIndex)?.map(
-            (badge, index) =>
-              badge.trim() && (
-                <CustomTag
-                  key={`bdg_${cKey}_${index}`}
-                  cbg={getRandomColor(index)}
-                  txtColor={badgeTextColor}
-                  name={trimString(badge, 10)}
-                  cpx={1}
-                  cmt={1}
-                  csize={"sm"} />
+            {badges.slice(0, sliceIndex)?.map(
+              (badge, index) =>
+                badge.trim() && (
+                  <CustomTag
+                    key={`bdg_${cKey}_${index}`}
+                    cbg={getRandomColor(index)}
+                    txtColor={badgeTextColor}
+                    name={trimString(badge, 10)}
+                    cpx={1}
+                    cmt={1}
+                    csize={"sm"} />
 
-              )
-          )}
+                )
+            )}
           </Wrap>
         </HStack>
       </HStack>
@@ -92,6 +91,8 @@ function CustomContainerDisplayRow(props) {
             aria-label="Edit"
             onClick={() => onClickEdit(data)}
             height={"30px"}
+            ml="10px"
+            mr="5px"
           >
             Edit
           </Button>
@@ -104,6 +105,7 @@ function CustomContainerDisplayRow(props) {
             aria-label="Manage"
             onClick={() => onClickManage(data)}
             height={"30px"}
+            mr={"10px"}
           >
             Manage
           </Button>

@@ -1,7 +1,8 @@
-import { HStack, Icon, Text, Button } from "@chakra-ui/react";
+import { HStack, Icon, Text, Button, VStack } from "@chakra-ui/react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import React from "react";
 import { trimString } from "../../util/StringUtil";
+import { UX } from "../../constants/CommonConstant";
 
 function CustomAddRow(props) {
     let onClickAdd = props.onClickAdd;
@@ -11,20 +12,23 @@ function CustomAddRow(props) {
         <HStack
             key={`row_add`}
             width="100%"
-            p={{ base: 2, md: 3 }}
-            bg="brand.OffBlackBg"
+            bg="brand.pureBlackBg"
             color="brand.pureWhiteTxt"
-            borderBottom='0.1px solid'
-            borderBottomColor='brand.greyBrandBorder'
+            border={UX.dashed_border}
+            borderColor='brand.greyBrandBorder'
             spacing={4}
             align="center"
             onClick={() => onClickAdd()}
+            pt={"10px"}
+            pb={"10px"}
+            borderRadius="md"
         >
-            <HStack flex="1" spacing={4} align="center" mb={"10px"} width={"70%"}>
+            <VStack flex="1" spacing={4} align="center" width={"70%"}>
                 <Icon
                     as={IoIosAddCircleOutline}
                     boxSize={{ base: 7, md: 10 }} // Match CustomDisplayCard
-                    color="brand.pureWhiteTxt"
+                    color="brand.greyBrandBorder"
+
                 />
                 <Text
                     fontSize={{ base: "2xs", md: "xs" }} // Match CustomDisplayRow heading
@@ -32,9 +36,9 @@ function CustomAddRow(props) {
                     noOfLines={1}
                     color="brand.pureWhiteTxt"
                 >
-                    {trimString(clabel || "Add New", 30)} {/* Fallback if clabel undefined */}
+                    {"Add New"} {/* Fallback if clabel undefined */}
                 </Text>
-            </HStack>
+            </VStack>
         </HStack>
     );
 }

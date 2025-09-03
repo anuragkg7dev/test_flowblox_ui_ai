@@ -64,7 +64,7 @@ export default function AccountsPreferenceHome() {
 
   return (
     <>
-      <HStack justifyContent="space-between" width="100%" mb={4}>
+      <HStack justifyContent="space-between" width="100%" height={"80px"} mb={4} pl={"30px"} pr={"60px"}>
         <Heading size="lg" color="brand.pureWhiteTxt">Accounts & Preference</Heading>
         <CustomLoaderButton
           cwidth="auto"
@@ -98,7 +98,7 @@ export default function AccountsPreferenceHome() {
 
       {segment == ACCOUNT_DETAILS && (
         <>
-          <Suspense fallback={<CustomSpinner show={true} />}>
+          <Suspense fallback={<CustomSpinner show={true} />} >
             <AccountDetails isModified={isModified} setIsModified={setIsModified} />
           </Suspense>
         </>

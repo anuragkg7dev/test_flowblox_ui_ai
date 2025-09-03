@@ -4,6 +4,7 @@ import React from "react";
 import { getIndexByCharSum } from "../../util/JsonUtil";
 import CustomTag from "../CustomTag";
 import IconSwitch from "../IconSwitch";
+import { UX } from "../../constants/CommonConstant";
 
 function CustomContainerDisplayCard(props) {
     let cKey = props.cKey;
@@ -44,8 +45,8 @@ function CustomContainerDisplayCard(props) {
             bg={"brand.OffBlackBg"}
             color={"brand.pureWhiteTxt"}
             variant={"elevated"}
-            mr={"30px"}
-            mb={"20px"}
+            mr={UX.card_mr}
+            mb={UX.card_mb}
             p={2}
 
         >
@@ -81,7 +82,7 @@ function CustomContainerDisplayCard(props) {
                     <Text lineClamp={3}> {description}</Text>
                 </Card.Description>
 
-                <HStack key={`hs2_${cKey}`} gap={1}>
+                <HStack key={`hs2_${cKey}`} gap={1} mb={1}>
                     <Stack key={`st2_${cKey}`} direction="row" wrap="wrap" gap={1}>
                         {badges.slice(0, sliceIndex)?.map(
                             (badge, index) =>

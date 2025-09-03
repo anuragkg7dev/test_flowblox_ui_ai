@@ -24,8 +24,8 @@ function CustomArticleDisplayRow(props) {
   const sequence = props.sequence;
   const cdate = props.cdate
   const isProcessing = props.isProcessing
-  const showPublishButton=props.showPublishButton
-  const status = props.status 
+  const showPublishButton = props.showPublishButton
+  const status = props.status
 
 
 
@@ -39,11 +39,10 @@ function CustomArticleDisplayRow(props) {
     <HStack
       key={`row_${cKey}`}
       width="100%"
-      p={{ base: 2, md: 3 }}
       bg="brand.OffBlackBg"
       color="brand.pureWhiteTxt"
-      borderBottom='0.1px solid'
-      borderBottomColor='brand.greyBrandBorder'
+      pt={"10px"}
+      pb={"10px"}
       spacing={4}
       align="center"
       userSelect="none"
@@ -51,7 +50,7 @@ function CustomArticleDisplayRow(props) {
     >
 
       <HStack flex="1" spacing={4} align="center">
-        <VStack flex="1" spacing={2} align={"flex-start"}  mb={"10px"} width={"70%"}>
+        <VStack flex="1" spacing={2} align={"flex-start"} mb={"10px"} width={"70%"}>
           <Box position="relative" >
             <HStack>
               {publishFlag && (<CustomStatusDot type={dot.SUCCESS} cmr={2} cmb={0} csize={'md'} />)}
@@ -98,12 +97,12 @@ function CustomArticleDisplayRow(props) {
         </>)}
         {viewFlag && (
           <Button
+            ml={"5px"}
             key={`bte_${cKey}`}
             variant={"fbloxD"}
             size="sm"
             aria-label="View"
             onClick={() => onClickView(data)}
-           
             height="30px"
           >
             View
@@ -114,7 +113,8 @@ function CustomArticleDisplayRow(props) {
 
         {showPublishButton && (
           <Button
-           
+
+            ml={"5px"}
             key={`btm_${cKey}`}
             variant={"fblox"}
             width="auto"

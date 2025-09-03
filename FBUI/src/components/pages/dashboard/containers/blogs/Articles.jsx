@@ -1,6 +1,6 @@
 import { COMMON_STATUS } from "@/components/client/EdgeConstant";
 import { getGeneratedArticles, updateArticleStatus, updateContainerAutoPublish } from "@/components/client/EdgeFunctionRepository";
-import { APP_CONFIG_KEYS, STATUS } from "@/components/common/constants/CommonConstant";
+import { APP_CONFIG_KEYS, STATUS, UX } from "@/components/common/constants/CommonConstant";
 import { actions } from "@/components/common/constants/CommonUtilityAndOptions";
 import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
 import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
@@ -286,7 +286,7 @@ export default function Articles(props) {
       />
 
       {!hideFilter && (
-        <HStack justify={"flex-end"} mr={"60px"} mt={"10px"}>
+        <HStack justify={"flex-end"} mr={UX.global_right_padding} mt={"10px"}>
           <CustomSegmentGroup
             filterOptions={filterOptions}
             onChangeFilterOptions={(val) => {
@@ -318,7 +318,7 @@ export default function Articles(props) {
         </HStack>
       )}
 
-      <Wrap pl={"30px"} pr={layoutStyle == CARD_LAYOUT ? "0px" : "60px"} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"} mt={!hideFilter ? "60px" : "30px"}>
+      <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"} mt={!hideFilter ? "60px" : "30px"}>
 
         {loader && (getLoader())}
 

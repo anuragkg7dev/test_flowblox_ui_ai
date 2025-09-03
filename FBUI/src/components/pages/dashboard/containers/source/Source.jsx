@@ -9,7 +9,7 @@ import ContainerDrawer from "../ContainerDrawer";
 import CommonSearchHeader from "../headers/CommonSearchHeader";
 import AddEditSource from "./AddEditSource";
 import { CONTAINERS_KEY, SOURCE_BASE, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
-import { ACTION, APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import { ACTION, APP_CONFIG_KEYS, UX } from "@/components/common/constants/CommonConstant";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { createAndUpdateSourceAndDestination, getSourceAndDestination } from "@/components/client/EdgeFunctionRepository";
 import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
@@ -190,8 +190,9 @@ export default function Source() {
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
         name={"Sources"}
+        enableSelect={false}
       />
-      <HStack justify={"flex-end"}  mr={"60px"} mt={"10px"}>
+      <HStack justify={"flex-end"}  mr={UX.global_right_padding} mt={"10px"}>
         <Button
           mt={1}
           key={`btm_addSource`}
@@ -205,7 +206,7 @@ export default function Source() {
         </Button>
       </HStack>
 
-       <Wrap mt={"60px"} pl={"30px"} pr={layoutStyle == CARD_LAYOUT ? "0px" : "60px"} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
+       <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
 
         {loader && getLoader()}
         {sourceList?.map((x) => getLayout(x))}

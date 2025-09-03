@@ -176,7 +176,7 @@ export default function SettingsAIAgent(props) {
         showIcon={true}
         iconType={"lightning"}
         cmt={4}
-        cml={10}
+        cpl={4}
         name="AI Settings"
       />
 
@@ -249,8 +249,9 @@ export default function SettingsAIAgent(props) {
               cboxSize={7}
               showIcon={true}
               iconType={"person"}
-              cmt={4}
               cmb={4}
+              cmt={4}
+              cpl={0}
               name="AI Writer"
             />
             <VStack
@@ -259,6 +260,7 @@ export default function SettingsAIAgent(props) {
               justify="center"
               w="100%"
               spacing={4}
+              p={4}
             >
               <FieldAIWritterEditor
                 value={aiWritterPrompt}
@@ -290,6 +292,7 @@ export default function SettingsAIAgent(props) {
               iconType={"person"}
               cmt={4}
               cmb={4}
+              cpl={0}
               name="AI Editor"
             />
             <VStack
@@ -298,6 +301,7 @@ export default function SettingsAIAgent(props) {
               justify="center"
               w="100%"
               spacing={4}
+              p={4}
             >
               <FieldAIWritterEditor
                 value={aiEditorPrompt}
