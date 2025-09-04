@@ -27,6 +27,7 @@ export default function Source() {
   const [action, setAction] = useState();
   const [loader, setLoader] = useState(false);
 
+  const MAX_LIMIT = 5
 
   const { config: xconfig, setConfig, updateConfig } = useAppConfigStore();
   const authkeyBearer = xconfig[JWT_TOKEN];
@@ -210,7 +211,8 @@ export default function Source() {
 
         {loader && getLoader()}
         {sourceList?.map((x) => getLayout(x))}
-        {getAddLayout()}
+        {sourceList.length < MAX_LIMIT && getAddLayout()}
+        
       </Wrap>
 
       <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer}>

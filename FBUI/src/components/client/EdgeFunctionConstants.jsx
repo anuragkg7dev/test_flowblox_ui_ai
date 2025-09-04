@@ -20,6 +20,7 @@ export const edgeFunction = {
     UPDATE_ARTICLE_STATUS: "updateArticleStatus",
     GET_PUBLISH_COUNT_STATS: "getPublishCountStats",
     UPDATE_CONTAINER_AUTOPUBLISH : "updateContainerAutoPublish",
+    REMOVE_SOURCE_AND_DESTINATION : "removeSourceDestination",
 };
 
 const edgeFunctionKeys = {};

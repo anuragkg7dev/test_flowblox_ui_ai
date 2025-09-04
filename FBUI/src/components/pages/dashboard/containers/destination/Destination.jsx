@@ -29,6 +29,8 @@ export default function Destination() {
 
   const [loader, setLoader] = useState(false);
 
+  const MAX_LIMIT = 5
+
   const { config: xconfig, setConfig, updateConfig } = useAppConfigStore();
   const authkeyBearer = xconfig[JWT_TOKEN];
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
@@ -219,7 +221,7 @@ export default function Destination() {
           return getLayout(x);
         })}
 
-        {destinationList?.length < 5 && getAddLayout()}
+        {destinationList?.length < MAX_LIMIT && getAddLayout()}
       </Wrap>
 
       <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer} >

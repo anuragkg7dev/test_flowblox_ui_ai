@@ -3,91 +3,92 @@ import { API_PARAM_KEY, SOURCE_DESTINATION_KEY } from "../pages/dashboard/contai
 import { edgeFunction, getEdgeFunctionApiKeys } from "./EdgeFunctionConstants"
 
 let superbasEdgeBaseUrl = import.meta.env.VITE_SUPABASE_EDGE_URL
-
+let POST = 'POST'
+let GET = 'GET'
+let DELETE = 'DELETE'
 //--------------
 
 export function getProductBundleSubscription(callback) {
-  return callEdgeFunctionNonAuth(edgeFunction.GET_BUNDLED_PRODUCTS, undefined, callback)
+  return callEdgeFunctionNonAuth(edgeFunction.GET_BUNDLED_PRODUCTS, undefined, callback, GET)
 }
 
 export function getStripeCheckoutSession(body, callback) {
-  callEdgeFunctionNonAuth(edgeFunction.STRIPE_CHECKOUT_SESSION, body, callback)
+  callEdgeFunctionNonAuth(edgeFunction.STRIPE_CHECKOUT_SESSION, body, callback, POST)
 }
 
 export function getProductComboSubscription(productId, callback) {
   let rbody = { "combo_plan_ids": [productId] }
-  return callEdgeFunctionNonAuth(edgeFunction.GET_COMBO_PRODUCTS, rbody, callback)
+  return callEdgeFunctionNonAuth(edgeFunction.GET_COMBO_PRODUCTS, rbody, callback, POST)
 }
 
 export function verifyRegistration(body, callback) {
-  callEdgeFunctionNonAuth(edgeFunction.VERIFY_REGISTRATION, body, callback)
+  callEdgeFunctionNonAuth(edgeFunction.VERIFY_REGISTRATION, body, callback, POST)
 }
 
 export function verifyStripePreTransaction(body, callback) {
-  callEdgeFunctionNonAuth(edgeFunction.VERIFY_STRIPE_PRE_TRANSACTION, body, callback)
+  callEdgeFunctionNonAuth(edgeFunction.VERIFY_STRIPE_PRE_TRANSACTION, body, callback, POST)
 }
 
 export function createAndUpdateBlogContainers(body, callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.CREATE_UPDATE_BLOG_CONTAINERS, body, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.CREATE_UPDATE_BLOG_CONTAINERS, body, callback, authkeyBearer, POST)
 }
 
 export function getContainers(filterMap, callback, authkeyBearer) {
-  callEdgeFunctionWithParams(edgeFunction.GET_CONTAINERS, {}, filterMap, callback, authkeyBearer)
+  callEdgeFunctionWithParams(edgeFunction.GET_CONTAINERS, {}, filterMap, callback, authkeyBearer, GET)
 }
 
 export function createAndUpdateSourceAndDestination(body, callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.CREATE_UPDATE_SOURCE_DESTINATION, body, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.CREATE_UPDATE_SOURCE_DESTINATION, body, callback, authkeyBearer, POST)
 }
 
 export function getSourceAndDestination(filterMap, callback, authkeyBearer) {
-  callEdgeFunctionWithParams(edgeFunction.GET_SOURCE_DESTINATION, {}, filterMap, callback, authkeyBearer)
+  callEdgeFunctionWithParams(edgeFunction.GET_SOURCE_DESTINATION, {}, filterMap, callback, authkeyBearer, GET)
 }
 
 export function generateArticleTrigger(paramMap, callback, authkeyBearer) {
-  callEdgeFunctionWithParams(edgeFunction.GENERATE_ARTICLES_TRIGGER, {}, paramMap, callback, authkeyBearer)
+  callEdgeFunctionWithParams(edgeFunction.GENERATE_ARTICLES_TRIGGER, {}, paramMap, callback, authkeyBearer, GET)
 }
 
 export function getGeneratedArticles(filterMap, callback, authkeyBearer) {
-  callEdgeFunctionWithParams(edgeFunction.GET_GENERATED_ARTICLES, {}, filterMap, callback, authkeyBearer)
+  callEdgeFunctionWithParams(edgeFunction.GET_GENERATED_ARTICLES, {}, filterMap, callback, authkeyBearer, GET)
 }
 
 export function getBalance(container_type, callback, authkeyBearer) {
   let paramMap = new Map([[API_PARAM_KEY.CONTAINER_TYPE, container_type],]);
-  callEdgeFunctionWithParams(edgeFunction.GET_BALANCE, {}, paramMap, callback, authkeyBearer)
+  callEdgeFunctionWithParams(edgeFunction.GET_BALANCE, {}, paramMap, callback, authkeyBearer, GET)
 }
 
 export function updatePersonalDetails(body, callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.UPDATE_PERSONAL_DETAILS, body, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.UPDATE_PERSONAL_DETAILS, body, callback, authkeyBearer, POST)
 }
 
 export function getUsersPersonalDetails(callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.GET_USERS_PERSONAL_DETAILS, {}, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.GET_USERS_PERSONAL_DETAILS, {}, callback, authkeyBearer, GET)
 }
 
 export function getStripeManageBillinPortalUrl(callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.STRIPE_MANAGE_BILLING_PORTAL_URL, { returnUrl: window.location.origin }, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.STRIPE_MANAGE_BILLING_PORTAL_URL, { returnUrl: window.location.origin }, callback, authkeyBearer, POST)
 }
 
 export function getCountStats(callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.GET_COUNT_STATS, {}, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.GET_COUNT_STATS, {}, callback, authkeyBearer, GET)
 }
 
 export function updateArticleStatus(body, callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.UPDATE_ARTICLE_STATUS, body, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.UPDATE_ARTICLE_STATUS, body, callback, authkeyBearer, POST)
 }
 
 export function getPublishCountStats(body, callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.GET_PUBLISH_COUNT_STATS, body, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.GET_PUBLISH_COUNT_STATS, body, callback, authkeyBearer, POST)
 }
 
 export function updateContainerAutoPublish(body, callback, authkeyBearer) {
-  callEdgeFunction(edgeFunction.UPDATE_CONTAINER_AUTOPUBLISH, body, callback, authkeyBearer)
+  callEdgeFunction(edgeFunction.UPDATE_CONTAINER_AUTOPUBLISH, body, callback, authkeyBearer, POST)
 }
 
-
-
-
-
+export function removeSourceDestination(body, callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.REMOVE_SOURCE_AND_DESTINATION, body, callback, authkeyBearer, DELETE)
+}
 
 
 
@@ -96,15 +97,15 @@ export function updateContainerAutoPublish(body, callback, authkeyBearer) {
 
 //--------------------------------------
 
-export function callEdgeFunctionNonAuth(functionName, rbody, callback) {
-  return callEdgeFunction(functionName, rbody, callback, undefined)
+export function callEdgeFunctionNonAuth(functionName, rbody, callback, method) {
+  return callEdgeFunction(functionName, rbody, callback, undefined, method)
 }
 
-export function callEdgeFunction(functionName, rbody, callback, authkeyBearer) {
-  return callEdgeFunctionWithParams(functionName, rbody, undefined, callback, authkeyBearer)
+export function callEdgeFunction(functionName, rbody, callback, authkeyBearer, method) {
+  return callEdgeFunctionWithParams(functionName, rbody, undefined, callback, authkeyBearer, method)
 }
 
-export function callEdgeFunctionWithParams(functionName, rbody, params, callback, authkeyBearer) {
+export function callEdgeFunctionWithParams(functionName, rbody, params, callback, authkeyBearer, method) {
 
   let cbody = rbody ?? {}
 
@@ -125,10 +126,10 @@ export function callEdgeFunctionWithParams(functionName, rbody, params, callback
   }
 
   fetch(url, {
-    method: "POST",
+    method: method ?? "POST",
     headers: cHeaders,
 
-    body: JSON.stringify({ name: "Functions", ...cbody }),
+    body: method != GET ? JSON.stringify({ name: "Functions", ...cbody }) : undefined,
 
   }).then((response) => {
     return response.json().then((data) => {
