@@ -23,7 +23,7 @@ export default function FieldTagEditor(props) {
             <Text>Tag Editor</Text>
           </HStack>
         </Field.Label>
-        <CustomTagInput validate={validate} cml={cml} cwidth={cwidth} cvariant={cvariant} tags={tags} setTags={setTags} iconColorPalette="brand.pureBlackBg" />
+        <CustomTagInput validate={validate} cml={cml} cwidth={cwidth} cvariant={'solid'} tags={tags} setTags={setTags} iconColorPalette="brand.pureBlackBg" />
         <Field.ErrorText ml={cml} fontSize={{ base: "xs", md: "sm" }}>{error}</Field.ErrorText>
       </Field.Root>
     </>

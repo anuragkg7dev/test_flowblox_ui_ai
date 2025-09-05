@@ -1,5 +1,5 @@
 import { CONTENT_TYPE } from "@/components/client/EdgeConstant";
-import { createAndUpdateSourceAndDestination } from "@/components/client/EdgeFunctionRepository";
+import { createAndUpdateSourceAndDestination, removeSourceDestination } from "@/components/client/EdgeFunctionRepository";
 import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { ACTION, STATUS } from "@/components/common/constants/CommonConstant";
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
@@ -47,7 +47,9 @@ export default function AddEditSource(props) {
     const [status, setStatus] = useState(sourceMaster?.[SOURCE_DESTINATION_KEY.STATUS] || '');
     const [error, setError] = useState({});
     const [showConfirmation, setShowsConfirmation] = useState(false);
+    const [showDeleteConfirmation, setShowsDeleteConfirmation] = useState(false);
     const [isModified, setIsModified] = useState(false);
+    const [deleteLoader, setDeleteLoader] = useState(false);
 
     const xconfig = useAppConfigStore((state) => state.config);
     const authkeyBearer = xconfig[JWT_TOKEN];
@@ -72,21 +74,45 @@ export default function AddEditSource(props) {
         setOpenDrawer(false)
     };
 
+    const onConfirmationDelete = () => {
+        const payload = {}
+        payload[SOURCE_DESTINATION_KEY.KIND] = CONTENT_TYPE.SOURCE
+        payload[SOURCE_DESTINATION_KEY.ID] = sourceMaster?.[SOURCE_DESTINATION_KEY.ID]
+        setDeleteLoader(true)
+        setShowsDeleteConfirmation(false)
+        removeSourceDestination(payload, onDeleteCallback, authkeyBearer)
+
+    };
+
     const onSubmit = () => {
         let requestPayload = updateMaster();
         let errorFlag = validateFields();
         if (!errorFlag) {
             setLoader?.(true);
-    
+
             createAndUpdateSourceAndDestination(requestPayload, onSubmitCallback, authkeyBearer);
         }
     };
 
     const onSubmitCallback = (flag, data) => {
-       
+
         if (flag) {
             setOpenDrawer(false);
             loadSourceData?.();
+        } else {
+            setLoader?.(false);
+            toast.error("Failed to add source !!");
+        }
+    };
+
+    const onDeleteCallback = (flag, data) => {
+
+        if (flag) {
+            setDeleteLoader(false)          
+            setOpenDrawer(false);
+            setLoader(true)       
+            loadSourceData?.();
+            toast.success("Deleted");
         } else {
             setLoader?.(false);
             toast.error("Failed to add source !!");
@@ -122,7 +148,7 @@ export default function AddEditSource(props) {
     };
 
     const validateUrl = () => {
-     
+
         let err = validate(sourceValidationSchema, SOURCE_DESTINATION_KEY.URL, config?.[SOURCE_DESTINATION_KEY.URL])
         setError({
             ...error,
@@ -164,7 +190,7 @@ export default function AddEditSource(props) {
 
     const onSourceTypeChange = (value) => {
         updateIsModifiedState(true)
-        setType(value)       
+        setType(value)
     };
 
     const onUrlChange = (value) => {
@@ -289,15 +315,15 @@ export default function AddEditSource(props) {
                                 clabel={action == ACTION.ADD ? 'ADD' : 'UPDATE'}
                             />
                             {action == ACTION.EDIT && (
-                                <Button
-                                    mt={6}
-                                    variant={"delete"}
-                                    width="33%"
-                                    fontSize={{ base: "sm", md: "md" }}
-                                    onClick={() => { }}
-                                >
-                                    Delete
-                                </Button>
+                                <CustomLoaderButton
+                                    cwidth="33%"
+                                    cmt={6}
+                                    cvariant={"delete"}
+                                    cloadingText={'DELETE'}
+                                    loader={deleteLoader}
+                                    onClickBtn={() => { setShowsDeleteConfirmation(true) }}
+                                    clabel={'DELETE'}
+                                />
                             )}
                         </HStack>
                     </Field.Root>
@@ -312,6 +338,17 @@ export default function AddEditSource(props) {
                 onOk={onConfirmationOk}
                 closeLabel={CommonMessageLabels.NO}
                 okLabel={CommonMessageLabels.YES}
+                status={STATUS.WARNING}
+            />
+
+            <ConfirmationDialog
+                show={showDeleteConfirmation}
+                setShow={setShowsDeleteConfirmation}
+                header={CommonMessageLabels.DELETE_HEADING}
+                description={CommonMessageLabels.DELETE_DESCRIPTION}
+                onOk={onConfirmationDelete}
+                closeLabel={CommonMessageLabels.CANCEL}
+                okLabel={CommonMessageLabels.DELETE}
                 status={STATUS.WARNING}
             />
         </>

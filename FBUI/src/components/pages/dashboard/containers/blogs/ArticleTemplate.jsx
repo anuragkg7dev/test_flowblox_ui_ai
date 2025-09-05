@@ -3,6 +3,7 @@ import { Box, Center, Container, Heading, HStack, Text, VStack, Wrap } from "@ch
 import { getTagsArrayFromString } from "../ContainersUtil";
 import CustomTag from "@/components/common/element/CustomTag";
 import { trimString } from "@/components/common/util/StringUtil";
+import { tagColors } from "@/components/common/constants/CommonConstant";
 
 export default function ArticleTemplate(props) {
 
@@ -12,14 +13,14 @@ export default function ArticleTemplate(props) {
 
     const enableRandomColor = props.enableRandomColor ?? true;
     const badgeColor = props.badgeColor ?? "brand.subBrandBg";
-    const badgeTextColor = props.badgeColor ?? "brand.pureWhiteTxt";
+    const badgeTextColor = props.badgeColor ?? "brand.darkBrandTxt";
 
 
     const onClose = () => {
         setOpenDrawer(false)
     };
 
-    const colors = ["#873AE1", "#3A85E1", "#C013D7", "#E55340", "#FF9500"];
+    const colors = [...tagColors];
     const startIndex = Math.floor(Math.random() * colors.length);
 
     const getRandomColor = (index) => {

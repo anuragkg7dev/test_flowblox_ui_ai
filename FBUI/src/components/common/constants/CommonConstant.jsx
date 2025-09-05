@@ -60,8 +60,26 @@ export const UX = {
   global_left_padding: '30px',
   global_right_padding: '30px',
   global_main_header_width: '80px',
-  dashed_border:'0.1px dashed',
-  card_mb:'10px',
-  card_mr:'10px',
+  dashed_border: '0.1px dashed',
+  card_mb: '10px',
+  card_mr: '10px',
 
 }
+
+export const tagColors = [
+  "#A8E6CF",
+  "#B3E5FC",
+  "#B2DFDB",
+  "#C5CAE9",
+  "#D1C4E9",
+  "#F8BBD0",
+  "#F48FB1",
+  "#FFD180",
+  "#FFF9C4",
+  "#FFE0B2",
+  "#DCEDC8",
+  "#FFAB91",
+  "#80DEEA",
+  "#E1BEE7",
+  "#AED581",
+  "#FFF3E0"]

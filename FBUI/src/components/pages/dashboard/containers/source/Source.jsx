@@ -193,7 +193,7 @@ export default function Source() {
         name={"Sources"}
         enableSelect={false}
       />
-      <HStack justify={"flex-end"}  mr={UX.global_right_padding} mt={"10px"}>
+      <HStack justify={"flex-end"}  mr={UX.global_right_padding} mt={"10px"} mb={"20px"}>
         <Button
           mt={1}
           key={`btm_addSource`}

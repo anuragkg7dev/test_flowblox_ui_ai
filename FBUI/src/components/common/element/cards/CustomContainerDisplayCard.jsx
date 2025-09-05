@@ -4,7 +4,7 @@ import React from "react";
 import { getIndexByCharSum } from "../../util/JsonUtil";
 import CustomTag from "../CustomTag";
 import IconSwitch from "../IconSwitch";
-import { UX } from "../../constants/CommonConstant";
+import { tagColors, UX } from "../../constants/CommonConstant";
 
 function CustomContainerDisplayCard(props) {
     let cKey = props.cKey;
@@ -20,10 +20,10 @@ function CustomContainerDisplayCard(props) {
     let type = props.type;
     let enableRandomColor = props.enableRandomColor;
     let badgeColor = props.badgeColor ?? "brand.subBrandBg";
-    let badgeTextColor = props.badgeColor ?? "brand.pureBlackTxt";
+    let badgeTextColor = props.badgeColor ?? "brand.darkBrandTxt";
     let sliceIndex = getIndexByCharSum(badges, 35) + 1
 
-    const colors = ["#dc2b37ff", "#46AB50", "#3f36e8ff", "#873AE1"];
+    const colors = [...tagColors];
 
     const startIndex = Math.floor(Math.random() * colors.length);
 
@@ -82,7 +82,7 @@ function CustomContainerDisplayCard(props) {
                     <Text lineClamp={3}> {description}</Text>
                 </Card.Description>
 
-                <HStack key={`hs2_${cKey}`} gap={1} mb={1}>
+                <HStack key={`hs2_${cKey}`} gap={1} mb={1} mt={1}>
                     <Stack key={`st2_${cKey}`} direction="row" wrap="wrap" gap={1}>
                         {badges.slice(0, sliceIndex)?.map(
                             (badge, index) =>
@@ -110,6 +110,7 @@ function CustomContainerDisplayCard(props) {
                         height="25px"
                         aria-label="Edit"
                         onClick={() => onClickEdit(data)}
+                        mr={"5px"}
                     >
                         Edit
                     </Button>

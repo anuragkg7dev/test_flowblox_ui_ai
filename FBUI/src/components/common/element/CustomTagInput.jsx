@@ -2,11 +2,11 @@ import { HStack, Input, Tag, Text, VStack, Wrap } from "@chakra-ui/react"
 import { useCallback, useState } from "react";
 import CustomTag from "./CustomTag";
 import { splitString } from "../util/StringUtil";
+import { tagColors } from "../constants/CommonConstant";
 
 export default function CustomTagInput(props) {
     let cmt = props.cmt
-    let cbg = props.bg
-    let txtColor = props.txtColor
+
     let cpx = props.cpx
     let csize = props.csize
     let cml = props.cml
@@ -18,6 +18,11 @@ export default function CustomTagInput(props) {
     let iconColorPalette = props.iconColorPalette
 
     let validate = props.validate
+    const enableRandomColor = props.enableRandomColor ?? true;
+    const badgeColor = props.badgeColor ?? "brand.subBrandBg";
+    const badgeTextColor = props.badgeColor ?? "brand.darkBrandTxt";
+    const colors = [...tagColors];
+    const startIndex = Math.floor(Math.random() * colors.length);
 
     let [itags, setITags] = useState([]);
     let [tagInput, setTagInput] = useState("");
@@ -26,6 +31,13 @@ export default function CustomTagInput(props) {
     let setTags = props.setTags ?? setITags
 
     const COMMA = ','
+
+    const getRandomColor = (index) => {
+        if (enableRandomColor) {
+            return colors[(startIndex + index) % colors.length]
+        }
+        return badgeColor
+    }
 
     const onChangeTagInput = (e) => {
         let tagVal = e.target.value
@@ -95,8 +107,8 @@ export default function CustomTagInput(props) {
                                     ckey={"ct_" + index}
                                     cmt={cmt}
                                     name={tag}
-                                    txtColor={txtColor}
-                                    cbg={cbg}
+                                    cbg={getRandomColor(index)}
+                                    txtColor={badgeTextColor}
                                     cpx={cpx}
                                     cvariant={cvariant}
                                     csize={csize}

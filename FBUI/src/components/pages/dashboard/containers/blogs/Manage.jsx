@@ -2,7 +2,8 @@ import CustomBoldDisplayCard from "@/components/common/element/cards/CustomBoldD
 import CustomLine from "@/components/common/element/CustomLine";
 import {
   FormatNumber,
-  HStack
+  HStack,
+  Wrap
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaRegClock } from "react-icons/fa";
@@ -27,7 +28,7 @@ export default function Manage(props) {
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
 
-  const containerName = container.name ?? CommonLabels.MY_BLOX
+  const containerName = container?.name ?? CommonLabels.MY_BLOX
   const [status, setStatus] = useState(container[CONTAINERS_KEY.STATUS]);
   const [totalArticle, setTotalArticle] = useState(-1);
   const [totalPublishedArticle, setTotalPublishedArticle] = useState(-1);
@@ -80,7 +81,7 @@ export default function Manage(props) {
         disablePause={false}
       />
 
-      <HStack justify={"space-evenly"}>
+      <Wrap justify={"center"}>
 
         <CustomBoldDisplayCard
           cKey={"article"}
@@ -94,6 +95,8 @@ export default function Manage(props) {
           name={"Number of Live Articles"}
           xicon={ImNewspaper}
           stats={getFormatNumber(totalPublishedArticle)}
+          cml={"40px"}
+          cmr={"40px"}
         />
 
         <CustomBoldDisplayCard
@@ -103,7 +106,7 @@ export default function Manage(props) {
           stats={getTimeString(totalArticle)}
         />
 
-      </HStack>
+      </Wrap>
 
       <CustomLine cmt={10} cmb={10} />
 

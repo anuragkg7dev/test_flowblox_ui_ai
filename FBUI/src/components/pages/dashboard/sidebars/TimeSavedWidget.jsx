@@ -72,7 +72,7 @@ export default function TimeSavedWidget(props) {
                     <PacmanLoader size={15} color="white" />
                 </>)}
 
-                <VStack align="start" flexShrink={0}>
+                <VStack align="start">
                     <Text>Saved</Text>
                     <Text fontSize="10px">Using this tool</Text>
                 </VStack>

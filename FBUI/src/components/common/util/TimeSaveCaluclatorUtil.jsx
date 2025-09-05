@@ -36,7 +36,7 @@ export const getTimeInHours = (minutes) => {
     if (minutes) {
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
-        return `${hours} : ${mins}`;
+        return `${hours} : ${mins < 10 ? mins+'0': mins}`;
     }
 
     return 0

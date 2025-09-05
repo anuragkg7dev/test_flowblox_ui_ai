@@ -60,6 +60,7 @@ export default function CommonSidebar(props) {
               width="100%"
               height="60px"
               fontSize={{ base: "sm", md: "md" }}
+              mb={"20px"}
               onClick={() => {
                
                 setCurrentSelection(SIGN_OUT);

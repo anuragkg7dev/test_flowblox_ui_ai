@@ -4,6 +4,7 @@ import React from "react";
 import CustomTag from "../CustomTag";
 import IconSwitch from "../IconSwitch";
 import { getIndexByCharSum } from "../../util/JsonUtil";
+import { tagColors } from "../../constants/CommonConstant";
 
 function CustomContainerDisplayRow(props) {
   let cKey = props.cKey;
@@ -18,11 +19,12 @@ function CustomContainerDisplayRow(props) {
   let onClickManage = props.onClickManage;
   let enableRandomColor = props.enableRandomColor;
   let badgeColor = props.badgeColor ?? "brand.subBrandBg";
-  let badgeTextColor = props.badgeColor ?? "brand.pureBlackTxt";
+  let badgeTextColor = props.badgeColor ?? "brand.darkBrandTxt";
   let type = props.type;
 
 
-  const colors = ["#dc2b37ff", "#46AB50", "#3f36e8ff", "#873AE1"];
+  const colors = [...tagColors];
+
   const startIndex = Math.floor(Math.random() * colors.length);
   let sliceIndex = getIndexByCharSum(badges, 35) + 1
 

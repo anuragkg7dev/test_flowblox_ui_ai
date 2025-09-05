@@ -3,8 +3,11 @@ import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import {
   Box,
   Button,
+  Heading,
   HStack,
-  Text
+  Stack,
+  Text,
+  Wrap
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
@@ -37,6 +40,7 @@ export default function SingleContainerHeader(props) {
   const { config, setConfig } = useAppConfigStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
   const authkeyBearer = config[JWT_TOKEN];
+  
 
   useEffect(() => {
     loadBalance();
@@ -77,9 +81,17 @@ export default function SingleContainerHeader(props) {
   };
 
   return (
-    <HStack justifyContent="space-between" width="100%" mb={4} pr={cpr} pl={cpl}>
-      <Text color="brand.pureWhiteTxt">{containerName}</Text>
-      <HStack>
+     <Stack
+      direction={{ base: "column", md: "row" }}
+      justifyContent="space-between"
+      width="100%"
+      mb={4}
+      pr={cpr}
+      pl={cpl}
+      alignItems={{ base: "stretch", md: "center" }}
+    >
+      <Heading size="lg" color={"brand.pureWhiteTxt"}>{containerName}</Heading>
+      <Wrap>
 
         <CustomLoaderButton
           cwidth="auto"
@@ -142,7 +154,7 @@ export default function SingleContainerHeader(props) {
           <Text textStyle="md" color={"brand.pureWhiteTxt"}>{status}</Text>
         </Box>
 
-      </HStack>
-    </HStack >
+      </Wrap>
+    </Stack >
   );
 }

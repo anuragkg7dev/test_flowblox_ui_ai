@@ -89,7 +89,7 @@ export default function Containers() {
   }
 
   const loadContainerDataCallback = (flag, data) => {
-    
+
     if (flag) {
       const cpageMetadat = { [API_PARAM_KEY.CURRENT_PAGE]: data?.[API_PARAM_KEY.CURRENT_PAGE], [API_PARAM_KEY.TOTAL_COUNT]: data?.[API_PARAM_KEY.TOTAL_COUNT], [API_PARAM_KEY.TOTAL_PAGES]: data?.[API_PARAM_KEY.TOTAL_PAGES] }
 
@@ -162,6 +162,7 @@ export default function Containers() {
           onClickEdit={handleEdit}
           onClickManage={handleManage}
           type={container[CONTAINERS_KEY.CONTENT_TYPE]}
+          enableRandomColor={true}
         />
       </>
     );
@@ -186,6 +187,7 @@ export default function Containers() {
           onClickEdit={handleEdit}
           onClickManage={handleManage}
           type={container[CONTAINERS_KEY.CONTENT_TYPE]}
+          enableRandomColor={true}
         />
       </>
     )
@@ -240,7 +242,8 @@ export default function Containers() {
       <CommonSearchHeader
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
-        
+        enableSearch={false}
+
       />
 
       <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>

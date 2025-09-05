@@ -7,9 +7,11 @@ import {
   HStack,
   IconButton,
   Input,
-  InputGroup
+  InputGroup,
+  Stack,
+  useBreakpointValue
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import { CARD_LAYOUT, LIST_LAYOUT } from "../../DashboardConstant";
@@ -38,6 +40,15 @@ export default function CommonSearchHeaderWithPublish(props) {
   const cpr = props.cpr ?? UX.global_right_padding;
   const cheight = "40px"
 
+  // Detect if the current breakpoint is mobile ('base')
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  // Enforce CARD_LAYOUT on mobile view
+  useEffect(() => {
+    if (isMobile && layoutStyle !== CARD_LAYOUT) {
+      setLayoutStyle(CARD_LAYOUT);
+    }
+  }, [isMobile, layoutStyle, setLayoutStyle]);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -48,7 +59,7 @@ export default function CommonSearchHeaderWithPublish(props) {
   };
 
   return (
-    <HStack pl={cpl} pr={cpr} height={"80px"} justifyContent="space-between" width="100%" >
+    <Stack pl={cpl} pr={cpr} height={"80px"} justifyContent="space-between" width="100%" alignItems={{ base: "stretch", md: "center" }} direction={{ base: "column", md: "row" }} >
       <HStack>
         {showIcon && (
           <IconSwitch type={iconType} boxSize={5} />
@@ -89,6 +100,7 @@ export default function CommonSearchHeaderWithPublish(props) {
           size="sm"
           boxSize={cheight}
           mt={2}
+          display={{ base: "none", md: "inline-flex" }} // Hide on mobile, show on md and above
         >
           {layoutStyle === CARD_LAYOUT ? (
             <LuLayoutGrid color="brand.pureWhiteBg" />
@@ -97,6 +109,6 @@ export default function CommonSearchHeaderWithPublish(props) {
           )}
         </IconButton>
       </HStack>
-    </HStack>
+    </Stack>
   );
 }

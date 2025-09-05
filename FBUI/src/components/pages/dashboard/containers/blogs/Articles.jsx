@@ -29,7 +29,7 @@ import ArticleTemplate from "./ArticleTemplate";
 import CustomPageScrollObserverTop from "@/components/common/element/CustomPageScrollObserverTop";
 
 export default function Articles(props) {
-  const limit = props.limit ?? 7
+  const limit = props.limit ?? 20
   const selectView = props.selectView
   const hideFilter = props.hideFilter
   const loadPublishCount = props.loadPublishCount
@@ -286,7 +286,8 @@ export default function Articles(props) {
       />
 
       {!hideFilter && (
-        <HStack justify={"flex-end"} mr={UX.global_right_padding} mt={"10px"}>
+        <HStack pl={UX.global_left_padding} justify={"flex-end"} mr={UX.global_right_padding} mt={"10px"}>
+          <Wrap>
           <CustomSegmentGroup
             filterOptions={filterOptions}
             onChangeFilterOptions={(val) => {
@@ -314,6 +315,7 @@ export default function Articles(props) {
             />
 
           </Box>
+          </Wrap>
 
         </HStack>
       )}

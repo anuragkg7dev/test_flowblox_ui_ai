@@ -6,17 +6,26 @@ function CustomBoldDisplayCard(props) {
   const name = props.name;
   const xicon = props.xicon;
   const stats = props.stats;
+  const cml = props.cml;
+  const cmr = props.cmr;
+  const cmt = props.cmt;
+  const cmb = props.cmb;
 
   return (
     <Box
       key={`wrapper_${cKey}`}
-      width={{ base: "100%", sm: "280px", md: "320px", lg: "360px" }}
+      width={{ base: "100%", sm: "280px", md: "320px", lg: "460px" }}
+    
       position="relative"
       _before={{
         content: '""',
         display: "block",
         paddingTop: "54.3%", // Aspect ratio (158 / 291)
       }}
+      ml={cml}
+      mr={cmr}
+      mt={cmt}
+      mb={cmb}
     >
       <Card.Root
         key={`cr_${cKey}`}
@@ -54,8 +63,7 @@ function CustomBoldDisplayCard(props) {
           px={{ base: 3 }}
           pb={5}
           width="100%"
-          display="flex"
-          justifyContent="center"
+          display="flex"         
         >
           <HStack
             width="100%"
@@ -63,8 +71,8 @@ function CustomBoldDisplayCard(props) {
             justify="space-between"
             spacing={{ base: 2, sm: 4 }}
           >
-            <Text fontSize={{ base: "sm", sm: "md", md: "lg" }}>{name}</Text>
-            <Icon as={xicon} boxSize={{ base: 5, sm: 7, md: 8 }} color="inherit" />
+            <Text justifySelf={"start"} fontSize={{ base: "sm", sm: "md", md: "lg" }}>{name}</Text>
+            <Icon as={xicon} boxSize={{ base: 6, sm: 8, md: 10 }} color="inherit" />
           </HStack>
         </Card.Footer>
       </Card.Root>
