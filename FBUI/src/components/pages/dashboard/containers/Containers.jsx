@@ -69,6 +69,7 @@ export default function Containers() {
 
   const loadAllContainerData = (urlParam) => {
     if (config?.[APP_CONFIG_KEYS.CONTAINER_MODIFIED] == true || config?.[APP_CONFIG_KEYS.CONTAINER_MODIFIED] == undefined) {
+      resetPagData()
       loadContainerData(urlParam);
     } else {
       let cpageMetadata = config?.[APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]
