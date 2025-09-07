@@ -54,6 +54,8 @@ export const customThemeSystem = createSystem(
             delete: '#CC0D10',
             deleteHover: '#c91c1fff',
 
+            activeTxt:'#46AB50',
+
           },
         },
         

@@ -95,5 +95,6 @@ export const API_PARAM_KEY = {
     TOTAL_PAGES: 'total_pages',
     NAME: 'name',
     TAGS: 'tags',
-    CONTENT_TYPE: 'content_type'
+    CONTENT_TYPE: 'content_type',
+    ID: 'id',
 }

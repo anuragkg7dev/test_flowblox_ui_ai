@@ -90,6 +90,19 @@ export function removeSourceDestination(body, callback, authkeyBearer) {
   callEdgeFunction(edgeFunction.REMOVE_SOURCE_AND_DESTINATION, body, callback, authkeyBearer, DELETE)
 }
 
+export function updateContainerStatus(body, callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.UPDATE_CONTAINER_STATUS, body, callback, authkeyBearer, POST)
+}
+
+export function getContainerNextRun(container_id, callback, authkeyBearer) {
+  let paramMap = new Map([[API_PARAM_KEY.ID, container_id],]);
+  callEdgeFunctionWithParams(edgeFunction.GET_NEXT_RUN, {}, paramMap, callback, authkeyBearer, GET)
+}
+
+
+
+
+
 
 
 

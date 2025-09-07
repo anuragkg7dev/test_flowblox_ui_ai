@@ -68,14 +68,7 @@ export default function Manage(props) {
 
   return (
     <>
-      <SingleContainerHeader
-        status={status}
-        setStatus={setStatus}
-        containerName={containerName}
-        startPauseToggele={true}
-        onStart={() => { console.log("Start") }}
-        onStop={() => { console.log("Stop") }}
-        onPause={() => { console.log("Pause") }}
+      <SingleContainerHeader        
         disableStop={false}
         disableStart={false}
         disablePause={false}

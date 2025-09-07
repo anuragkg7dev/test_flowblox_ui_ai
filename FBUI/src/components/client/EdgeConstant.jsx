@@ -13,6 +13,8 @@ export const COMMON_STATUS = {
   ARCHIVED: 'archived',
   GENERATED: "generated",
   ALL: "all",
+  COMPLETED: "completed",
+  NA: "NA",
 }
 
 export const DEFAULT_VALUE = {

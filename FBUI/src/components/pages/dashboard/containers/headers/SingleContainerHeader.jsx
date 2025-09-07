@@ -1,4 +1,4 @@
-import { generateArticleTrigger, getBalance } from "@/components/client/EdgeFunctionRepository";
+import { generateArticleTrigger, getBalance, getContainerNextRun, updateContainerStatus } from "@/components/client/EdgeFunctionRepository";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import {
   Box,
@@ -12,38 +12,52 @@ import {
 import { useEffect, useState } from "react";
 import { CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { APP_CONFIG_KEYS, UX } from "@/components/common/constants/CommonConstant";
+import { ACTION, APP_CONFIG_KEYS, STATUS, UX } from "@/components/common/constants/CommonConstant";
 import { toast } from "@/components/common/Notification";
 import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
-import { CONTENT_TYPE } from "@/components/client/EdgeConstant";
+import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
+import { getBlogContainerFromresponse } from "../ContainersUtil";
+import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import { SiTicktick } from "react-icons/si";
+import { GoZap } from "react-icons/go";
+import { CgSandClock } from "react-icons/cg";
+import CustomDateTimeDisplay from "@/components/common/element/CustomDateTimeDisplay";
+import { BeatLoader } from "react-spinners";
 
 export default function SingleContainerHeader(props) {
 
-  const status = props.status ?? "Testing"
-  const setStatus = props.setStatus
-  const containerName = props.containerName;
-  const startPauseToggele = props.startPauseToggele ?? true;
-  const onStart = props.onStart;
-  const onStop = props.onStop;
-  const onPause = props.ononPause;
+  const { config, setConfig } = useAppConfigStore();
+  let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
+  const authkeyBearer = config[JWT_TOKEN];
+
+  const [loader, setLoader] = useState(false)
+  const [statusLoader, setStatusLoader] = useState(false)
+
+  const [balance, setBalance] = useState('Check Balance');
+  const [balanceLoader, setBalanceLoader] = useState(false);
+
+  const [action, setAction] = useState(false);
+  const [showConfirmation, setShowsConfirmation] = useState(false);
+
+  const [startPauseToggele, setStartPauseToggele] = useState(container?.status == COMMON_STATUS.ACTIVE);
+
+  const [info, setInfo] = useState(undefined);
+
+
+  const containerName = container.containerName;
+
+
   const disableStop = props.disableStop ?? false;
   const disableStart = props.disableStart ?? false;
   const disablePause = props.disablePause ?? false;
   const cpl = props.cpl ?? UX.global_left_padding;
   const cpr = props.cpr ?? UX.global_right_padding;
 
-  const [loader, setLoader] = useState(false)
-
-  const [balance, setBalance] = useState('Check Balance');
-  const [balanceLoader, setBalanceLoader] = useState(false);
-
-  const { config, setConfig } = useAppConfigStore();
-  let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
-  const authkeyBearer = config[JWT_TOKEN];
-  
 
   useEffect(() => {
     loadBalance();
+    loadContainerNextRun();
   }, []);
 
   const handleGenerateArticle = () => {
@@ -80,81 +94,187 @@ export default function SingleContainerHeader(props) {
       authkeyBearer)
   };
 
+  const onStart = () => {
+    setAction(ACTION.START)
+    setShowsConfirmation(true)
+  }
+
+  const onPause = () => {
+    setAction(ACTION.PAUSE)
+    setShowsConfirmation(true)
+  }
+
+  const onOkConfirmation = () => {
+    if (action == ACTION.START) {
+      changeStatus(COMMON_STATUS.ACTIVE)
+    } else if (action == ACTION.PAUSE) {
+      changeStatus(COMMON_STATUS.PAUSED)
+    }
+  }
+
+  const changeStatus = (status) => {
+    setShowsConfirmation(false)
+    setStatusLoader(true)
+    let payload = { id: container.id, status }
+    updateContainerStatus(payload, (flag, data) => { onChangeStatusCallback(flag, data, status) }, authkeyBearer)
+  };
+
+  const onChangeStatusCallback = (flag, data, status) => {
+    if (flag) {
+      let tempContainer = { ...container }
+      tempContainer[CONTAINERS_KEY.STATUS] = status
+
+      setConfig({
+        ...config,
+        [APP_CONFIG_KEYS.CONTAINER_DATA]: tempContainer, // Update current container data in context
+        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data
+      });
+
+      setStartPauseToggele(status == COMMON_STATUS.ACTIVE);
+
+      console.log(startPauseToggele, status == COMMON_STATUS.ACTIVE, data)
+
+      toast.success("Updated")
+      updateContainerNextRun(status)
+
+    } else {
+      toast.error("Failed to update status !!")
+    }
+    setStatusLoader(false)
+  }
+
+  const loadContainerNextRun = () => {
+    updateContainerNextRun(container.status)
+  }
+
+  const updateContainerNextRun = (status) => {
+    if (status == COMMON_STATUS.ACTIVE) {
+      setInfo(<BeatLoader size={8} color="white" />)
+      getContainerNextRun(container?.id, getContainerNextRunCallback, authkeyBearer)
+    } else {
+      setInfo(getWaitingInput())
+    }
+  }
+
+  const getContainerNextRunCallback = (flag, data) => {
+    if (flag) {
+      if (data.status == COMMON_STATUS.ACTIVE) {
+        setInfo(getWaitingTime(data))
+      } else if (data.status == COMMON_STATUS.COMPLETED) {
+        setInfo(getCompleteStatus())
+      } else if (data.status == COMMON_STATUS.NA) {
+        setInfo(getWaitingInput())
+      } else {
+        setInfo('')
+      }
+    } else {
+      setInfo('')
+      toast.error('Failed to load container info!!')
+    }
+  }
+
+  const getCompleteStatus = () => {
+    return (<HStack>
+      <Text color={'brand.activeTxt'} fontSize={'16px'}>Completed</Text>
+      <SiTicktick color={'#46AB50'} />
+    </HStack>)
+  }
+
+  const getWaitingTime = (data) => {
+    return (<HStack>
+      <Text color={'brand.subBrandTxt'} fontSize={'16px'}>Waiting: </Text>
+      <CustomDateTimeDisplay cdate={data.nextRun} cfontSize={"16px"} ccolor={'brand.subBrandTxt'} />
+      <CgSandClock color={'#D2B5F9'} />
+    </HStack>)
+  }
+
+  const getWaitingInput = () => {
+    return (<HStack>
+      <Text color={'brand.subBrandTxt'} fontSize={'16px'}>Waiting Input</Text>
+      <GoZap color={'#D2B5F9'} />
+    </HStack>)
+  }
+
+
+
   return (
-     <Stack
-      direction={{ base: "column", md: "row" }}
-      justifyContent="space-between"
-      width="100%"
-      mb={4}
-      pr={cpr}
-      pl={cpl}
-      alignItems={{ base: "stretch", md: "center" }}
-    >
-      <Heading size="lg" color={"brand.pureWhiteTxt"}>{containerName}</Heading>
-      <Wrap>
+    <>
+      <Stack
+        direction={{ base: "column", md: "row" }}
+        justifyContent="space-between"
+        width="100%"
+        mb={4}
+        pr={cpr}
+        pl={cpl}
+        alignItems={{ base: "stretch", md: "center" }}
+      >
+        <Heading size="lg" color={"brand.pureWhiteTxt"}>{containerName}</Heading>
+        <Wrap>
 
-        <CustomLoaderButton
-          cwidth="auto"
-          cmt={6}
-          cvariant={"fbloxD"}
-          cloadingText={'Loading...'}
-          loader={balanceLoader}
-          onClickBtn={loadBalance}
-          clabel={balance == undefined ? 'Fetch Balance' : balance + ' Articles'}
-        />
-
-        <CustomLoaderButton
-          cwidth="auto"
-          cmt={6}
-          cvariant={"fblox"}
-          cloadingText={'Generate'}
-          loader={loader}
-          onClickBtn={handleGenerateArticle}
-          clabel={'Generate'}
-        />
-
-        <Button
-          mt={6}
-          variant={"fbloxD"}
-          cwidth="auto"
-          fontSize={{ base: "sm", md: "md" }}
-          onClick={onStop}
-          disabled={disableStop}
-        >
-          Stop
-        </Button>
-
-
-        {!startPauseToggele && (<>
-          <Button
-            mt={6}
-            variant={"fblox"}
+          <CustomLoaderButton
             cwidth="auto"
-            fontSize={{ base: "sm", md: "md" }}
-            onClick={onStart}
-            disabled={disableStart}
-          >
-            Start
-          </Button>
-        </>)}
+            cmt={6}
+            cvariant={"fbloxD"}
+            cloadingText={'Loading...'}
+            loader={balanceLoader}
+            onClickBtn={loadBalance}
+            clabel={balance == undefined ? 'Fetch Balance' : balance + ' Articles'}
+          />
 
-        {startPauseToggele && (<>
-          <Button
-            mt={6}
-            variant={"fblox"}
+          {false && (<>  <CustomLoaderButton
             cwidth="auto"
-            fontSize={{ base: "sm", md: "md" }}
-            onClick={onPause}
-            disabled={disablePause}
-          >
-            Pause
-          </Button>
-        </>)}
-        <Box mr={5} mt={5} ml={5}>
-          <Text textStyle="md" color={"brand.pureWhiteTxt"}>{status}</Text>
-        </Box>
+            cmt={6}
+            cvariant={"fblox"}
+            cloadingText={'Generate'}
+            loader={loader}
+            onClickBtn={handleGenerateArticle}
+            clabel={'Generate'}
+          />
+          </>)}
 
-      </Wrap>
-    </Stack >
+          {!startPauseToggele && (<>
+            <CustomLoaderButton
+              cwidth="auto"
+              cmt={6}
+              cvariant={"fblox"}
+              cloadingText={'Starting'}
+              loader={statusLoader}
+              onClickBtn={onStart}
+              clabel={'Start'}
+              cdisabled={disableStart}
+            />
+
+          </>)}
+
+          {startPauseToggele && (<>
+            <CustomLoaderButton
+              cwidth="auto"
+              cmt={6}
+              cvariant={"fblox"}
+              cloadingText={'Stopping'}
+              loader={statusLoader}
+              onClickBtn={onPause}
+              clabel={'Stop'}
+              cdisabled={disablePause}
+            />
+
+          </>)}
+
+          <Box ml={4} mt={8}>{info}</Box>
+        </Wrap>
+
+      </Stack >
+
+      <ConfirmationDialog
+        show={showConfirmation}
+        setShow={setShowsConfirmation}
+        header={action == ACTION.START ? CommonMessageLabels.START_CONTAINER_HEADING : CommonMessageLabels.STOP_CONTAINER_HEADING}
+        description={action == ACTION.START ? CommonMessageLabels.START_CONTAINER_DESCRIPTION : CommonMessageLabels.STOP_CONTAINER_DESCRIPTION}
+        onOk={onOkConfirmation}
+        closeLabel={CommonMessageLabels.CANCEL}
+        okLabel={CommonMessageLabels.YES}
+        status={STATUS.WARNING}
+      />
+    </>
   );
 }

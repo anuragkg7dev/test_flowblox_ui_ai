@@ -1,4 +1,4 @@
-import { ACTION, APP_CONFIG_KEYS, UX } from "@/components/common/constants/CommonConstant";
+import { ACTION, APP_CONFIG_KEYS, SORT_OPTIONS, UX } from "@/components/common/constants/CommonConstant";
 import CustomAddCard from "@/components/common/element/cards/CustomAddCard";
 import CustomAddRow from "@/components/common/element/cards/CustomAddRow";
 import CustomContainerDisplayCard from "@/components/common/element/cards/CustomContainerDisplayCard";
@@ -35,6 +35,7 @@ export default function Containers() {
   const [containerMaster, setContainerMaster] = useState({});
   const [containerList, setContainerList] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [sortParam, setSortParam] = useState("desc");
 
   const navigate = useNavigate()
 
@@ -49,6 +50,7 @@ export default function Containers() {
     [API_PARAM_KEY.STATUS, status],
     [API_PARAM_KEY.TAGS, undefined],
     [API_PARAM_KEY.NAME, undefined],
+    [API_PARAM_KEY.SORT, sortParam],
   ])
 
   const [showLoadMore, setShowLoadMore] = useState(false);
@@ -84,8 +86,8 @@ export default function Containers() {
     getContainers(urlParam, loadContainerDataCallback, authkeyBearer)
   }
 
-  const loadContainerDataOnSaveUpdate = () => {
-    loadContainerData(pageConfigParams)
+  const loadContainerDataOnSaveUpdate = () => { 
+    reloadDataWithSortParam(sortParam)
   }
 
   const loadContainerDataCallback = (flag, data) => {
@@ -143,6 +145,20 @@ export default function Containers() {
     });
 
     navigate(hroute?.to)
+  }
+
+  const resetPagData=()=>{
+ setContainerList( []);
+      setConfig({
+        ...config,
+        [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [],
+        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true,
+        [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]:  undefined,
+        [APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS]: undefined
+      });
+
+      setPageMetadata(undefined)
+      updateShowLoadMore(false)
   }
 
   const getCardLayout = (container) => {
@@ -224,6 +240,14 @@ export default function Containers() {
     });
   }
 
+  const reloadDataWithSortParam = (data) => {
+    resetPagData()
+    setSortParam(data)   
+    let tempMap = new Map(initUrlParam.set(API_PARAM_KEY.SORT, data))
+    setPageConfigParams(tempMap);
+    loadContainerData(tempMap)
+  }
+
   return (
     <>
       <CustomPageScrollObserverTop
@@ -243,7 +267,10 @@ export default function Containers() {
         layoutStyle={layoutStyle}
         setLayoutStyle={setLayoutStyle}
         enableSearch={false}
-
+        dropOptions={SORT_OPTIONS}
+        cwidth="150px"
+        dropParam={sortParam}
+        setDropParam={reloadDataWithSortParam}
       />
 
       <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>

@@ -1,5 +1,5 @@
-import { CONTENT_TYPE, FREQUENCY_TYPE } from "@/components/client/EdgeConstant";
-import { createAndUpdateBlogContainers } from "@/components/client/EdgeFunctionRepository";
+import { COMMON_STATUS, CONTENT_TYPE, FREQUENCY_TYPE } from "@/components/client/EdgeConstant";
+import { createAndUpdateBlogContainers, updateContainerStatus } from "@/components/client/EdgeFunctionRepository";
 import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { ACTION, APP_CONFIG_KEYS, STATUS } from "@/components/common/constants/CommonConstant";
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
@@ -62,6 +62,9 @@ function AddEditBlogsContainer(props) {
     const [tags, setTags] = useState(getTagsArrayFromString(containerMaster?.[CONTAINERS_KEY.TAGS]));
     const [sources, setSources] = useState(containerMaster?.[CONTAINERS_KEY.SOURCES]);
 
+    const [showDeleteConfirmation, setShowsDeleteConfirmation] = useState(false);
+    const [deleteLoader, setDeleteLoader] = useState(false);
+
 
     const [error, setError] = useState({});
     const [showConfirmation, setShowsConfirmation] = useState(false);
@@ -120,7 +123,7 @@ function AddEditBlogsContainer(props) {
     };
 
     const validateContainerDescription = () => {
-      
+
         let err = validate(containerValidationSchema, CONTAINERS_KEY.DESCRIPTION, description)
         setError({
             ...error,
@@ -248,14 +251,14 @@ function AddEditBlogsContainer(props) {
         tempContainerMaster[CONTAINERS_KEY.QUANTITY] = Number(noOfArticle);
 
         tempContainerMaster[CONTAINERS_KEY.WORD_COUNT] = Number(noOfWords);
-        tempContainerMaster = updateAsPerFrequency(tempContainerMaster)        
+        tempContainerMaster = updateAsPerFrequency(tempContainerMaster)
         tempContainerMaster[CONTAINERS_KEY.TIMEZONE] = timeZone;
         setContainerMaster(tempContainerMaster)
         return tempContainerMaster
     };
 
     const updateAsPerFrequency = (tempContainerMaster) => {
-       
+
         tempContainerMaster[CONTAINERS_KEY.FREQUENCY] = frequency;
         if (frequency == FREQUENCY_TYPE.CUSTOM) {
             tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = getDateString(publishDate);
@@ -281,6 +284,19 @@ function AddEditBlogsContainer(props) {
     };
 
 
+    const onConfirmationDelete = () => {
+        const payload = {}
+        payload[CONTAINERS_KEY.ID] = containerMaster.id
+        payload[CONTAINERS_KEY.STATUS] = COMMON_STATUS.DELETED
+        setDeleteLoader(true)
+        setShowsDeleteConfirmation(false)
+        updateContainerStatus(payload, onChangeStatusCallback, authkeyBearer)
+
+    };
+
+    const onChangeStatusCallback = (flag, data) => {
+        onSubmitCallback(flag, data)
+    }
 
     return (
         <>
@@ -426,15 +442,15 @@ function AddEditBlogsContainer(props) {
                             />
 
                             {action == ACTION.EDIT && (<>
-                                <Button
-                                    mt={6}
-                                    variant={"delete"}
-                                    width="33%"
-                                    fontSize={{ base: "sm", md: "md" }}
-                                    onClick={() => { }}
-                                >
-                                    Delete
-                                </Button>
+                                <CustomLoaderButton
+                                    cwidth="33%"
+                                    cmt={6}
+                                    cvariant={"delete"}
+                                    cloadingText={'DELETE'}
+                                    loader={deleteLoader}
+                                    onClickBtn={() => { setShowsDeleteConfirmation(true) }}
+                                    clabel={'DELETE'}
+                                />
                             </>)}
 
                         </HStack>
@@ -453,6 +469,17 @@ function AddEditBlogsContainer(props) {
                 onOk={onConfirmationOk}
                 closeLabel={CommonMessageLabels.NO}
                 okLabel={CommonMessageLabels.YES}
+                status={STATUS.WARNING}
+            />
+
+            <ConfirmationDialog
+                show={showDeleteConfirmation}
+                setShow={setShowsDeleteConfirmation}
+                header={CommonMessageLabels.DELETE_HEADING}
+                description={CommonMessageLabels.DELETE_DESCRIPTION}
+                onOk={onConfirmationDelete}
+                closeLabel={CommonMessageLabels.CANCEL}
+                okLabel={CommonMessageLabels.DELETE}
                 status={STATUS.WARNING}
             />
         </>

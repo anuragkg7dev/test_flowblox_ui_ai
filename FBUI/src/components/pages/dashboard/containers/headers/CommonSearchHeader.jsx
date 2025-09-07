@@ -21,16 +21,20 @@ import { UX } from "@/components/common/constants/CommonConstant";
 export default function CommonSearchHeader(props) {
   const name = props.name ?? CommonLabels.MY_BLOX
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortParam, setSortParam] = useState("");
+  const [xdropParam, setXDropParam] = useState("");
   const layoutStyle = props.layoutStyle;
   const setLayoutStyle = props.setLayoutStyle;
   const showIcon = props.showIcon;
   const iconType = props.iconType;
   const cpl = props.cpl ?? UX.global_left_padding;
   const cpr = props.cpr ?? UX.global_right_padding;
-  const enableSelect = props.enableSelect == undefined ?? true;
-  const enableSearch = props.enableSearch == undefined ?? true;
+  const enableSelect = props.enableSelect != undefined ? props.enableSelect : true;
+  const enableSearch = props.enableSearch != undefined ? props.enableSearch : true;
+  const dropOptions = props.dropOptions ?? [{ label: "Name", value: "name" }]
   const cheight = "40px"
+  const cwidth = props.cwidth ?? "auto"
+  const dropParam = props.dropParam ?? xdropParam
+  const setDropParam = props.setDropParam ?? setXDropParam
 
   // Detect if the current breakpoint is mobile ('base')
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -41,11 +45,6 @@ export default function CommonSearchHeader(props) {
       setLayoutStyle(CARD_LAYOUT);
     }
   }, [isMobile, layoutStyle, setLayoutStyle]);
-
-  const sortOptions = [
-    { label: "Name", value: "name" },
-    { label: "Date", value: "date" },
-  ];
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -79,12 +78,12 @@ export default function CommonSearchHeader(props) {
 
         {enableSelect && (
           <CustomSelect
-            sdata={sortOptions}
+            sdata={dropOptions}
             slabel=""
             splaceholder="Select"
-            cselectCallback={(data) => setSortParam(data)}
-            cwidth="131px"
-            cheight={cheight}
+            cselectCallback={(data) => setDropParam(data)}
+            cwidth={cwidth}
+            defaultSelected={dropParam}
           />
         )}
 

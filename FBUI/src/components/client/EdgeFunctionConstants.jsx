@@ -19,8 +19,10 @@ export const edgeFunction = {
     GET_COUNT_STATS: "getCountStats",
     UPDATE_ARTICLE_STATUS: "updateArticleStatus",
     GET_PUBLISH_COUNT_STATS: "getPublishCountStats",
-    UPDATE_CONTAINER_AUTOPUBLISH : "updateContainerAutoPublish",
-    REMOVE_SOURCE_AND_DESTINATION : "removeSourceDestination",
+    UPDATE_CONTAINER_AUTOPUBLISH: "updateContainerAutoPublish",
+    REMOVE_SOURCE_AND_DESTINATION: "removeSourceDestination",
+    UPDATE_CONTAINER_STATUS: "updateContainerStatus",
+    GET_NEXT_RUN: "getContainerNextRun",
 };
 
 const edgeFunctionKeys = {};

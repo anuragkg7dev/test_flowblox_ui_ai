@@ -16,7 +16,9 @@ export const ACTION = {
   CONFIRM: "confirm",
   CLOSE: "close",
   CANCEL: "cancel",
-  MANAGE: "manage"
+  MANAGE: "manage",
+  START: "add",
+  PAUSE: "pause",
 }
 
 export const STATUS = {
@@ -83,3 +85,11 @@ export const tagColors = [
   "#E1BEE7",
   "#AED581",
   "#FFF3E0"]
+
+export const SORT_OPTIONS = [
+  { value: "cdesc", label: "Created Date", description: "(Newest First)" },
+  { value: "desc", label: "Updated Date", description: "(Newest First)" },
+  { value: "casc", label: "Created Date", description: "(Oldest First)" },
+  { value: "asc", label: "Updated Date", description: "(Oldest First)" }
+]
+
