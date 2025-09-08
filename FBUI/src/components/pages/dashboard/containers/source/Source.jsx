@@ -29,7 +29,7 @@ export default function Source() {
 
   const MAX_LIMIT = 5
 
-  const { config: xconfig, setConfig, updateConfig } = useAppConfigStore();
+  const { config: xconfig, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   const authkeyBearer = xconfig[JWT_TOKEN];
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA];
 
@@ -103,8 +103,8 @@ export default function Source() {
     }
 
     setSourceList(updatedSourceListById(id, SOURCE_DESTINATION_KEY.PROCESSING, false));
-    setConfig({ ...xconfig, [APP_CONFIG_KEYS.SOURCE_DATA_LIST]: undefined, [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: undefined }) // to enable reload
-   
+    updateConfigObj({ [APP_CONFIG_KEYS.SOURCE_DATA_LIST]: undefined, [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: undefined }) // to enable reload
+
     setLoader?.(false);
   };
 
@@ -193,7 +193,7 @@ export default function Source() {
         name={"Sources"}
         enableSelect={false}
       />
-      <HStack justify={"flex-end"}  mr={UX.global_right_padding} mt={"10px"} mb={"20px"}>
+      <HStack justify={"flex-end"} mr={UX.global_right_padding} mt={"10px"} mb={"20px"}>
         <Button
           mt={1}
           key={`btm_addSource`}
@@ -207,12 +207,12 @@ export default function Source() {
         </Button>
       </HStack>
 
-       <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
+      <Wrap pl={UX.global_left_padding} pr={layoutStyle == CARD_LAYOUT ? "0px" : UX.global_right_padding} gap={layoutStyle == LIST_LAYOUT ? "8px" : "20px"}>
 
         {loader && getLoader()}
         {sourceList?.map((x) => getLayout(x))}
         {sourceList.length < MAX_LIMIT && getAddLayout()}
-        
+
       </Wrap>
 
       <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer}>

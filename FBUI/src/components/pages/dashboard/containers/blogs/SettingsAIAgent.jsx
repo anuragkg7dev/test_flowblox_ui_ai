@@ -25,7 +25,7 @@ export default function SettingsAIAgent(props) {
   const isModified = props.isModified
   const setIsModified = props.setIsModified
 
-  const { config: xconfig, setConfig: setXConfig, updateConfig } = useAppConfigStore();
+  const { config: xconfig, setConfig: setXConfig,updateConfig , updateConfigObj } = useAppConfigStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA];
   const authkeyBearer = xconfig[JWT_TOKEN];
 
@@ -59,8 +59,7 @@ export default function SettingsAIAgent(props) {
 
   const onSubmitCallback = (flag, data) => {
     if (flag) {
-      setXConfig({
-        ...xconfig,
+      updateConfigObj({
         [APP_CONFIG_KEYS.CONTAINER_DATA]: getBlogContainerFromresponse(data), // update current container data in context
         [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data
       });

@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { getCurrentSelection, getSBarButtonStyles, PREVIOUS } from "./SidebarUtil";
 
 export default function SidebarTemplate(props) {
-  const { config, setConfig } = useAppConfigStore();
+  const { config, setConfig,updateConfig , updateConfigObj } = useAppConfigStore();
 
   const options = props.options ?? [];
   const previousIcon = GrPrevious;

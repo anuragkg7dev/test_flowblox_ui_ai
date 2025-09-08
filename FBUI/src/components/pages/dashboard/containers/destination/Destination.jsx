@@ -31,7 +31,7 @@ export default function Destination() {
 
   const MAX_LIMIT = 5
 
-  const { config: xconfig, setConfig, updateConfig } = useAppConfigStore();
+  const { config: xconfig, setConfig, updateConfig,updateConfigObj } = useAppConfigStore();
   const authkeyBearer = xconfig[JWT_TOKEN];
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
 
@@ -103,7 +103,7 @@ export default function Destination() {
     }
 
     setDestinationList(updatedDestinationListById(id, SOURCE_DESTINATION_KEY.PROCESSING, false))
-    setConfig({ ...xconfig, [APP_CONFIG_KEYS.SOURCE_DATA_LIST]: undefined, [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: undefined }) // to enable reload
+    updateConfigObj({ [APP_CONFIG_KEYS.SOURCE_DATA_LIST]: undefined, [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: undefined }) // to enable reload
 
     setLoader?.(false)
 

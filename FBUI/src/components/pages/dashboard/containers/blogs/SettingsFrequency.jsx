@@ -29,7 +29,7 @@ export default function SettingsFrequency(props) {
   const isModified = props.isModified
   const setIsModified = props.setIsModified
 
-  const { config: xconfig, setConfig: setXConfig, updateConfig } = useAppConfigStore();
+  const { config: xconfig, setConfig: setXConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
   const authkeyBearer = xconfig[APP_CONFIG_KEYS.JWT_TOKEN];
 
@@ -142,8 +142,7 @@ export default function SettingsFrequency(props) {
 
   const onSubmitCallback = (flag, data) => {
     if (flag) {
-      setXConfig({
-        ...xconfig,
+      updateConfigObj({
         [APP_CONFIG_KEYS.CONTAINER_DATA]: getBlogContainerFromresponse(data), // Update current container data in context
         [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data
       });
@@ -156,7 +155,7 @@ export default function SettingsFrequency(props) {
   }
 
   const validateContainerName = () => {
-  
+
     let containerNameError = validate(containerValidationSchema, CONTAINERS_KEY.NAME, containerName)
     setError({
       ...error,
@@ -175,7 +174,7 @@ export default function SettingsFrequency(props) {
 
 
   const validateContainerTags = () => {
-  
+
     let err = validate(containerValidationSchema, CONTAINERS_KEY.TAGS, tags)
     setError({
       ...error,
@@ -208,38 +207,38 @@ export default function SettingsFrequency(props) {
     tempContainerMaster[CONTAINERS_KEY.DESCRIPTION] = description;
     tempContainerMaster[CONTAINERS_KEY.CONTENT_TYPE] = CONTENT_TYPE.ARTICLE_BLOG;
     tempContainerMaster[CONTAINERS_KEY.TAGS] = joinStrings(tags);
-    tempContainerMaster[CONTAINERS_KEY.QUANTITY] = Number(noOfArticle); 
-    tempContainerMaster[CONTAINERS_KEY.WORD_COUNT] = Number(noOfWords);   
+    tempContainerMaster[CONTAINERS_KEY.QUANTITY] = Number(noOfArticle);
+    tempContainerMaster[CONTAINERS_KEY.WORD_COUNT] = Number(noOfWords);
     tempContainerMaster = updateAsPerFrequency(tempContainerMaster)
     tempContainerMaster[CONTAINERS_KEY.TIMEZONE] = timeZone;
     return tempContainerMaster
   };
 
-      const updateAsPerFrequency = (tempContainerMaster) => {
-       
-        tempContainerMaster[CONTAINERS_KEY.FREQUENCY] = frequency;
-        if (frequency == FREQUENCY_TYPE.CUSTOM) {
-            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = getDateString(publishDate);
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
-        } else if (frequency == FREQUENCY_TYPE.MONTHLY) {
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = dayOfMonth ? String(dayOfMonth) : undefined;
-            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
-        } else if (frequency == FREQUENCY_TYPE.WEEKLY) {
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = dayOfWeek ? String(dayOfWeek) : undefined;
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
-            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
-        }else if (frequency == FREQUENCY_TYPE.DAILY) {
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined
-            tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
-            tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
-        }
-        tempContainerMaster[CONTAINERS_KEY.MINUTE] = min ? String(min) : undefined;
-        tempContainerMaster[CONTAINERS_KEY.HOUR] = hour ? String(hour) : undefined;
+  const updateAsPerFrequency = (tempContainerMaster) => {
 
-        return tempContainerMaster
-    };
+    tempContainerMaster[CONTAINERS_KEY.FREQUENCY] = frequency;
+    if (frequency == FREQUENCY_TYPE.CUSTOM) {
+      tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = getDateString(publishDate);
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
+    } else if (frequency == FREQUENCY_TYPE.MONTHLY) {
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = dayOfMonth ? String(dayOfMonth) : undefined;
+      tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined;
+    } else if (frequency == FREQUENCY_TYPE.WEEKLY) {
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = dayOfWeek ? String(dayOfWeek) : undefined;
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
+      tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
+    } else if (frequency == FREQUENCY_TYPE.DAILY) {
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_WEEK] = undefined
+      tempContainerMaster[CONTAINERS_KEY.DAY_OF_MONTH] = undefined;
+      tempContainerMaster[CONTAINERS_KEY.PUBLISH_DATE] = undefined
+    }
+    tempContainerMaster[CONTAINERS_KEY.MINUTE] = min ? String(min) : undefined;
+    tempContainerMaster[CONTAINERS_KEY.HOUR] = hour ? String(hour) : undefined;
+
+    return tempContainerMaster
+  };
 
 
   return (

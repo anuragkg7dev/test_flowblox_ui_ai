@@ -18,7 +18,7 @@ import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
 import { getBlogContainerFromresponse } from "../ContainersUtil";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
-import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import { CommonLabels, CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
 import { SiTicktick } from "react-icons/si";
 import { GoZap } from "react-icons/go";
 import { CgSandClock } from "react-icons/cg";
@@ -27,7 +27,7 @@ import { BeatLoader } from "react-spinners";
 
 export default function SingleContainerHeader(props) {
 
-  const { config, setConfig } = useAppConfigStore();
+  const { config, setConfig,updateConfig,updateConfigObj} = useAppConfigStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
   const authkeyBearer = config[JWT_TOKEN];
 
@@ -45,7 +45,7 @@ export default function SingleContainerHeader(props) {
   const [info, setInfo] = useState(undefined);
 
 
-  const containerName = container.containerName;
+  const containerName = container?.name ?? CommonLabels.MY_BLOX
 
 
   const disableStop = props.disableStop ?? false;
@@ -124,10 +124,10 @@ export default function SingleContainerHeader(props) {
       let tempContainer = { ...container }
       tempContainer[CONTAINERS_KEY.STATUS] = status
 
-      setConfig({
-        ...config,
+      updateConfigObj({
         [APP_CONFIG_KEYS.CONTAINER_DATA]: tempContainer, // Update current container data in context
-        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data
+        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true,  // This will reload the container list data
+        [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: []
       });
 
       setStartPauseToggele(status == COMMON_STATUS.ACTIVE);

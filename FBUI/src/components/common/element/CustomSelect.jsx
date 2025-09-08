@@ -35,7 +35,7 @@ export default function CustomSelect(props) {
         if (cselectCallback) cselectCallback(selectedValue);
     };
 
-    console.log("soptions", soptions)
+
     return (
         <Select.Root
             multiple={smultiple}

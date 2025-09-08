@@ -37,7 +37,7 @@ export default function Articles(props) {
 
   const disableScrollLoad = props.disableScrollLoad ?? false
 
-  const { config, setConfig, updateConfig } = useAppConfigStore();
+  const { config, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
 
@@ -188,8 +188,7 @@ export default function Articles(props) {
 
   const onAutoPublishSwitchChangeCallback = (flag, data, val) => {
     if (flag) {
-      setConfig({
-        ...config,
+      updateConfigObj({
         [APP_CONFIG_KEYS.CONTAINER_DATA]: { ...container, auto_publish: val }, // update current container data in context
         [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true  // This will reload the container list data
       });

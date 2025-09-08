@@ -29,7 +29,7 @@ import CommonSearchHeader from "./headers/CommonSearchHeader";
 export default function Containers() {
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
   const [openDrawer, setOpenDrawer] = useState(false)
-  const { config, setConfig, updateConfig } = useAppConfigStore();
+  const { config, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   const [action, setAction] = useState();
   const [drawerLabel, setDrawerLabel] = useState();
   const [containerMaster, setContainerMaster] = useState({});
@@ -62,7 +62,7 @@ export default function Containers() {
 
   useEffect(() => {
     cleanUp();
-    updateConfig(APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY, sidebarSwitch.MAIN);
+    // updateConfig(APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY, sidebarSwitch.MAIN);
     setPageConfigParams(initUrlParam)
     loadAllContainerData(initUrlParam);
   }, []);
@@ -72,6 +72,7 @@ export default function Containers() {
       resetPagData()
       loadContainerData(urlParam);
     } else {
+      updateConfig(APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY, sidebarSwitch.MAIN);
       let cpageMetadata = config?.[APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]
       setContainerList(config?.[APP_CONFIG_KEYS.CONTAINER_DATA_LIST]);
       setPageConfigParams(config?.[APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS] ?? initUrlParam)
@@ -87,7 +88,7 @@ export default function Containers() {
     getContainers(urlParam, loadContainerDataCallback, authkeyBearer)
   }
 
-  const loadContainerDataOnSaveUpdate = () => { 
+  const loadContainerDataOnSaveUpdate = () => {
     reloadDataWithSortParam(sortParam)
   }
 
@@ -97,8 +98,7 @@ export default function Containers() {
       const cpageMetadat = { [API_PARAM_KEY.CURRENT_PAGE]: data?.[API_PARAM_KEY.CURRENT_PAGE], [API_PARAM_KEY.TOTAL_COUNT]: data?.[API_PARAM_KEY.TOTAL_COUNT], [API_PARAM_KEY.TOTAL_PAGES]: data?.[API_PARAM_KEY.TOTAL_PAGES] }
 
       setContainerList(prev => [...prev, ...(data?.containers ?? [])]);
-      setConfig({
-        ...config,
+      updateConfigObj({
         [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [...(config[APP_CONFIG_KEYS.CONTAINER_DATA_LIST] ?? []), ...(data?.containers ?? [])],
         [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: false,
         [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]: { ...cpageMetadat },
@@ -138,8 +138,7 @@ export default function Containers() {
 
     setAction(ACTION.MANAGE)
 
-    setConfig({
-      ...config,
+    updateConfigObj({
       [APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY]: sidebarSwitch.CONTAINER,
       [APP_CONFIG_KEYS.CONTAINER_DATA]: containerData,
       [APP_CONFIG_KEYS.CURRENT_SELECTION]: hroute?.key
@@ -148,18 +147,20 @@ export default function Containers() {
     navigate(hroute?.to)
   }
 
-  const resetPagData=()=>{
- setContainerList( []);
-      setConfig({
-        ...config,
-        [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [],
-        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true,
-        [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]:  undefined,
-        [APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS]: undefined
-      });
+  const resetPagData = () => {
+    setContainerList([]);
+    updateConfigObj({   
+      [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [],
+      [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true,
+      [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]: undefined,
+      [APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS]: undefined,
+      [APP_CONFIG_KEYS.CONTAINER_DATA]: undefined,
+      [APP_CONFIG_KEYS.DESTINATION_DATA_LIST]: undefined,
+      [APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY]: sidebarSwitch.MAIN
+    });
 
-      setPageMetadata(undefined)
-      updateShowLoadMore(false)
+    setPageMetadata(undefined)
+    updateShowLoadMore(false)
   }
 
   const getCardLayout = (container) => {
@@ -233,17 +234,17 @@ export default function Containers() {
   }
 
   const cleanUp = () => {
-    setConfig({
-      ...config,
+    updateConfigObj({
       [APP_CONFIG_KEYS.CONTAINER_DATA]: undefined,
       [APP_CONFIG_KEYS.SOURCE_DATA_LIST]: undefined,
       [APP_CONFIG_KEYS.DESTINATION_DATA_LIST]: undefined,
+      [APP_CONFIG_KEYS.SIDEBAR_SWITCH_FLAG_KEY]: sidebarSwitch.MAIN
     });
   }
 
   const reloadDataWithSortParam = (data) => {
     resetPagData()
-    setSortParam(data)   
+    setSortParam(data)
     let tempMap = new Map(initUrlParam.set(API_PARAM_KEY.SORT, data))
     setPageConfigParams(tempMap);
     loadContainerData(tempMap)
