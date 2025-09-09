@@ -13,17 +13,26 @@ export default function SquarespaceIntegration(props) {
 document.addEventListener('DOMContentLoaded', () => {
   const codeBlocks = document.querySelectorAll('code');
   codeBlocks.forEach(block => {
-    const match = block.textContent.match(/{articleid~([^}]+)}/);
+    const match = block.textContent.match(/{(articleid|articleidWithImg)~([^}]+)}/);   
     if (match) {
-      const articleId = match[1];
+     const tagType = match[1]; 
+     const articleId = match[2];
+     
       const articleUrl = \`${apiUrl}&id=\${articleId}\`;
+
       fetch(articleUrl)
         .then(res => res.json())
         .then(data => {
           const content = data.generated_content;
           document.title = content.heading || 'Default Page Title';
           const div = document.createElement('div');
+
+          const bannerImage = tagType == 'articleidWithImg' && data.image?.landscape?.full 
+            ? \`<img src="\${data.image.landscape.full}" alt="\${content.heading}" style="width: 100%; max-height: 400px; object-fit: cover; margin-bottom: 1rem;" />\` 
+            : '';
+
           div.innerHTML = \`
+            \${bannerImage}
             <h1>\${content.heading}</h1>
             <p>\${content.introduction}</p>
             \${content.body.map(section => \`<h2>\${section.subheading}</h2><p>\${section.content}</p>\`).join('')}
@@ -45,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </Script> `
 
     const childScriptJs = `<code>{articleid~YOUR_ARTICLE_ID}</code>`
+    const childWithImgScriptJs = `<code>{articleidWithImg~YOUR_ARTICLE_ID}</code>`
+
 
     const headScript = () => {
         return (
@@ -60,11 +71,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeholderScript = () => {
 
         return (
-            <Code p={2} borderRadius="md" bg={'brand.pureBlackBg'}>
-                <SyntaxHighlighter language="html" style={vscDarkPlus} variant={'subtle'}>
-                    {childScriptJs}
-                </SyntaxHighlighter>
-            </Code>
+            <>
+                <Code p={2} borderRadius="md" bg={'brand.pureBlackBg'}>
+                    <SyntaxHighlighter language="html" style={vscDarkPlus} variant={'subtle'}>
+                        {childScriptJs}
+                    </SyntaxHighlighter>
+                </Code>
+
+
+
+            </>
+        );
+    }
+
+    const placeholderScriptWithImg = () => {
+
+        return (
+            <>
+
+                <Code p={2} borderRadius="md" bg={'brand.pureBlackBg'}>
+                    <SyntaxHighlighter language="html" style={vscDarkPlus} variant={'subtle'}>
+                        {childWithImgScriptJs}
+                    </SyntaxHighlighter>
+                </Code>
+
+            </>
         );
     }
 
@@ -79,15 +110,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <Box>{headScript()}</Box>
                 </Box>
+                <HStack >
+                    <Box >
+                        <HStack>
+                            <Text mr={4} color="brand.pureWhiteTxt">Child Page Script</Text>
+                            <CustomClipBoard cvalue={childScriptJs} />
+                        </HStack>
 
-                <Box mt={6}>
-                    <HStack>
-                        <Text mr={4} color="brand.pureWhiteTxt">Child Page Script</Text>
-                        <CustomClipBoard cvalue={childScriptJs} />
-                    </HStack>
+                        <Box>{placeholderScript()}</Box>
+                    </Box>
 
-                    <Box>{placeholderScript()}</Box>
-                </Box>
+                    <Box >
+                        <HStack>
+                            <Text mr={4} color="brand.pureWhiteTxt">Child Page Script With Image</Text>
+                            <CustomClipBoard cvalue={childWithImgScriptJs} />
+                        </HStack>
+
+                        <Box>{placeholderScriptWithImg()}</Box>
+                    </Box>
+                </HStack>
             </VStack>
         </Flex>
     </>)

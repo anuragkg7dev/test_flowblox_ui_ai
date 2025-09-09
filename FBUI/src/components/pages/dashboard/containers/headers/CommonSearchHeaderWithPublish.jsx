@@ -16,6 +16,7 @@ import { IoMdSearch } from "react-icons/io";
 import { LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import { CARD_LAYOUT, LIST_LAYOUT } from "../../DashboardConstant";
 import { UX } from "@/components/common/constants/CommonConstant";
+import CustomSearchInput from "@/components/common/element/CustomSearchInput";
 
 
 export default function CommonSearchHeaderWithPublish(props) {
@@ -39,6 +40,13 @@ export default function CommonSearchHeaderWithPublish(props) {
   const cpl = props.cpl ?? UX.global_left_padding;
   const cpr = props.cpr ?? UX.global_right_padding;
   const cheight = "40px"
+
+  const loadData = props.loadData
+  const urlParam = props.urlParam
+  const setUrlParam = props.setUrlParam
+  const urlKey = props.urlKey
+  const enableSearch = props.enableSearch ?? true
+
 
   // Detect if the current breakpoint is mobile ('base')
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -81,15 +89,20 @@ export default function CommonSearchHeaderWithPublish(props) {
 
         </Box>
         )}
-        <InputGroup endElement={<IoMdSearch />} width="131px" mt={2}>
-          <Input
-            placeholder="Search"
-            variant={"fbloxD"}
-            onChange={handleSearch}
+        {enableSearch && (<>
+          <CustomSearchInput
             height={cheight}
-            value={searchQuery}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            loadData={loadData}
+            urlParam={urlParam}
+            setUrlParam={setUrlParam}
+            urlKey={urlKey}
+            cwidth={'131px'}
+            cvariant="fbloxD"
+            cmt={2}
           />
-        </InputGroup>
+        </>)}
 
 
         <IconButton

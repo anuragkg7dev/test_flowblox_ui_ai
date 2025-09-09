@@ -34,6 +34,7 @@ export default function Articles(props) {
   const hideFilter = props.hideFilter
   const loadPublishCount = props.loadPublishCount
   const showAutoPublish = props.showAutoPublish
+  const enableSearch = props.enableSearch
 
   const disableScrollLoad = props.disableScrollLoad ?? false
 
@@ -73,9 +74,13 @@ export default function Articles(props) {
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    reset(initUrlParam)
-    loadArticleData(initUrlParam);
+    freshLoadArticleData(initUrlParam)
   }, []);
+
+  const freshLoadArticleData = (xinitUrlParam) => {
+    reset(xinitUrlParam)
+    loadArticleData(xinitUrlParam);
+  }
 
   const handlView = (data) => {
     setArticleMaster(data)
@@ -174,6 +179,13 @@ export default function Articles(props) {
   const addStatusToPageConfigParams = (status) => {
     let tempMap = new Map(pageConfigParams.set(API_PARAM_KEY.STATUS, status).set(API_PARAM_KEY.PAGE, 1))
     setPageConfigParams(tempMap);
+    return tempMap
+  };
+
+  const getPageConfigParamsForSearch = () => {
+    let tempMap = new Map(initUrlParam)
+    tempMap.set(API_PARAM_KEY.STATUS, statusFilter)
+    tempMap.set(API_PARAM_KEY.PAGE, 1)
     return tempMap
   };
 
@@ -282,38 +294,45 @@ export default function Articles(props) {
         setAutoPublish={setAutoPublish}
         showAutoPublish={showAutoPublish}
 
+        loadData={freshLoadArticleData}
+        urlParam={getPageConfigParamsForSearch()}
+        setUrlParam={setPageConfigParams}
+        urlKey={API_PARAM_KEY.SEARCH_TXT}
+        enableSearch={enableSearch}
+
+
       />
 
       {!hideFilter && (
         <HStack pl={UX.global_left_padding} justify={"flex-end"} mr={UX.global_right_padding} mt={"10px"}>
           <Wrap>
-          <CustomSegmentGroup
-            filterOptions={filterOptions}
-            onChangeFilterOptions={(val) => {
-              console.log(val)
-              let paramMap = addStatusToPageConfigParams(val)
-              reset(paramMap)
-              setStatusFilter(val)
-              loadArticleData(paramMap)
-            }}
-            defaultValue={statusFilter}
-            value={statusFilter}
-            setValue={setStatusFilter}
+            <CustomSegmentGroup
+              filterOptions={filterOptions}
+              onChangeFilterOptions={(val) => {
+                console.log(val)
+                let paramMap = addStatusToPageConfigParams(val)
+                reset(paramMap)
+                setStatusFilter(val)
+                loadArticleData(paramMap)
+              }}
+              defaultValue={statusFilter}
+              value={statusFilter}
+              setValue={setStatusFilter}
 
-          />
-          <Box userSelect="none" position="relative">
-
-            <CustomSwitch
-              label={"Auto Publish"}
-              onSwitchChange={(val) => { onAutoPublishSwitchChange(val) }}
-              defaultValue={autoPublish}
-              cheight={'57px'}
-              switchLoader={autoPublishloader}
-              checked={autoPublish}
-              setChecked={setAutoPublish}
             />
+            <Box userSelect="none" position="relative">
 
-          </Box>
+              <CustomSwitch
+                label={"Auto Publish"}
+                onSwitchChange={(val) => { onAutoPublishSwitchChange(val) }}
+                defaultValue={autoPublish}
+                cheight={'57px'}
+                switchLoader={autoPublishloader}
+                checked={autoPublish}
+                setChecked={setAutoPublish}
+              />
+
+            </Box>
           </Wrap>
 
         </HStack>

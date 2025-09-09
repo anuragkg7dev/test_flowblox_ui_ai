@@ -28,8 +28,8 @@ export default function Manage(props) {
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
   const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
 
-  const containerName = container?.name ?? CommonLabels.MY_BLOX
-  const [status, setStatus] = useState(container[CONTAINERS_KEY.STATUS]);
+
+
   const [totalArticle, setTotalArticle] = useState(-1);
   const [totalPublishedArticle, setTotalPublishedArticle] = useState(-1);
 
@@ -68,7 +68,7 @@ export default function Manage(props) {
 
   return (
     <>
-      <SingleContainerHeader        
+      <SingleContainerHeader
         disableStop={false}
         disableStart={false}
         disablePause={false}
@@ -109,6 +109,7 @@ export default function Manage(props) {
         loadPublishCount={loadPublishCount}
         showAutoPublish={true}
         disableScrollLoad={true}
+        enableSearch={false}
       />
     </>
   );

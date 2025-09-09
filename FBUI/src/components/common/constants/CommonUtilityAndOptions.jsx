@@ -24,7 +24,7 @@ export const articleOptionUnPublish = [
 ]
 
 export const getArticleOptions = (flag) => {
-   
+
     if (flag == COMMON_STATUS.PUBLISHED) {
         return [...articleOptionUnPublish, ...articleOptions]
     } else if (flag == COMMON_STATUS.ARCHIVED) {
@@ -38,4 +38,8 @@ export const dot = {
     INFO: 'blue',
     WARNING: 'orange',
     ERROR: 'red'
+}
+
+export const getSearchTriggerFlag = (searchQuery) => {
+    return searchQuery && (searchQuery.length >= 3 || searchQuery.toLowerCase() === 'ai')
 }
