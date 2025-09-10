@@ -74,8 +74,6 @@ function CustomSourceDisplayCard(props) {
                 <Card.Description
                     key={`cd_${cKey}`}
                     fontSize="12px"
-                    noOfLines={2}
-                    flex="1"
                     color={"brand.pureWhiteTxt"}
                     lineClamp={3}
 

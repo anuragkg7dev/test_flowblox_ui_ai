@@ -23,6 +23,7 @@ export const edgeFunction = {
     REMOVE_SOURCE_AND_DESTINATION: "removeSourceDestination",
     UPDATE_CONTAINER_STATUS: "updateContainerStatus",
     GET_NEXT_RUN: "getContainerNextRun",
+    GET_MEDIA_ASSETS: "getMediaAssets",
 };
 
 const edgeFunctionKeys = {};

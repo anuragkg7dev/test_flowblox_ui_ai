@@ -75,11 +75,11 @@ function CustomArticleDisplayCard(props) {
                 </VStack>
                 <Card.Description
                     key={`cd_${cKey}`}
-                    fontSize="12px"
-                    flex="1"
+                    fontSize="12px"                   
                     color={"brand.pureWhiteTxt"}
+                    lineClamp={4}
                 >
-                    <Text lineClamp={4}> {description}</Text>
+                {description}
                 </Card.Description>
 
                 <HStack >

@@ -1,9 +1,18 @@
+import { getMediaAssets } from "@/components/client/EdgeFunctionRepository";
+import { APP_CONFIG_KEYS, tagColors } from "@/components/common/constants/CommonConstant";
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
-import { Box, Center, Container, Heading, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
-import { getTagsArrayFromString } from "../ContainersUtil";
 import CustomTag from "@/components/common/element/CustomTag";
 import { trimString } from "@/components/common/util/StringUtil";
-import { tagColors } from "@/components/common/constants/CommonConstant";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { Box, Button, Container, DownloadTrigger, Float, Heading, HStack, Image, Text, VStack, Wrap } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { getTagsArrayFromString } from "../ContainersUtil";
+import { CustomBrandLogoMiniBlackBG } from "@/components/common/element/CustomBrandLogo";
+import { ClimbingBoxLoader, PropagateLoader } from "react-spinners";
+import { toast } from "@/components/common/Notification";
+import { Link } from "react-router-dom";
+import { MdOutlineDownloadForOffline } from "react-icons/md";
+import { LuImageDown } from "react-icons/lu";
 
 export default function ArticleTemplate(props) {
 
@@ -15,13 +24,28 @@ export default function ArticleTemplate(props) {
     const badgeColor = props.badgeColor ?? "brand.subBrandBg";
     const badgeTextColor = props.badgeColor ?? "brand.darkBrandTxt";
 
+    const { config, setConfig, updateConfig } = useAppConfigStore();
+    const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
+
+    const colors = [...tagColors];
+    const startIndex = Math.floor(Math.random() * colors.length);
+
+    const [bannerLoader, setBannerLoader] = useState(false)
+    const [showDefaultBanner, setShowDefaultBanner] = useState(true)
+    const [bannerUrl, setBannerUrl] = useState()
+
+    console.log("articleMaster ", articleMaster)
+
+
+
+    useEffect(() => {
+        loadBanner(articleMaster?.container_id, articleMaster?.id)
+    }, []);
+
 
     const onClose = () => {
         setOpenDrawer(false)
     };
-
-    const colors = [...tagColors];
-    const startIndex = Math.floor(Math.random() * colors.length);
 
     const getRandomColor = (index) => {
         if (enableRandomColor) {
@@ -30,9 +54,101 @@ export default function ArticleTemplate(props) {
         return badgeColor
     }
 
+    const loadBanner = (container_id, article_id) => {
+        setBannerLoader(true)
+        getMediaAssets(container_id, article_id, loadBannerCallback, authkeyBearer)
+    };
+
+    const loadBannerCallback = (flag, data) => {
+        if (flag) {
+            if (data?.assets?.metadata?.landscape?.regular || data?.assets?.metadata?.landscape?.raw) {
+                setBannerUrl(data?.assets?.metadata?.landscape?.regular ?? data?.assets?.metadata?.landscape?.raw)
+                setShowDefaultBanner(false)
+            } else {
+                toast.warning('Banner not available')
+            }
+        }
+        setBannerLoader(false);
+    }
+
+    const getImageAsBlob = async () => {
+        const res = await fetch(bannerUrl)
+        return res.blob()
+    }
+
+    const getDownloadComponent = () => {
+        return (
+            <DownloadTrigger
+                data={getImageAsBlob}
+                fileName="banner.jpg"
+                mimeType="image/jpeg"
+                asChild
+                width={4}
+                zIndex={10}
+            >
+                <Button variant="subtle" >
+                    <LuImageDown color="brand.subBrandBg" />
+                </Button>
+            </DownloadTrigger>
+        )
+    }
+
     return (
         <Container maxW="container.lg" py={8}>
             <VStack spacing={8} align="stretch">
+                <HStack justifyContent="end"><CustomeCloseIcon onClose={onClose} /> </HStack>
+
+                <Box
+                    border="0.1px solid"
+                    borderColor="brand.greyBrandBorder"
+                    height={"250px"}
+                    width={"100%"}
+                    mb={4}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    bg={'brand.OffBlackBg'}
+                    position="relative"
+                    overflow="hidden"
+                >
+                    {showDefaultBanner && (<>
+                        <CustomBrandLogoMiniBlackBG
+                            ch="60px"
+                            cw="60px"
+                            ccolor="brand.pureWhiteBg"
+                        />
+                    </>)}
+
+                    {showDefaultBanner && (<>
+                        <Float placement={'bottom-center'} offset="4" ><Text>Banner</Text></Float>
+                    </>)}
+
+
+                    {!showDefaultBanner && (<>
+                        <Image src={bannerUrl}
+                            alt="Banner Image"
+                            width="100%"
+                            height="auto"
+                            objectFit="fill" />
+                    </>)}
+
+                    {!showDefaultBanner && (<>
+                        <Float placement={'bottom-end'} offset="4">
+                            {getDownloadComponent()}
+                        </Float>
+                    </>)}
+
+                    {bannerLoader && (<> <Box mt={"100px"} position={"absolute"}>
+                        <PropagateLoader color="#D2B5F9" />
+                    </Box>
+                    </>)}
+
+
+                </Box>
+
+
+
+
 
                 <HStack
                     key="aeHeader"
@@ -50,9 +166,11 @@ export default function ArticleTemplate(props) {
                     <Heading as="h1" size="2xl" fontWeight="bold" textAlign="center" color="brand.pureWhiteTxt">
                         {article.heading}
                     </Heading>
-                    <CustomeCloseIcon onClose={onClose} />
+
 
                 </HStack>
+
+
                 {/* Introduction */}
                 <Text fontSize="lg" color="brand.pureWhiteTxt" lineHeight="1.8">
                     {article.introduction}
@@ -102,6 +220,19 @@ export default function ArticleTemplate(props) {
                         )}
                     </Wrap>
                 </HStack>
+
+                <Button
+                    key={`bte_${'close'}`}
+                    variant={"fbloxD"}
+                    width="fit"
+                    //height="25px"
+                    aria-label="Close"
+                    onClick={() => onClose()}
+                    alignSelf={"center"}
+                    mt={4}
+                >
+                    Close
+                </Button>
             </VStack>
         </Container >
     );

@@ -99,6 +99,12 @@ export function getContainerNextRun(container_id, callback, authkeyBearer) {
   callEdgeFunctionWithParams(edgeFunction.GET_NEXT_RUN, {}, paramMap, callback, authkeyBearer, GET)
 }
 
+export function getMediaAssets(container_id, sub_id, callback, authkeyBearer) {
+  let paramMap = new Map([[API_PARAM_KEY.CONTAINERS_ID, container_id], [API_PARAM_KEY.SUB_ID, sub_id]]);
+  callEdgeFunctionWithParams(edgeFunction.GET_MEDIA_ASSETS, {}, paramMap, callback, authkeyBearer, GET)
+}
+
+
 
 
 

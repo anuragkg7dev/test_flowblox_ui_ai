@@ -6,12 +6,13 @@ import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard
 import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
 import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomPageScrollObserverBottom from "@/components/common/element/CustomPageScrollObserverBottom";
+import CustomPageScrollObserverTop from "@/components/common/element/CustomPageScrollObserverTop";
 import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import CustomSwitch from "@/components/common/element/CustomSwitch";
 import { toast } from "@/components/common/Notification";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Box, HStack, Wrap } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, useEffect, useRef, useState } from "react";
 import {
   ALL,
   CARD_LAYOUT,
@@ -25,8 +26,8 @@ import ContainerDrawer from "../ContainerDrawer";
 import { API_PARAM_KEY, CONTAINERS_KEY } from "../ContainersConstant";
 import CommonSearchHeaderWithPublish from "../headers/CommonSearchHeaderWithPublish";
 import ArticlesLayout from "./ArticlesLayout";
-import ArticleTemplate from "./ArticleTemplate";
-import CustomPageScrollObserverTop from "@/components/common/element/CustomPageScrollObserverTop";
+
+const ArticleTemplate = lazy(() => import("./ArticleTemplate"));
 
 export default function Articles(props) {
   const limit = props.limit ?? 20

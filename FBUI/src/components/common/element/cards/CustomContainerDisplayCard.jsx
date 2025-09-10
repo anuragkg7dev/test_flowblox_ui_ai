@@ -67,19 +67,18 @@ function CustomContainerDisplayCard(props) {
                                 fontSize="2xs"
                                 lineClamp={1}
                             >
-                                <Text lineClamp={1}> {subHeading}</Text>
+                                {subHeading}
                             </Text>
                         )}
                     </Stack>
                 </VStack>
                 <Card.Description
                     key={`cd_${cKey}`}
-                    fontSize="12px"
-                    flex="1"
+                    fontSize="12px"                  
                     color={"brand.pureWhiteTxt"}
                     lineClamp={3}
                 >
-                    <Text lineClamp={3}> {description}</Text>
+                    {description}
                 </Card.Description>
 
                 <HStack key={`hs2_${cKey}`} gap={1} mb={1} mt={1}>

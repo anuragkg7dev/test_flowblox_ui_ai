@@ -221,7 +221,7 @@ export default function SingleContainerHeader(props) {
             clabel={balance == undefined ? 'Fetch Balance' : balance + ' Articles'}
           />
 
-          {true && (<>  <CustomLoaderButton
+          {startPauseToggele && (<>  <CustomLoaderButton
             cwidth="auto"
             cmt={6}
             cvariant={"fblox"}
