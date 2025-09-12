@@ -69,9 +69,10 @@ export const handleSignOut = async (callback) => {
     const { error } = await supabase.auth.signOut();
     if (error) {
         let msg = "Error signing out."
-        if (callback) callback(true, msg);
+        if (callback) callback(false, msg);
     } else {
         let msg = "Signed Out"
         if (callback) callback(true, msg);
     }
 };
+

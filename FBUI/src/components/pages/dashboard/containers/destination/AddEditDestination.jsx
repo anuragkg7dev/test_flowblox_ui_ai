@@ -1,18 +1,17 @@
 import { CONTENT_TYPE, DESTINATION_TYPE } from "@/components/client/EdgeConstant";
 import { createAndUpdateSourceAndDestination, removeSourceDestination } from "@/components/client/EdgeFunctionRepository";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { ACTION, STATUS } from "@/components/common/constants/CommonConstant";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import CustomSelect from "@/components/common/element/CustomSelect";
 import { toast } from "@/components/common/Notification";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { validate } from "@/components/validation/ValidationUtil";
 import {
-    Button,
     Field,
     HStack,
     Input,
-    Loader,
     Text,
     Textarea,
     VStack
@@ -25,9 +24,7 @@ import { sourceOutputOption } from "../../DashboardConstant";
 import { SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import FieldUrl from "../fields/FieldUrl";
 import { destinationValidationSchema } from "../validation/ContainerValidation";
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
-import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
-import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 
 export default function AddEditDestination(props) {
@@ -56,8 +53,7 @@ export default function AddEditDestination(props) {
     const [isModified, setIsModified] = useState(false);
     const [deleteLoader, setDeleteLoader] = useState(false);
 
-    const xconfig = useAppConfigStore((state) => state.config);
-    const authkeyBearer = xconfig[JWT_TOKEN];
+    const { jwt: authkeyBearer } = useAuthStore();
 
     const fieldMargin = 7
     const fieldWidth = "90%"

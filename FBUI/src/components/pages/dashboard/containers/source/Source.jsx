@@ -1,22 +1,22 @@
+import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
+import { createAndUpdateSourceAndDestination, getSourceAndDestination } from "@/components/client/EdgeFunctionRepository";
+import { ACTION, APP_CONFIG_KEYS, UX } from "@/components/common/constants/CommonConstant";
 import CustomAddCard from "@/components/common/element/cards/CustomAddCard";
 import CustomAddRow from "@/components/common/element/cards/CustomAddRow";
+import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
+import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
 import CustomSourceDisplayCard from "@/components/common/element/cards/CustomSourceDisplayCard";
 import CustomSourceDisplayRow from "@/components/common/element/cards/CustomSourceDisplayRow";
+import { toast } from "@/components/common/Notification";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Button, HStack, Wrap } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { CARD_LAYOUT, LABELS, LIST_LAYOUT, typeLabels } from "../../DashboardConstant";
 import ContainerDrawer from "../ContainerDrawer";
+import { CONTAINERS_KEY, SOURCE_BASE, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import CommonSearchHeader from "../headers/CommonSearchHeader";
 import AddEditSource from "./AddEditSource";
-import { CONTAINERS_KEY, SOURCE_BASE, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
-import { ACTION, APP_CONFIG_KEYS, UX } from "@/components/common/constants/CommonConstant";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { createAndUpdateSourceAndDestination, getSourceAndDestination } from "@/components/client/EdgeFunctionRepository";
-import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
-import { toast } from "@/components/common/Notification";
-import CustomLoaderRow from "@/components/common/element/cards/CustomLoaderRow";
-import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function Source() {
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
@@ -30,7 +30,7 @@ export default function Source() {
   const MAX_LIMIT = 5
 
   const { config: xconfig, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
-  const authkeyBearer = xconfig[JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA];
 
   const [pageConfigParams, setPageConfigParams] = useState(new Map([

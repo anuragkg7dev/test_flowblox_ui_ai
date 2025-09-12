@@ -1,8 +1,14 @@
+import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
 import { generateArticleTrigger, getBalance, getContainerNextRun, updateContainerStatus } from "@/components/client/EdgeFunctionRepository";
+import { ACTION, APP_CONFIG_KEYS, STATUS, UX } from "@/components/common/constants/CommonConstant";
+import { CommonLabels, CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
+import CustomDateTimeDisplay from "@/components/common/element/CustomDateTimeDisplay";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
+import { toast } from "@/components/common/Notification";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import {
   Box,
-  Button,
   Heading,
   HStack,
   Stack,
@@ -10,26 +16,18 @@ import {
   Wrap
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { ACTION, APP_CONFIG_KEYS, STATUS, UX } from "@/components/common/constants/CommonConstant";
-import { toast } from "@/components/common/Notification";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
-import { COMMON_STATUS, CONTENT_TYPE } from "@/components/client/EdgeConstant";
-import { getBlogContainerFromresponse } from "../ContainersUtil";
-import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
-import { CommonLabels, CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
-import { SiTicktick } from "react-icons/si";
-import { GoZap } from "react-icons/go";
 import { CgSandClock } from "react-icons/cg";
-import CustomDateTimeDisplay from "@/components/common/element/CustomDateTimeDisplay";
+import { GoZap } from "react-icons/go";
+import { SiTicktick } from "react-icons/si";
 import { BeatLoader } from "react-spinners";
+import { CONTAINERS_KEY } from "../ContainersConstant";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function SingleContainerHeader(props) {
 
-  const { config, setConfig,updateConfig,updateConfigObj} = useAppConfigStore();
+  const { config, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
-  const authkeyBearer = config[JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
 
   const [loader, setLoader] = useState(false)
   const [statusLoader, setStatusLoader] = useState(false)

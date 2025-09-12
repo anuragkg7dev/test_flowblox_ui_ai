@@ -2,7 +2,7 @@ import {
   IS_AUTHENTICATED,
   SIGN_OUT
 } from "@/components/common/constants/AppRouterConstant";
-import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import { APP_CONFIG_KEYS, STATUS } from "@/components/common/constants/CommonConstant";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { useAppRouterStore } from "@/components/store/AppRouterStore";
 import { Box, Button, Flex, HStack, Text, VStack } from "@chakra-ui/react";
@@ -12,13 +12,25 @@ import SidebarTemplate from "./SidebarTemplate";
 import SidebarTopSwitch from "./SidebarTopSwitch";
 import { getCurrentSelection, getSBarButtonStyles, mainSidebarBottomOptions } from "./SidebarUtil";
 import TimeSavedWidget from "./TimeSavedWidget";
+import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
+import { useState } from "react";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import { handleSignOut } from "../../auth/AuthLogic";
+import { useAuthStore } from "@/components/store/AuthStateStore";
+import { toast } from "@/components/common/Notification";
 
 export default function CommonSidebar(props) {
 
-  const { data: routeState } = useAppRouterStore();
+  const { clearAuth } = useAuthStore();
+  const { data: routeState, updateRouterAtSignOut } = useAppRouterStore();
   const { config: appConfig, setConfig } = useAppConfigStore();
 
+  const [previousSelection, setPreviousSelection] = useState();
+  const [showConfirmation, setShowsConfirmation] = useState(false);
+
   const isAuthenticated = routeState[IS_AUTHENTICATED];
+
+
 
   const setCurrentSelection = (value) => {
     let iConfig = { [APP_CONFIG_KEYS.CURRENT_SELECTION]: value };
@@ -30,6 +42,32 @@ export default function CommonSidebar(props) {
     let currentSelection = getCurrentSelection(appConfig);
     return getSBarButtonStyles(type, currentSelection)
   };
+
+  const onClickOfSignout = (previousSelection) => {
+    setPreviousSelection(previousSelection)
+    setShowsConfirmation(true)
+  };
+
+  const onSignOutOkConfirmation = () => {
+    setShowsConfirmation(false)
+    handleSignOut(handleSignOutCallback)
+  };
+
+  const onSignOutNoConfirmation = () => {
+    setShowsConfirmation(false)
+    setCurrentSelection(previousSelection);
+  };
+
+
+  const handleSignOutCallback = (flag, data) => {
+    if (flag) {
+      clearAuth(); // Clear auth store
+      updateRouterAtSignOut(); // Clear IS_AUTHENTICATED
+      toast.success(data)
+    } else {
+      toast.error(data)
+    }
+  }
 
   return (
     <>
@@ -50,9 +88,9 @@ export default function CommonSidebar(props) {
 
           {/* Bottom Group: Settings and Profile */}
           <Flex direction="column" gap={1} mb={2}>
-         
 
-            <TimeSavedWidget/>
+
+            <TimeSavedWidget />
 
             <SidebarTemplate options={mainSidebarBottomOptions} />
 
@@ -62,7 +100,8 @@ export default function CommonSidebar(props) {
               fontSize={{ base: "sm", md: "md" }}
               mb={"20px"}
               onClick={() => {
-               
+
+                onClickOfSignout(getCurrentSelection(appConfig))
                 setCurrentSelection(SIGN_OUT);
               }}
               justifyContent="flex-start"
@@ -77,6 +116,18 @@ export default function CommonSidebar(props) {
           </Flex>
         </Flex>
       )}
+
+      <ConfirmationDialog
+        show={showConfirmation}
+        setShow={setShowsConfirmation}
+        header={CommonMessageLabels.SIGN_OUT_HEADING}
+        description={CommonMessageLabels.SIGN_OUT_DESCRIPTION}
+        onOk={onSignOutOkConfirmation}
+        onClose={onSignOutNoConfirmation}
+        closeLabel={CommonMessageLabels.NO}
+        okLabel={CommonMessageLabels.YES}
+        status={STATUS.WARNING}
+      />
     </>
   );
 }

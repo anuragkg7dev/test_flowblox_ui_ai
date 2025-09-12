@@ -1,6 +1,13 @@
+import { CONTENT_TYPE, FREQUENCY_TYPE } from "@/components/client/EdgeConstant";
+import { createAndUpdateBlogContainers } from "@/components/client/EdgeFunctionRepository";
 import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 import CustomLine from "@/components/common/element/CustomLine";
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
+import { toast } from "@/components/common/Notification";
+import { getDateString } from "@/components/common/util/DateUtil";
+import { joinStrings } from "@/components/common/util/StringUtil";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { validate } from "@/components/validation/ValidationUtil";
 import { Button, Field, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuTriangleAlert } from "react-icons/lu";
@@ -12,17 +19,11 @@ import FieldDescription from "../fields/FieldDescription";
 import FieldFrequency from "../fields/FieldFrequency";
 import FieldTagEditor from "../fields/FieldTagEditor";
 import CommonHeader from "../headers/CommonHeader";
+import { containerValidationSchema } from "../validation/ContainerValidation";
 import FieldNumberOfArticle from "./fields/FieldNumberOfArticle";
 import FieldNumberOfWords from "./fields/FieldNumberOfWords";
 import FieldSourceOutput from "./fields/FieldSourceOutput";
-import { validate } from "@/components/validation/ValidationUtil";
-import { containerValidationSchema } from "../validation/ContainerValidation";
-import { CONTENT_TYPE, FREQUENCY_TYPE } from "@/components/client/EdgeConstant";
-import { toast } from "@/components/common/Notification";
-import { getDateString } from "@/components/common/util/DateUtil";
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
-import { joinStrings } from "@/components/common/util/StringUtil";
-import { createAndUpdateBlogContainers } from "@/components/client/EdgeFunctionRepository";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function SettingsFrequency(props) {
 
@@ -31,7 +32,7 @@ export default function SettingsFrequency(props) {
 
   const { config: xconfig, setConfig: setXConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
-  const authkeyBearer = xconfig[APP_CONFIG_KEYS.JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
 
   const [containerName, setContainerName] = useState(container?.[CONTAINERS_KEY.NAME]);
   const [description, setDescription] = useState(container?.[CONTAINERS_KEY.DESCRIPTION]);

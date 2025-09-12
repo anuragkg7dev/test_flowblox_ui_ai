@@ -1,14 +1,11 @@
 import { CONTENT_TYPE } from "@/components/client/EdgeConstant";
 import { getSourceAndDestination } from "@/components/client/EdgeFunctionRepository";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
-import CustomSelect from "@/components/common/element/CustomSelect";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { Field, Flex, HStack, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { GiOnTarget } from "react-icons/gi";
-import { CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import SquarespaceIntegration from "@/components/integration/SquareSapceIntegration";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { useEffect, useState } from "react";
+import { CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function SettingsConfigurable() {
   const [selectedDestination, setSelectedDestination] = useState();
@@ -18,7 +15,7 @@ export default function SettingsConfigurable() {
   const [destinationOptionsList, setDestinationOptionsList] = useState([]);
 
   const { config: xconfig, setConfig, updateConfig } = useAppConfigStore();
-  const authkeyBearer = xconfig[JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
   let containerId = container?.id
   let hostUrl = 'https://tsdnwkcetuysrzhdhpsj.supabase.co/functions/v1/getArticlesExt' // to do.. move to env
@@ -37,7 +34,7 @@ export default function SettingsConfigurable() {
   useEffect(() => {
     console.log('AKG loading SettingsConfigurable')
     //setLoader(true)
-   // loadDestinationDataList();
+    // loadDestinationDataList();
   }, []);
 
   const loadDestinationDataList = () => {
@@ -55,7 +52,7 @@ export default function SettingsConfigurable() {
           setDestinationList(data?.[CONTENT_TYPE.DESTINATION] ?? []);
           updateConfig(APP_CONFIG_KEYS.DESTINATION_DATA_LIST, data?.[CONTENT_TYPE.DESTINATION] ?? [])
           updateDestinationOptions(data?.[CONTENT_TYPE.DESTINATION] ?? [])
-        
+
         } else {
           toast.error('Failed to load destinations!!')
         }

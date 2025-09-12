@@ -1,5 +1,5 @@
 import { getUsersPersonalDetails, updatePersonalDetails } from "@/components/client/EdgeFunctionRepository";
-import { APP_CONFIG_KEYS, USERS_KEY, UX } from "@/components/common/constants/CommonConstant";
+import { USERS_KEY, UX } from "@/components/common/constants/CommonConstant";
 import { countries } from "@/components/common/constants/Country";
 import CustomCountry from "@/components/common/element/CustomCountry";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
@@ -14,13 +14,13 @@ import { GoGlobe, GoPerson } from "react-icons/go";
 import { MdOutlineMail } from "react-icons/md";
 import CommonHeader from "../containers/headers/CommonHeader";
 import { usersValidationSchema } from "../containers/validation/userValidation";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function AccountDetails(props) {
   const isModified = props.isModified
   const setIsModified = props.setIsModified;
 
-  const { config, setConfig, updateConfig } = useAppConfigStore();
-  const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
   const { user, setUser } = useUserDetailStore();
 
   const [fname, setFname] = useState(user?.fname || '');
@@ -36,6 +36,8 @@ export default function AccountDetails(props) {
   const fieldWidth = "90%";
   const labelIconSize = 20;
   const cvariant = "fbloxD";
+
+  console.log('AKG user', user)
 
   const updateIsModified = (flag) => {
     if (flag != isModified) {
@@ -311,7 +313,7 @@ export default function AccountDetails(props) {
               </Field.ErrorText>
             </Field.Root>
 
-            <VStack  w="100%">
+            <VStack w="100%">
               <Field.Root
                 w="100%"
                 color="brand.pureWhiteTxt"

@@ -13,7 +13,6 @@ import AddEditBlogsContainer from "./blogs/AddEditBlogsContainer";
 
 import { getContainers } from "@/components/client/EdgeFunctionRepository";
 import { toast } from "@/components/common/Notification";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import CustomPageScrollObserverBottom from "@/components/common/element/CustomPageScrollObserverBottom";
 import CustomPageScrollObserverTop from "@/components/common/element/CustomPageScrollObserverTop";
 import CustomLoaderCard from "@/components/common/element/cards/CustomLoaderCard";
@@ -24,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { API_PARAM_KEY, CONTAINERS_BLOG_BASE, CONTAINERS_KEY } from "./ContainersConstant";
 import { getBlogContainerFromresponse } from "./ContainersUtil";
 import CommonSearchHeader from "./headers/CommonSearchHeader";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 
 export default function Containers() {
@@ -39,7 +39,7 @@ export default function Containers() {
 
   const navigate = useNavigate()
 
-  const authkeyBearer = config[JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
 
   const limit = 20
   const status = ''
@@ -149,7 +149,7 @@ export default function Containers() {
 
   const resetPagData = () => {
     setContainerList([]);
-    updateConfigObj({   
+    updateConfigObj({
       [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [],
       [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: true,
       [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]: undefined,

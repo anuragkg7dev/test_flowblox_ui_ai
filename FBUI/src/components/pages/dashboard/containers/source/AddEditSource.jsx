@@ -1,14 +1,14 @@
 import { CONTENT_TYPE } from "@/components/client/EdgeConstant";
 import { createAndUpdateSourceAndDestination, removeSourceDestination } from "@/components/client/EdgeFunctionRepository";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { ACTION, STATUS } from "@/components/common/constants/CommonConstant";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import CustomSelect from "@/components/common/element/CustomSelect";
 import { toast } from "@/components/common/Notification";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { validate } from "@/components/validation/ValidationUtil";
 import {
-    Button,
     Field,
     HStack,
     Input,
@@ -16,18 +16,15 @@ import {
     Textarea,
     VStack
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiCodesandbox } from "react-icons/fi";
 import { HiOutlineExclamationTriangle, HiOutlinePencilSquare } from "react-icons/hi2";
 import { MdOutlineShare } from "react-icons/md";
-import { SiCurl } from "react-icons/si";
 import { sourceOption } from "../../DashboardConstant";
 import { SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import FieldUrl from "../fields/FieldUrl";
 import { sourceValidationSchema } from "../validation/ContainerValidation";
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
-import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
-import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function AddEditSource(props) {
     const setOpenDrawer = props.setOpenDrawer;
@@ -51,8 +48,8 @@ export default function AddEditSource(props) {
     const [isModified, setIsModified] = useState(false);
     const [deleteLoader, setDeleteLoader] = useState(false);
 
-    const xconfig = useAppConfigStore((state) => state.config);
-    const authkeyBearer = xconfig[JWT_TOKEN];
+   
+    const { jwt: authkeyBearer } = useAuthStore();
 
     const fieldMargin = 7;
     const fieldWidth = "90%";
@@ -108,9 +105,9 @@ export default function AddEditSource(props) {
     const onDeleteCallback = (flag, data) => {
 
         if (flag) {
-            setDeleteLoader(false)          
+            setDeleteLoader(false)
             setOpenDrawer(false);
-            setLoader(true)       
+            setLoader(true)
             loadSourceData?.();
             toast.success("Deleted");
         } else {

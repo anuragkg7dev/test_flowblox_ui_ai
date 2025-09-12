@@ -39,8 +39,6 @@ export const PRE_LAUNCH="preLaunch"
 
 export const IS_AUTHENTICATED="isAuthenticated"
 export const USER="user"
-export const JWT_TOKEN="jwt_token"
-
 
 //-- Dashboard Routes Details Start ---
 

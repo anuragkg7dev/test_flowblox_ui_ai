@@ -14,6 +14,9 @@ export const CommonMessageLabels = {
     START_CONTAINER_HEADING: "Start Blox",
     START_CONTAINER_DESCRIPTION: "Are you sure you want to start this blox?",
 
+    SIGN_OUT_HEADING: "Sign Out",
+    SIGN_OUT_DESCRIPTION: "Are you sure you want to Sign Out?",
+
 }
 
 export const CommonLabels = {

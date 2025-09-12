@@ -26,6 +26,7 @@ import ContainerDrawer from "../ContainerDrawer";
 import { API_PARAM_KEY, CONTAINERS_KEY } from "../ContainersConstant";
 import CommonSearchHeaderWithPublish from "../headers/CommonSearchHeaderWithPublish";
 import ArticlesLayout from "./ArticlesLayout";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 const ArticleTemplate = lazy(() => import("./ArticleTemplate"));
 
@@ -40,7 +41,7 @@ export default function Articles(props) {
   const disableScrollLoad = props.disableScrollLoad ?? false
 
   const { config, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
-  const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
 
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);

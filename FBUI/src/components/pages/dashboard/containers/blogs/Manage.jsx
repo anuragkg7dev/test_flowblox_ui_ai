@@ -2,7 +2,6 @@ import CustomBoldDisplayCard from "@/components/common/element/cards/CustomBoldD
 import CustomLine from "@/components/common/element/CustomLine";
 import {
   FormatNumber,
-  HStack,
   Wrap
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -14,21 +13,18 @@ import SingleContainerHeader from "../headers/SingleContainerHeader";
 import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 
 import { getPublishCountStats } from "@/components/client/EdgeFunctionRepository";
-import { CommonLabels } from "@/components/common/constants/CommonLabelConstants";
 import { toast } from "@/components/common/Notification";
 import { getTimeInHours, getTimeSavedOnArticle } from "@/components/common/util/TimeSaveCaluclatorUtil";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { BeatLoader } from "react-spinners";
-import { CONTAINERS_KEY } from "../ContainersConstant";
 import Articles from "./Articles";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function Manage(props) {
 
   const { config, setConfig } = useAppConfigStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
-  const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
-
-
+  const { jwt: authkeyBearer } = useAuthStore();
 
   const [totalArticle, setTotalArticle] = useState(-1);
   const [totalPublishedArticle, setTotalPublishedArticle] = useState(-1);

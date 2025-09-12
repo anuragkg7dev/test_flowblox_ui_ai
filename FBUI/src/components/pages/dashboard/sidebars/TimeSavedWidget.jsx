@@ -3,6 +3,7 @@ import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 import { toast } from "@/components/common/Notification";
 import { calculateTotalTimeSavedFroAllContainers } from "@/components/common/util/TimeSaveCaluclatorUtil";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { TbClockHour5 } from "react-icons/tb";
@@ -13,7 +14,7 @@ export default function TimeSavedWidget(props) {
     const [timeSaved, setTimeSaved] = useState(false);
     const [loader, setLoader] = useState(false);
     const { config, setConfig, updateConfig } = useAppConfigStore();
-    const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
+    const { jwt: authkeyBearer } = useAuthStore();
 
     useEffect(() => {
         loadStats();
@@ -61,7 +62,7 @@ export default function TimeSavedWidget(props) {
                 alignItems="center"
             >
                 <TbClockHour5 size={22} color="inherit" onClick={loadStatsData} />
-                
+
                 {!loader && (<>
                     <Text fontSize="40px" fontWeight={100} color="brand.subBrandBg">
                         {timeSaved}

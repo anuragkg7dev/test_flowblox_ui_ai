@@ -30,7 +30,6 @@ export const STATUS = {
 
 
 export const APP_CONFIG_KEYS = {
-  JWT_TOKEN: "jwt_token",
   SIDEBAR_SWITCH_FLAG_KEY: "sidebarSwitchFlag",
   SIDEBAR_SWITCH_FLAG_DEFAULT: "main",
   THEME: "theme",

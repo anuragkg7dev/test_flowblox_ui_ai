@@ -1,16 +1,19 @@
-import { DASHBOARD_CONTAINERS } from "@/components/common/constants/AppRouterConstant";
 import { CustomBrandLogoMiniBlackBG } from "@/components/common/element/CustomBrandLogo";
 import { Box, Flex, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { Suspense, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import CommonSidebar from "./sidebars/CommonSidebar";
+import { getUsersPersonalDetails } from "@/components/client/EdgeFunctionRepository";
+import { toast } from "@/components/common/Notification";
+import { useAuthStore } from "@/components/store/AuthStateStore";
+import { useUserDetailStore } from "@/components/store/UserDetailStore";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import CommonSidebar from "./sidebars/CommonSidebar";
 
 const DashboardHome = () => {
 
+  const { jwt: authkeyBearer } = useAuthStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Responsive breakpoints for sidebar width and padding
@@ -22,10 +25,25 @@ const DashboardHome = () => {
   const padding = useBreakpointValue({ base: 2, sm: 3, md: 4 });
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-
-
   // Toggle sidebar for mobile
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  const { user, setUser } = useUserDetailStore();
+
+ 
+  useEffect(() => {
+    if (!user || !user?.email) {
+      getUsersPersonalDetails(getUsersPersonalDetailsCallback, authkeyBearer);
+    }
+  }, []);
+
+  const getUsersPersonalDetailsCallback = async (status, data) => {
+    if (!status) {
+      toast.error('Failed to fetch user details !!')
+    } else {
+      setUser({ ...data });
+    }
+  }
 
 
   return (
@@ -96,7 +114,7 @@ const DashboardHome = () => {
               />
             </Box>
           )}
-          <CommonSidebar/>
+          <CommonSidebar />
         </Box>
 
         {/* Main Content */}

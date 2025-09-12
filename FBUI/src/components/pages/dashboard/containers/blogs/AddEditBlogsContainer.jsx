@@ -1,14 +1,17 @@
 import { COMMON_STATUS, CONTENT_TYPE, FREQUENCY_TYPE } from "@/components/client/EdgeConstant";
 import { createAndUpdateBlogContainers, updateContainerStatus } from "@/components/client/EdgeFunctionRepository";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
 import { ACTION, APP_CONFIG_KEYS, STATUS } from "@/components/common/constants/CommonConstant";
+import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
 import CustomLine from "@/components/common/element/CustomLine";
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
+import { toast } from "@/components/common/Notification";
 import { getDateString } from "@/components/common/util/DateUtil";
 import { joinStrings } from "@/components/common/util/StringUtil";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { validate } from "@/components/validation/ValidationUtil";
 import {
-    Button,
     Field,
     HStack,
     Text,
@@ -23,15 +26,11 @@ import FieldDayDateTimeWeek from "../fields/FieldDayDateTimeWeek";
 import FieldDescription from "../fields/FieldDescription";
 import FieldFrequency from "../fields/FieldFrequency";
 import FieldTagEditor from "../fields/FieldTagEditor";
+import { containerValidationSchema } from "../validation/ContainerValidation";
 import FieldNumberOfArticle from "./fields/FieldNumberOfArticle";
 import FieldNumberOfWords from "./fields/FieldNumberOfWords";
 import FieldSourceOutput from "./fields/FieldSourceOutput";
-import { validate } from "@/components/validation/ValidationUtil";
-import { containerValidationSchema } from "../validation/ContainerValidation";
-import { toast } from "@/components/common/Notification";
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
-import ConfirmationDialog from "@/components/common/element/ConfirmationDialog";
-import { CommonMessageLabels } from "@/components/common/constants/CommonLabelConstants";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 
 function AddEditBlogsContainer(props) {
@@ -72,7 +71,7 @@ function AddEditBlogsContainer(props) {
 
     const { config, setConfig, updateConfig } = useAppConfigStore();
 
-    const authkeyBearer = config[JWT_TOKEN];
+    const { jwt: authkeyBearer } = useAuthStore();
 
     const fieldMargin = 7
     const fieldWidth = "90%"

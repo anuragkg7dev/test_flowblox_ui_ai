@@ -14,7 +14,7 @@ import {
   Input,
   Text
 } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { handleSignin } from "./AuthLogic"
 
@@ -31,6 +31,7 @@ import { ImAppleinc } from "react-icons/im"
 import { IoLogoWindows } from "react-icons/io5"
 import { LiaExternalLinkAltSolid } from "react-icons/lia"
 import { useUserDetailStore } from "@/components/store/UserDetailStore"
+import { useAuthStore } from "@/components/store/AuthStateStore"
 
 export default function SignIn() {
   const [email, setEmail] = useState("")
@@ -40,42 +41,51 @@ export default function SignIn() {
   const { config, setConfig, updateConfig } = useAppConfigStore();
   const { user, setUser } = useUserDetailStore();
   const navigate = useNavigate()
+  const { setAuth, user: xuser, jwt: authkeyBearer } = useAuthStore();
+
+
+  // Redirect if already signed in
+  useEffect(() => {
+    if (xuser) { // Use xuser from useAuthStore
+      navigate(DASHBOARD_URL);
+    }
+  }, [xuser, navigate]);
+
 
   const siginCallback = async (status, message) => {
     if (!status) {
       toast.error(message)
     } else {
+      const { data: { session } } = await supabase.auth.getSession();
+      setAuth(session?.user, session); // Updates jwt in store
+
       updateRouterAtSignIn();
 
       let initConfig = { [THEME]: THEME_DARK, [SIDEBAR_SWITCH_FLAG_KEY]: SIDEBAR_SWITCH_FLAG_DEFAULT }
       let nconfig = config ? { ...config, ...initConfig } : initConfig
       setConfig(nconfig);
-      await updateJwtToken();
+      await getUserDetails(session?.access_token);
       toast.success("Logged in!")
       navigate(DASHBOARD_URL)
     }
     setLoader(false)
   }
 
-  const updateJwtToken = async () => {
-    let jwtToken = undefined
+  const getUserDetails = async (jwtToken) => {
+    if (jwtToken) {
+      getUsersPersonalDetails(getUsersPersonalDetailsCallback, jwtToken);
+    } else {
+      console.log('No active session');
+      toast.error('Unable to get user details')
+    }
 
-    await supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        jwtToken = session.access_token; // Access token (JWT)
-        setConfig({ ...useAppConfigStore.getState().config, [APP_CONFIG_KEYS.JWT_TOKEN]: jwtToken });
-        getUsersPersonalDetails(getUsersPersonalDetailsCallback, jwtToken);
-      } else {
-        console.log("AKG , no active session");
-      }
-    });
   }
 
   const getUsersPersonalDetailsCallback = async (status, data) => {
     if (!status) {
       toast.error('Failed to fetch user details !!')
     } else {
-       setUser({...data});    
+      setUser({ ...data });
     }
   }
 

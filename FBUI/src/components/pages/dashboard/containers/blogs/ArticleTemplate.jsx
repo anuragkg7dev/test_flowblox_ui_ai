@@ -1,18 +1,17 @@
 import { getMediaAssets } from "@/components/client/EdgeFunctionRepository";
-import { APP_CONFIG_KEYS, tagColors } from "@/components/common/constants/CommonConstant";
+import { tagColors } from "@/components/common/constants/CommonConstant";
+import { CustomBrandLogoMiniBlackBG } from "@/components/common/element/CustomBrandLogo";
 import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
 import CustomTag from "@/components/common/element/CustomTag";
+import { toast } from "@/components/common/Notification";
 import { trimString } from "@/components/common/util/StringUtil";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Box, Button, Container, DownloadTrigger, Float, Heading, HStack, Image, Text, VStack, Wrap } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { getTagsArrayFromString } from "../ContainersUtil";
-import { CustomBrandLogoMiniBlackBG } from "@/components/common/element/CustomBrandLogo";
-import { ClimbingBoxLoader, PropagateLoader } from "react-spinners";
-import { toast } from "@/components/common/Notification";
-import { Link } from "react-router-dom";
-import { MdOutlineDownloadForOffline } from "react-icons/md";
 import { LuImageDown } from "react-icons/lu";
+import { PropagateLoader } from "react-spinners";
+import { getTagsArrayFromString } from "../ContainersUtil";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function ArticleTemplate(props) {
 
@@ -24,8 +23,7 @@ export default function ArticleTemplate(props) {
     const badgeColor = props.badgeColor ?? "brand.subBrandBg";
     const badgeTextColor = props.badgeColor ?? "brand.darkBrandTxt";
 
-    const { config, setConfig, updateConfig } = useAppConfigStore();
-    const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
+    const { jwt: authkeyBearer } = useAuthStore();
 
     const colors = [...tagColors];
     const startIndex = Math.floor(Math.random() * colors.length);

@@ -1,23 +1,23 @@
-import { Button, Field, HStack, Separator, Text, VStack } from "@chakra-ui/react";
-import CommonHeader from "../headers/CommonHeader";
-import FieldToneOfVoice from "./fields/FieldToneOfVoice";
-import FieldStrictness from "./fields/FieldStrictness";
-import FieldAIEngine from "./fields/FieldAIEngine";
-import FieldAiModel from "./fields/FieldAiModel";
-import { useState } from "react";
-import CustomLine from "@/components/common/element/CustomLine";
-import FieldAIWritterEditor from "./fields/FieldAIWritterEditor";
-import { LuTriangleAlert } from "react-icons/lu";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
-import { CONTAINERS_KEY } from "../ContainersConstant";
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
-import { containerValidationSchema } from "../validation/ContainerValidation";
-import { validate } from "@/components/validation/ValidationUtil";
 import { createAndUpdateBlogContainers } from "@/components/client/EdgeFunctionRepository";
 import { toast } from "@/components/common/Notification";
-import { JWT_TOKEN } from "@/components/common/constants/AppRouterConstant";
+import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
+import CustomLine from "@/components/common/element/CustomLine";
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { validate } from "@/components/validation/ValidationUtil";
+import { Button, Field, HStack, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
+import { LuTriangleAlert } from "react-icons/lu";
+import { CONTAINERS_KEY } from "../ContainersConstant";
 import { getBlogContainerFromresponse } from "../ContainersUtil";
+import CommonHeader from "../headers/CommonHeader";
+import { containerValidationSchema } from "../validation/ContainerValidation";
+import FieldAIEngine from "./fields/FieldAIEngine";
+import FieldAIWritterEditor from "./fields/FieldAIWritterEditor";
+import FieldAiModel from "./fields/FieldAiModel";
+import FieldStrictness from "./fields/FieldStrictness";
+import FieldToneOfVoice from "./fields/FieldToneOfVoice";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function SettingsAIAgent(props) {
 
@@ -26,7 +26,7 @@ export default function SettingsAIAgent(props) {
 
   const { config: xconfig, setConfig: setXConfig, updateConfig } = useAppConfigStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA];
-  const authkeyBearer = xconfig[JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
 
   let [toneOfVoice, setToneOfVoice] = useState(container[CONTAINERS_KEY.TONE_OF_VOICE]);
   let [strictness, setStrictness] = useState(container[CONTAINERS_KEY.STRICTNESS]);

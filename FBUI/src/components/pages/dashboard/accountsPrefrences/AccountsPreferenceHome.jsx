@@ -1,15 +1,14 @@
+import { getStripeManageBillinPortalUrl } from "@/components/client/EdgeFunctionRepository";
+import { toast } from "@/components/common/Notification";
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import CustomSegmentGroup from "@/components/common/element/CustomSegmentGroup";
 import CustomSpinner from "@/components/common/element/CustomSpinner";
+import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Heading, HStack, Text } from "@chakra-ui/react";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ACCOUNT_DETAILS, accountPrefrenceOptions, PREFRENCES, SUBSCRIPTIONS_BOLTONS } from "../DashboardConstant";
-import { getBalance, getStripeManageBillinPortalUrl } from "@/components/client/EdgeFunctionRepository";
-import { toast } from "@/components/common/Notification";
-import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
-import { useAppConfigStore } from "@/components/store/AppConfigStore";
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
-import { CONTENT_TYPE } from "@/components/client/EdgeConstant";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 
 
 const AccountDetails = lazy(() => import("./AccountDetails"));
@@ -25,8 +24,7 @@ export default function AccountsPreferenceHome() {
   const [stripeUrl, setStripeUrl] = useState(undefined);
   const [stripeUrlLoader, setStripeUrlLoader] = useState(false);
 
-  const { config, setConfig } = useAppConfigStore();
-  const authkeyBearer = config[APP_CONFIG_KEYS.JWT_TOKEN];
+  const { jwt: authkeyBearer } = useAuthStore();
 
 
   useEffect(() => {
@@ -72,7 +70,7 @@ export default function AccountsPreferenceHome() {
           cvariant="fblox"
           cloadingText="Loading..."
           loader={stripeUrlLoader}
-          onClickBtn={() => { window.open(stripeUrl, "_blank")}}
+          onClickBtn={() => { window.open(stripeUrl, "_blank") }}
           clabel="Change Subscription"
           cdisabled={!stripeUrl}
         />
