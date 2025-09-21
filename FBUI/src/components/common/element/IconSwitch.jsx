@@ -3,11 +3,12 @@ import React from "react";
 import { AiFillMediumCircle } from "react-icons/ai";
 import { BiLogoSquarespace } from "react-icons/bi";
 import { BsLightningCharge, BsTwitterX } from "react-icons/bs";
-import { FaBlog, FaInstagram, FaPodcast, FaRegNewspaper, FaTiktok, FaYoutube } from "react-icons/fa";
+import { FaBlog, FaInstagram, FaPodcast, FaTiktok, FaWordpressSimple, FaYoutube } from "react-icons/fa";
 import { FaRegFileLines } from "react-icons/fa6";
 import { FiCodesandbox, FiShield, FiShieldOff } from "react-icons/fi";
 import { GiAbstract047 } from "react-icons/gi";
 import { GoPerson } from "react-icons/go";
+import { GrWordpress } from "react-icons/gr";
 import { ImFacebook2 } from "react-icons/im";
 import { IoNewspaperOutline, IoShareSocialOutline } from "react-icons/io5";
 import { MdOutlineRssFeed } from "react-icons/md";
@@ -22,8 +23,8 @@ function IconSwitch(props) {
   const color = props.color ?? "brand.pureWhiteTxt";
   const bgColor = props.bgColor;
   const offset = 3;
-  const cml=props.cml
-  const cmr=props.cmr
+  const cml = props.cml
+  const cmr = props.cmr
 
 
   // Map type to icon
@@ -50,6 +51,7 @@ function IconSwitch(props) {
     blog: FaBlog,
     news: IoNewspaperOutline,
     website: SiAwwwards,
+    wordpress: GrWordpress,
 
   };
 
@@ -66,7 +68,7 @@ function IconSwitch(props) {
       boxSize={{ base: typeof boxSize === "object" ? boxSize.base + offset : boxSize + offset, md: typeof boxSize === "object" ? boxSize.md + offset : boxSize + offset }} // Add padding to boxSize
       ml={cml}
       mr={cmr}
-   >
+    >
       <Icon
         as={SelectedIcon}
         boxSize={boxSize} // Icon size

@@ -6,8 +6,11 @@ import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { useEffect, useState } from "react";
 import { CONTAINERS_KEY, SOURCE_DESTINATION_KEY } from "../ContainersConstant";
 import { useAuthStore } from "@/components/store/AuthStateStore";
+import { DASHBOARD_URL } from "@/components/common/constants/AppRouterConstant";
+import { useNavigate } from "react-router-dom";
 
 export default function SettingsConfigurable() {
+  const navigate = useNavigate();
   const [selectedDestination, setSelectedDestination] = useState();
   const [loader, setLoader] = useState(false);
   const [destinationList, setDestinationList] = useState([]);
@@ -18,7 +21,8 @@ export default function SettingsConfigurable() {
   const { jwt: authkeyBearer } = useAuthStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
   let containerId = container?.id
-  let hostUrl = 'https://tsdnwkcetuysrzhdhpsj.supabase.co/functions/v1/getArticlesExt' // to do.. move to env
+  let superbasEdgeBaseUrl = import.meta.env.VITE_SUPABASE_EDGE_URL
+  let hostUrl = `${superbasEdgeBaseUrl}getArticlesExt` 
 
   const [pageConfigParams, setPageConfigParams] = useState(new Map([
     [SOURCE_DESTINATION_KEY.KIND, CONTENT_TYPE.DESTINATION],
@@ -32,9 +36,9 @@ export default function SettingsConfigurable() {
 
 
   useEffect(() => {
-    console.log('AKG loading SettingsConfigurable')
-    //setLoader(true)
-    // loadDestinationDataList();
+      if (!container) {
+      navigate(DASHBOARD_URL, { replace: true });
+    } 
   }, []);
 
   const loadDestinationDataList = () => {

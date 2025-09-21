@@ -33,13 +33,13 @@ const Destination = lazy(() => import('@/components/pages/dashboard/containers/d
 export default function AppRouter(props) {
 
     let routeState = useAppRouterStore((state) => state.data);
-    //const [routeState, setRouteState] = useState(appRouteState)
+   
 
     useEffect(() => {
         // Subscribe to the whole store state
         const unsub = useAppRouterStore.subscribe((state) => {
-            console.log('AKG Router Updated --> ', state);
-            //  setRouteState(state);
+           // console.log('AKG Router Updated --> ', state);
+           
         });
 
         return () => {

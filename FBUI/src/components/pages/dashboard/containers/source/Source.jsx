@@ -17,8 +17,12 @@ import { CONTAINERS_KEY, SOURCE_BASE, SOURCE_DESTINATION_KEY } from "../Containe
 import CommonSearchHeader from "../headers/CommonSearchHeader";
 import AddEditSource from "./AddEditSource";
 import { useAuthStore } from "@/components/store/AuthStateStore";
+import { DASHBOARD_URL } from "@/components/common/constants/AppRouterConstant";
+import { useNavigate } from "react-router-dom";
 
 export default function Source() {
+  
+  const navigate = useNavigate();
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [drawerLabel, setDrawerLabel] = useState();
@@ -39,8 +43,12 @@ export default function Source() {
   ]));
 
   useEffect(() => {
-    setLoader(true);
-    loadSourceDataList();
+    if (!container) {
+      navigate(DASHBOARD_URL, { replace: true });
+    } else {
+      setLoader(true);
+      loadSourceDataList();
+    }
   }, []);
 
   const loadSourceDataList = () => {

@@ -18,8 +18,11 @@ import { CONTAINERS_KEY, DESTINATION_BASE, SOURCE_DESTINATION_KEY } from "../Con
 import CommonSearchHeader from "../headers/CommonSearchHeader";
 import AddEditDestination from "./AddEditDestination";
 import { useAuthStore } from "@/components/store/AuthStateStore";
+import { useNavigate } from "react-router-dom";
+import { DASHBOARD_URL } from "@/components/common/constants/AppRouterConstant";
 
 export default function Destination() {
+  const navigate = useNavigate();
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
   const [openDrawer, setOpenDrawer] = useState(false)
   const [drawerLabel, setDrawerLabel] = useState();
@@ -33,16 +36,23 @@ export default function Destination() {
 
   const { config: xconfig, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   const { jwt: authkeyBearer } = useAuthStore();
+
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
+
+  console.log(xconfig)
 
   const [pageConfigParams, setPageConfigParams] = useState(new Map([
     [SOURCE_DESTINATION_KEY.KIND, CONTENT_TYPE.DESTINATION],
-    [SOURCE_DESTINATION_KEY.CONTAINERS_ID, container[CONTAINERS_KEY.ID]],
+    [SOURCE_DESTINATION_KEY.CONTAINERS_ID, container?.[CONTAINERS_KEY.ID]],
   ]));
 
   useEffect(() => {
-    setLoader(true)
-    loadDestinationDataList();
+    if (!container) {
+      navigate(DASHBOARD_URL, { replace: true });
+    } else {
+      setLoader(true)
+      loadDestinationDataList();
+    }
   }, []);
 
   const loadDestinationDataList = () => {

@@ -46,6 +46,8 @@ export const FREQUENCY_TYPE = {
 
 export const DESTINATION_TYPE = {
   SQUARESPACE: 'squarespace',
+  WIX: 'wix',
+  WORDPRESS: 'wordpress',
 }
 
 export const SOURCE_TYPE = {

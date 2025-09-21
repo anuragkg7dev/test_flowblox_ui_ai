@@ -7,6 +7,7 @@ import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import CustomSelect from "@/components/common/element/CustomSelect";
 import { toast } from "@/components/common/Notification";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 import { validate } from "@/components/validation/ValidationUtil";
 import {
     Field,
@@ -22,9 +23,10 @@ import { HiOutlineExclamationTriangle, HiOutlinePencilSquare } from "react-icons
 import { MdOutlineShare } from "react-icons/md";
 import { sourceOutputOption } from "../../DashboardConstant";
 import { SOURCE_DESTINATION_KEY } from "../ContainersConstant";
-import FieldUrl from "../fields/FieldUrl";
 import { destinationValidationSchema } from "../validation/ContainerValidation";
-import { useAuthStore } from "@/components/store/AuthStateStore";
+import SquarespaceDetails from "./squarespace/SquarespaceDetails";
+import WixDetails from "./wix/WixDetails";
+import WordpressDetails from "./wordpress/WordpressDetails";
 
 
 export default function AddEditDestination(props) {
@@ -38,11 +40,11 @@ export default function AddEditDestination(props) {
     const setLoader = props.setLoader
     const containerId = props.containerId
     const loadDestinationData = props.loadDestinationData
-
+    console.log('AKG ', destinationMaster)
     const [title, setTitle] = useState(destinationMaster[SOURCE_DESTINATION_KEY.TITLE]);
     const [description, setDescription] = useState(destinationMaster[SOURCE_DESTINATION_KEY.DESCRIPTION]);
     const [type, setType] = useState(destinationMaster[SOURCE_DESTINATION_KEY.TYPE]);
-    const [config, setConfig] = useState(destinationMaster[SOURCE_DESTINATION_KEY.CONFIG]);
+    const [config, setConfig] = useState(destinationMaster[SOURCE_DESTINATION_KEY.CONFIG] ?? {});
     const [status, setStatus] = useState(destinationMaster[SOURCE_DESTINATION_KEY.STATUS]);
 
     const [show, setShow] = useState({});
@@ -60,11 +62,11 @@ export default function AddEditDestination(props) {
     const labelIconSize = 20
     const cvariant = "fbloxD"
 
-    useEffect(() => {
+    console.log('akg type', type)
 
+    useEffect(() => {
         updateShowSource(type)
     }, []);
-
 
 
     const onConfirmationDelete = () => {
@@ -120,14 +122,13 @@ export default function AddEditDestination(props) {
 
         if (flag) {
             setOpenDrawer(false)
-            loadDestinationData?.();
         } else {
             setLoader?.(false)
             toast.error("Failed to add destination !!")
         }
-
-
+        loadDestinationData?.();
     }
+
     const updateMaster = () => {
         let tempDestination = { ...destinationMaster }
         tempDestination[SOURCE_DESTINATION_KEY.TITLE] = title
@@ -145,7 +146,7 @@ export default function AddEditDestination(props) {
         if (!sourceType) {
             setShow({ [SOURCE_DESTINATION_KEY.URL]: false })
 
-        } else if (sourceType == DESTINATION_TYPE.SQUARESPACE) {
+        } else if (sourceType == DESTINATION_TYPE.SQUARESPACE || sourceType == DESTINATION_TYPE.WIX) {
             setShow({ ...show, [SOURCE_DESTINATION_KEY.URL]: true })
 
         } else {
@@ -211,11 +212,9 @@ export default function AddEditDestination(props) {
         updateShowSource(value)
     };
 
-    const onUrlChange = (value) => {
-        updateIsModifiedState(true)
-        setConfig({ ...config, [SOURCE_DESTINATION_KEY.URL]: value })
+    const updateConfig = (key, value) => {
+        setConfig?.(prev => ({ ...prev, [key]: value }));
     }
-
 
 
     const validateFields = () => {
@@ -332,16 +331,38 @@ export default function AddEditDestination(props) {
                         <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>{error?.[SOURCE_DESTINATION_KEY.TYPE]}</Field.ErrorText>
                     </Field.Root>
 
-                    {show?.[SOURCE_DESTINATION_KEY.URL] && (<>
-                        <FieldUrl
-                            url={config?.[SOURCE_DESTINATION_KEY.URL]}
-                            setUrl={onUrlChange}
+                    {type && type == [DESTINATION_TYPE.SQUARESPACE] && (<>
+                        <SquarespaceDetails
+                            config={config}
+                            updateConfig={updateConfig}
                             cml={fieldMargin}
                             cwidth={fieldWidth}
                             cvariant={cvariant}
                             labelIconSize={labelIconSize}
-                            error={error?.[SOURCE_DESTINATION_KEY.URL]}
-                            validate={validateUrl}
+                        //error={error?.[SOURCE_DESTINATION_KEY.URL]}
+                        //validate={validateUrl}
+                        />
+                    </>)}
+
+                    {type && type == [DESTINATION_TYPE.WIX] && (<>
+                        <WixDetails
+                            config={config}
+                            updateConfig={updateConfig}
+                            cml={fieldMargin}
+                            cwidth={fieldWidth}
+                            cvariant={cvariant}
+                            labelIconSize={labelIconSize}
+                        />
+                    </>)}
+
+                    {type && type == [DESTINATION_TYPE.WORDPRESS] && (<>
+                        <WordpressDetails
+                            config={config}
+                            updateConfig={updateConfig}
+                            cml={fieldMargin}
+                            cwidth={fieldWidth}
+                            cvariant={cvariant}
+                            labelIconSize={labelIconSize}
                         />
                     </>)}
 

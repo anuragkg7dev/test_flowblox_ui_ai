@@ -70,7 +70,7 @@ function CustomContainerDisplayRow(props) {
               (badge, index) =>
                 badge.trim() && (
                   <CustomTag
-                    key={`bdg_${cKey}_${index}`}
+                    ckey={`bdg_${cKey}_${index}`}
                     cbg={getRandomColor(index)}
                     txtColor={badgeTextColor}
                     name={trimString(badge, 10)}

@@ -2,7 +2,7 @@ import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 import CustomLine from "@/components/common/element/CustomLine";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { Button, Field, HStack, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuTriangleAlert } from "react-icons/lu";
 import CommonHeader from "../headers/CommonHeader";
 import FieldAIEngine from "./fields/FieldAIEngine";
@@ -19,9 +19,12 @@ import { CONTAINERS_KEY } from "../ContainersConstant";
 import { getBlogContainerFromresponse } from "../ContainersUtil";
 import { containerValidationSchema } from "../validation/ContainerValidation";
 import { useAuthStore } from "@/components/store/AuthStateStore";
+import { useNavigate } from "react-router-dom";
+import { DASHBOARD_URL } from "@/components/common/constants/AppRouterConstant";
 
 export default function SettingsAIAgent(props) {
 
+  const navigate = useNavigate();
   const isModified = props.isModified
   const setIsModified = props.setIsModified
 
@@ -47,6 +50,12 @@ export default function SettingsAIAgent(props) {
   const cvariant = "fbloxD";
   const vstackWidth = { base: "100%", md: "45%" };
   const sectionWidth = { base: "100%", md: "80%" };
+
+  useEffect(() => {
+    if (!container) {
+      navigate(DASHBOARD_URL, { replace: true });
+    }
+  }, []);
 
   const onSubmit = () => {
     let requestPayload = updateContainerMaster()

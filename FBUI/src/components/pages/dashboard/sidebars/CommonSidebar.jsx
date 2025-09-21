@@ -23,7 +23,7 @@ export default function CommonSidebar(props) {
 
   const { clearAuth } = useAuthStore();
   const { data: routeState, updateRouterAtSignOut } = useAppRouterStore();
-  const { config: appConfig, setConfig } = useAppConfigStore();
+  const { config: appConfig, setConfig, updateConfig, clearConfig} = useAppConfigStore();
 
   const [previousSelection, setPreviousSelection] = useState();
   const [showConfirmation, setShowsConfirmation] = useState(false);
@@ -49,7 +49,7 @@ export default function CommonSidebar(props) {
   };
 
   const onSignOutOkConfirmation = () => {
-    setShowsConfirmation(false)
+    setShowsConfirmation(false)     
     handleSignOut(handleSignOutCallback)
   };
 
@@ -60,9 +60,7 @@ export default function CommonSidebar(props) {
 
 
   const handleSignOutCallback = (flag, data) => {
-    if (flag) {
-      clearAuth(); // Clear auth store
-      updateRouterAtSignOut(); // Clear IS_AUTHENTICATED
+    if (flag) {      
       toast.success(data)
     } else {
       toast.error(data)

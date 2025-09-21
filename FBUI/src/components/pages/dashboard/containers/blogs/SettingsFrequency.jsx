@@ -1,5 +1,6 @@
 import { CONTENT_TYPE, FREQUENCY_TYPE } from "@/components/client/EdgeConstant";
 import { createAndUpdateBlogContainers } from "@/components/client/EdgeFunctionRepository";
+import { DASHBOARD_URL } from "@/components/common/constants/AppRouterConstant";
 import { APP_CONFIG_KEYS } from "@/components/common/constants/CommonConstant";
 import CustomLine from "@/components/common/element/CustomLine";
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
@@ -7,10 +8,12 @@ import { toast } from "@/components/common/Notification";
 import { getDateString } from "@/components/common/util/DateUtil";
 import { joinStrings } from "@/components/common/util/StringUtil";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
+import { useAuthStore } from "@/components/store/AuthStateStore";
 import { validate } from "@/components/validation/ValidationUtil";
 import { Button, Field, HStack, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuTriangleAlert } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 import { CONTAINERS_BLOG_BASE, CONTAINERS_KEY } from "../ContainersConstant";
 import { getBlogContainerFromresponse, getTagsArrayFromString } from "../ContainersUtil";
 import FieldContainerName from "../fields/FieldContainerName";
@@ -23,10 +26,10 @@ import { containerValidationSchema } from "../validation/ContainerValidation";
 import FieldNumberOfArticle from "./fields/FieldNumberOfArticle";
 import FieldNumberOfWords from "./fields/FieldNumberOfWords";
 import FieldSourceOutput from "./fields/FieldSourceOutput";
-import { useAuthStore } from "@/components/store/AuthStateStore";
 
 export default function SettingsFrequency(props) {
 
+  const navigate = useNavigate();
   const isModified = props.isModified
   const setIsModified = props.setIsModified
 
@@ -59,6 +62,12 @@ export default function SettingsFrequency(props) {
   const labelIconSize = 20;
   const cvariant = "fbloxD";
   const vstackWidth = { base: "100%", md: "30%" };
+
+  useEffect(() => {
+    if (!container) {
+      navigate(DASHBOARD_URL, { replace: true });
+    }
+  }, []);
 
   const onContainerNameChange = (value) => {
     setIsModified(true)

@@ -11,4 +11,5 @@ export const useAppConfigStore = create((set) => ({
     set((state) => ({
       config: { ...state.config, ...data },
     })),
+  clearConfig: () => set({ config: {} }), // Reset only the config object
 }));

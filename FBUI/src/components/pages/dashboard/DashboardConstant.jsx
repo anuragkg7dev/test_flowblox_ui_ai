@@ -12,7 +12,9 @@ export const frquencyOption = [
 ];
 
 export const sourceOutputOption = [
-  { label: "Squarespace", value: DESTINATION_TYPE.SQUARESPACE }
+  { label: "Squarespace", value: DESTINATION_TYPE.SQUARESPACE },
+  { label: "WIX", value: DESTINATION_TYPE.WIX },
+  { label: "WordPress (Business plan or higher)", value: DESTINATION_TYPE.WORDPRESS }
 ];
 
 
