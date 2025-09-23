@@ -27,10 +27,13 @@ import { API_PARAM_KEY, CONTAINERS_KEY } from "../ContainersConstant";
 import CommonSearchHeaderWithPublish from "../headers/CommonSearchHeaderWithPublish";
 import ArticlesLayout from "./ArticlesLayout";
 import { useAuthStore } from "@/components/store/AuthStateStore";
+import { useNavigate } from "react-router-dom";
+import { DASHBOARD_URL } from "@/components/common/constants/AppRouterConstant";
 
 const ArticleTemplate = lazy(() => import("./ArticleTemplate"));
 
 export default function Articles(props) {
+  const navigate = useNavigate();
   const limit = props.limit ?? 20
   const selectView = props.selectView
   const hideFilter = props.hideFilter
@@ -76,7 +79,11 @@ export default function Articles(props) {
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    freshLoadArticleData(initUrlParam)
+    if (!container) {
+      navigate(DASHBOARD_URL, { replace: true });
+    } else {
+      freshLoadArticleData(initUrlParam)
+    }
   }, []);
 
   const freshLoadArticleData = (xinitUrlParam) => {

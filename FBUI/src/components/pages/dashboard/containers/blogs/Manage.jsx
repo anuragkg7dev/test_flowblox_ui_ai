@@ -19,9 +19,12 @@ import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { BeatLoader } from "react-spinners";
 import Articles from "./Articles";
 import { useAuthStore } from "@/components/store/AuthStateStore";
+import { useNavigate } from "react-router-dom";
+import { DASHBOARD_URL } from "@/components/common/constants/AppRouterConstant";
 
 export default function Manage(props) {
 
+  const navigate = useNavigate();
   const { config, setConfig } = useAppConfigStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
   const { jwt: authkeyBearer } = useAuthStore();
@@ -30,7 +33,11 @@ export default function Manage(props) {
   const [totalPublishedArticle, setTotalPublishedArticle] = useState(-1);
 
   useEffect(() => {
-    loadPublishCount();
+    if (!container) {
+      navigate(DASHBOARD_URL, { replace: true });
+    } else {
+      loadPublishCount();
+    }
   }, []);
 
   const loadPublishCount = () => {

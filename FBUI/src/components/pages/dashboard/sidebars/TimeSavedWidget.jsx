@@ -64,7 +64,7 @@ export default function TimeSavedWidget(props) {
                 <TbClockHour5 size={22} color="inherit" onClick={loadStatsData} />
 
                 {!loader && (<>
-                    <Text fontSize="40px" fontWeight={100} color="brand.subBrandBg">
+                    <Text fontSize="22px" fontWeight={100} color="brand.subBrandBg">
                         {timeSaved}
                     </Text>
                 </>)}
@@ -73,11 +73,17 @@ export default function TimeSavedWidget(props) {
                     <PacmanLoader size={15} color="white" />
                 </>)}
 
-                <VStack align="start">
-                    <Text>Saved</Text>
-                    <Text fontSize="10px">Using this tool</Text>
-                </VStack>
+
             </HStack>
+            <VStack spacing={2}
+                flexShrink={0}
+                w="100%"
+                display="flex"
+                
+                justify="center">
+                <Text>Saved</Text>
+                <Text fontSize="10px">Using this tool</Text>
+            </VStack>
         </Box>
     </>)
 }
