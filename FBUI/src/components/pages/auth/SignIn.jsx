@@ -1,5 +1,8 @@
 import {
-  DASHBOARD_URL
+  DASHBOARD_URL,
+  FORGET_PASSWORD,
+  FORGET_PASSWORD_URL,
+  HOME_URL
 } from "@/components/common/constants/AppRouterConstant"
 import { toast } from "@/components/common/Notification"
 import { useAppRouterStore } from "@/components/store/AppRouterStore"
@@ -15,7 +18,7 @@ import {
   Text
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { handleSignin } from "./AuthLogic"
 
 import bg1 from "../../../assets/bg1.jpg"
@@ -136,8 +139,8 @@ export default function SignIn() {
 
           {/* Links */}
           <HStack width="100%" justifyContent="space-between" mt={4} fontSize={{ base: "sm", md: "md" }}>
-            <Text color="brand.subBrandBg" cursor="pointer" userSelect="none">
-              Forgot password?
+            <Text color="brand.subBrandBg"  userSelect="none">             
+              <Link as={Link} to={FORGET_PASSWORD_URL}>Forgot password?</Link>
             </Text>
             <Text color="brand.subBrandBg" cursor="pointer" userSelect="none">
               Help <Icon as={LiaExternalLinkAltSolid} color="brand.subBrandBg" boxSize={{ base: 3, md: 4 }} />
