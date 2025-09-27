@@ -96,14 +96,24 @@ export default function Containers() {
 
     if (flag) {
       const cpageMetadat = { [API_PARAM_KEY.CURRENT_PAGE]: data?.[API_PARAM_KEY.CURRENT_PAGE], [API_PARAM_KEY.TOTAL_COUNT]: data?.[API_PARAM_KEY.TOTAL_COUNT], [API_PARAM_KEY.TOTAL_PAGES]: data?.[API_PARAM_KEY.TOTAL_PAGES] }
-
-      setContainerList(prev => [...prev, ...(data?.containers ?? [])]);
-      updateConfigObj({
-        [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [...(config[APP_CONFIG_KEYS.CONTAINER_DATA_LIST] ?? []), ...(data?.containers ?? [])],
-        [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: false,
-        [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]: { ...cpageMetadat },
-        [APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS]: pageConfigParams
-      });
+     
+      if (data?.[API_PARAM_KEY.CURRENT_PAGE] > 1) {
+        setContainerList(prev => [...prev, ...(data?.containers ?? [])]);
+        updateConfigObj({
+          [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [...(config[APP_CONFIG_KEYS.CONTAINER_DATA_LIST] ?? []), ...(data?.containers ?? [])],
+          [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: false,
+          [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]: { ...cpageMetadat },
+          [APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS]: pageConfigParams
+        });
+      } else {
+        setContainerList(data?.containers ?? []);
+        updateConfigObj({
+          [APP_CONFIG_KEYS.CONTAINER_DATA_LIST]: [...(data?.containers ?? [])],
+          [APP_CONFIG_KEYS.CONTAINER_MODIFIED]: false,
+          [APP_CONFIG_KEYS.CONTAINER_PAGE_METADATA]: { ...cpageMetadat },
+          [APP_CONFIG_KEYS.CONTAINER_PAGE_CONFIG_PARAMS]: pageConfigParams
+        });
+      }
 
       setPageMetadata(cpageMetadat)
       updateShowLoadMore(data)
