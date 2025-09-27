@@ -1,11 +1,16 @@
+import { getUsersPersonalDetails } from "@/components/client/EdgeFunctionRepository"
+import { supabase } from "@/components/client/SuperbasClient"
 import {
   DASHBOARD_URL,
-  FORGET_PASSWORD,
-  FORGET_PASSWORD_URL,
-  HOME_URL
+  FORGET_PASSWORD_URL
 } from "@/components/common/constants/AppRouterConstant"
+import { SIDEBAR_SWITCH_FLAG_DEFAULT, SIDEBAR_SWITCH_FLAG_KEY, THEME, THEME_DARK } from "@/components/common/constants/CommonConstant"
+import CustomLoaderButton from "@/components/common/element/CustomLoaderButton"
 import { toast } from "@/components/common/Notification"
+import { useAppConfigStore } from "@/components/store/AppConfigStore"
 import { useAppRouterStore } from "@/components/store/AppRouterStore"
+import { useAuthStore } from "@/components/store/AuthStateStore"
+import { useUserDetailStore } from "@/components/store/UserDetailStore"
 import {
   Box,
   Checkbox,
@@ -18,83 +23,132 @@ import {
   Text
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { handleSignin } from "./AuthLogic"
-
-import bg1 from "../../../assets/bg1.jpg"
-import logo from "../../../assets/logo1.png"
-
-import { getUsersPersonalDetails } from "@/components/client/EdgeFunctionRepository"
-import { supabase } from "@/components/client/SuperbasClient"
-import { APP_CONFIG_KEYS, SIDEBAR_SWITCH_FLAG_DEFAULT, SIDEBAR_SWITCH_FLAG_KEY, THEME, THEME_DARK } from "@/components/common/constants/CommonConstant"
-import CustomLoaderButton from "@/components/common/element/CustomLoaderButton"
-import { useAppConfigStore } from "@/components/store/AppConfigStore"
 import { BsGoogle } from "react-icons/bs"
 import { ImAppleinc } from "react-icons/im"
 import { IoLogoWindows } from "react-icons/io5"
 import { LiaExternalLinkAltSolid } from "react-icons/lia"
-import { useUserDetailStore } from "@/components/store/UserDetailStore"
-import { useAuthStore } from "@/components/store/AuthStateStore"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import bg1 from "../../../assets/bg1.jpg"
+import logo from "../../../assets/logo1.png"
+import { handleSignin } from "./AuthLogic"
+
+const googleClientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
 
 export default function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loader, setLoader] = useState(false)
   const updateRouterAtSignIn = useAppRouterStore((state) => state.updateRouterAtSignIn)
-  const { config, setConfig, updateConfig } = useAppConfigStore();
-  const { user, setUser } = useUserDetailStore();
+  const { config, setConfig } = useAppConfigStore()
+  const { user, setUser } = useUserDetailStore()
   const navigate = useNavigate()
-  const { setAuth, user: xuser, jwt: authkeyBearer } = useAuthStore();
-
+  const location = useLocation()
+  const { setAuth, user: xuser, jwt: authkeyBearer } = useAuthStore()
 
   // Redirect if already signed in
   useEffect(() => {
-    if (xuser) { // Use xuser from useAuthStore
-      navigate(DASHBOARD_URL);
+    if (xuser) {
+      navigate(DASHBOARD_URL, { replace: true })
     }
-  }, [xuser, navigate]);
+  }, [xuser, navigate])
 
+  // Google One-Tap initialization
+  useEffect(() => {
+    if (!xuser) {
+      const script = document.createElement('script')
+      script.src = 'https://accounts.google.com/gsi/client'
+      script.async = true
+      document.body.appendChild(script)
+
+      window.onGoogleLibraryLoad = () => {
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: async (response) => {
+            try {
+              const { data, error } = await supabase.auth.signInWithIdToken({
+                provider: 'google',
+                token: response.credential,
+              })
+              if (error) throw error
+
+              await siginCallback(true, "Logged in with Google!")
+             
+            } catch (error) {
+              console.error('Google One-Tap error:', error)
+              toast.error(error.message || 'Failed to sign in with Google One-Tap.')
+            }
+          },
+          ux_mode: 'popup',
+          auto_select: true,
+        })
+        window.google.accounts.id.prompt()
+      }
+
+      return () => {
+        document.body.removeChild(script)
+      }
+    }
+  }, [navigate, setAuth, updateRouterAtSignIn, setConfig, config, xuser])
 
   const siginCallback = async (status, message) => {
     if (!status) {
       toast.error(message)
     } else {
-      const { data: { session } } = await supabase.auth.getSession();
-      setAuth(session?.user, session); // Updates jwt in store
-
-      updateRouterAtSignIn();
-
+      const { data: { session } } = await supabase.auth.getSession()
+      setAuth(session?.user, session)
+      updateRouterAtSignIn()
       let initConfig = { [THEME]: THEME_DARK, [SIDEBAR_SWITCH_FLAG_KEY]: SIDEBAR_SWITCH_FLAG_DEFAULT }
       let nconfig = config ? { ...config, ...initConfig } : initConfig
-      setConfig(nconfig);
-      await getUserDetails(session?.access_token);
+      setConfig(nconfig)
+      await getUserDetails(session?.access_token)
       toast.success("Logged in!")
-      navigate(DASHBOARD_URL)
+      navigate(DASHBOARD_URL, { replace: true })
     }
     setLoader(false)
   }
 
   const getUserDetails = async (jwtToken) => {
     if (jwtToken) {
-      getUsersPersonalDetails(getUsersPersonalDetailsCallback, jwtToken);
+      getUsersPersonalDetails(getUsersPersonalDetailsCallback, jwtToken)
     } else {
-      console.log('No active session');
+      console.log('No active session')
       toast.error('Unable to get user details')
     }
-
   }
 
   const getUsersPersonalDetailsCallback = async (status, data) => {
     if (!status) {
       toast.error('Failed to fetch user details !!')
     } else {
-      setUser({ ...data });
+      setUser({ ...data })
     }
   }
 
   const handleEmailSignin = () => {
     setLoader(true)
     handleSignin(email, password, siginCallback)
+  }
+
+  const handleGoogleSignin = async () => {
+    setLoader(true)
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+          state: { from: location.pathname },
+        },
+      })
+      if (error) throw error
+    } catch (error) {
+      console.error('Google login error:', error)
+      toast.error(error.message || 'Failed to sign in with Google.')
+      setLoader(false)
+    }
   }
 
   return (
@@ -139,7 +193,7 @@ export default function SignIn() {
 
           {/* Links */}
           <HStack width="100%" justifyContent="space-between" mt={4} fontSize={{ base: "sm", md: "md" }}>
-            <Text color="brand.subBrandBg"  userSelect="none">             
+            <Text color="brand.subBrandBg" userSelect="none">
               <Link as={Link} to={FORGET_PASSWORD_URL}>Forgot password?</Link>
             </Text>
             <Text color="brand.subBrandBg" cursor="pointer" userSelect="none">
@@ -147,7 +201,7 @@ export default function SignIn() {
             </Text>
           </HStack>
 
-          {/* Sign in Button */}
+          {/* Email Sign in Button */}
           <CustomLoaderButton
             cwidth="100%"
             cmt={6}
@@ -155,9 +209,10 @@ export default function SignIn() {
             cloadingText={'Sign In'}
             loader={loader}
             onClickBtn={handleEmailSignin}
-            clabel={'Sign In'}
+            clabel={'Sign In with Email'}
           />
 
+        
           {/* Terms */}
           <Text mt={4} color="brand.subBrandBg" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
             By signing in, you agree to our Terms of Service and Privacy Policy.
@@ -184,10 +239,10 @@ export default function SignIn() {
           {/* Social Icons */}
           <HStack width="100%" justifyContent="center" mt={4}>
             {[
-              { icon: IoLogoWindows },
-              { icon: BsGoogle },
-              { icon: ImAppleinc },
-            ].map(({ icon }, idx) => (
+              // { icon: IoLogoWindows, onClick: () => {} },
+              { icon: BsGoogle, onClick: handleGoogleSignin },
+              // { icon: ImAppleinc, onClick: () => {} },
+            ].map(({ icon, onClick }, idx) => (
               <Box
                 key={idx}
                 mx={1}
@@ -200,6 +255,7 @@ export default function SignIn() {
                 justifyContent="center"
                 cursor="pointer"
                 _hover={{ bg: "brand.subBrandBg", color: "white" }}
+                onClick={onClick}
               >
                 <Icon as={icon} color="brand.pureWhiteTxt" boxSize={{ base: 4, md: 6 }} />
               </Box>
