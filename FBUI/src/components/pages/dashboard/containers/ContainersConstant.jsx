@@ -60,6 +60,9 @@ export const SOURCE_DESTINATION_KEY = {
     KIND: 'kind',
     CONTAINERS_ID: "containers_id",
     PROCESSING: "processing",
+    TOKEN: "token",
+    USER: "user",
+    PREFIX_TEXT: "prefixText",
 }
 
 export const DESTINATION_BASE = {
@@ -97,6 +100,6 @@ export const API_PARAM_KEY = {
     TAGS: 'tags',
     CONTENT_TYPE: 'content_type',
     ID: 'id',
-    SEARCH_TXT:'searchTxt',
-    SUB_ID:"sub_id",
+    SEARCH_TXT: 'searchTxt',
+    SUB_ID: "sub_id",
 }

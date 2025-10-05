@@ -29,6 +29,12 @@ export function verifyStripePreTransaction(body, callback) {
   callEdgeFunctionNonAuth(edgeFunction.VERIFY_STRIPE_PRE_TRANSACTION, body, callback, POST)
 }
 
+export function getArticleExternalUid(uid, callback) {
+  callEdgeFunctionNonAuth(edgeFunction.GET_ARTICLES_BY_UID_EXT+'?id='+uid, undefined, callback, GET)
+}
+
+//---
+
 export function createAndUpdateBlogContainers(body, callback, authkeyBearer) {
   callEdgeFunction(edgeFunction.CREATE_UPDATE_BLOG_CONTAINERS, body, callback, authkeyBearer, POST)
 }
@@ -104,6 +110,9 @@ export function getMediaAssets(container_id, sub_id, callback, authkeyBearer) {
   callEdgeFunctionWithParams(edgeFunction.GET_MEDIA_ASSETS, {}, paramMap, callback, authkeyBearer, GET)
 }
 
+export function verifyDestination(body, callback, authkeyBearer) {
+  callEdgeFunction(edgeFunction.VERIFY_DESTINATION, body, callback, authkeyBearer, POST)
+}
 
 
 

@@ -27,6 +27,7 @@ import { destinationValidationSchema } from "../validation/ContainerValidation";
 import SquarespaceDetails from "./squarespace/SquarespaceDetails";
 import WixDetails from "./wix/WixDetails";
 import WordpressDetails from "./wordpress/WordpressDetails";
+import LinkedInDetails from "./linkedin/LinkedinDetails";
 
 
 export default function AddEditDestination(props) {
@@ -64,9 +65,9 @@ export default function AddEditDestination(props) {
 
     console.log('akg type', type)
 
-    useEffect(() => {
-        updateShowSource(type)
-    }, []);
+    // useEffect(() => {
+    //     updateShowSource(type)
+    // }, []);
 
 
     const onConfirmationDelete = () => {
@@ -142,19 +143,6 @@ export default function AddEditDestination(props) {
     };
 
 
-    const updateShowSource = (sourceType) => {
-        if (!sourceType) {
-            setShow({ [SOURCE_DESTINATION_KEY.URL]: false })
-
-        } else if (sourceType == DESTINATION_TYPE.SQUARESPACE || sourceType == DESTINATION_TYPE.WIX) {
-            setShow({ ...show, [SOURCE_DESTINATION_KEY.URL]: true })
-
-        } else {
-            setShow({ ...show, [SOURCE_DESTINATION_KEY.URL]: false })
-        }
-    };
-
-
     const validateName = () => {
 
         let nameError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.TITLE, title)
@@ -174,20 +162,29 @@ export default function AddEditDestination(props) {
     };
 
     const validateUrl = () => {
-        if (show?.[SOURCE_DESTINATION_KEY.URL]) {
-
-
-            let err = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.URL, config?.[SOURCE_DESTINATION_KEY.URL])
-            setError({
-                ...error,
-                [SOURCE_DESTINATION_KEY.URL]: err
-            })
-        } else {
-            setError({
-                ...error,
-                [SOURCE_DESTINATION_KEY.URL]: undefined
-            })
+        if (type == DESTINATION_TYPE.SQUARESPACE || type == DESTINATION_TYPE.LINKEDIN || type == DESTINATION_TYPE.WORDPRESS) {
+            let urlError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.URL, config[SOURCE_DESTINATION_KEY.URL])
+            return urlError
         }
+
+        return undefined
+    }
+
+    const validateUsername = () => {
+        if (type == DESTINATION_TYPE.WORDPRESS || type == DESTINATION_TYPE.LINKEDIN) {
+            let userErr = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.USER, config[SOURCE_DESTINATION_KEY.USER])
+            return userErr
+        }
+        return undefined
+    }
+
+    const validatePreText = () => {
+        if (type == DESTINATION_TYPE.LINKEDIN) {
+            let urlError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.PREFIX_TEXT, config[SOURCE_DESTINATION_KEY.PREFIX_TEXT])
+            return urlError
+        }
+
+        return undefined
     }
 
     const updateIsModifiedState = (newValue) => {
@@ -209,7 +206,7 @@ export default function AddEditDestination(props) {
     const onSourceOutputChange = (value) => {
         updateIsModifiedState(true)
         setType(value)
-        updateShowSource(value)
+        //updateShowSource(value)
     };
 
     const updateConfig = (key, value) => {
@@ -219,22 +216,26 @@ export default function AddEditDestination(props) {
 
     const validateFields = () => {
 
-        let nameError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.TITLE, title)
-        let descriptionError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.DESCRIPTION, description)
-        //let typeError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.TYPE, config[SOURCE_DESTINATION_KEY.TYPE])
+        const nameError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.TITLE, title)
+        const descriptionError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.DESCRIPTION, description)
+        const typeError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.TYPE, type)
 
-        let flag = nameError || descriptionError
+        const urlError = validateUrl()
+        const userNameError = validateUsername()
+        const preTextError = validatePreText()
+
+
+        const flag = nameError || descriptionError || typeError || urlError || userNameError || preTextError
 
         setError({
             ...error,
             [SOURCE_DESTINATION_KEY.TITLE]: nameError,
             [SOURCE_DESTINATION_KEY.DESCRIPTION]: descriptionError,
+            [SOURCE_DESTINATION_KEY.TYPE]: typeError,
+            [SOURCE_DESTINATION_KEY.URL]: urlError,
+            [SOURCE_DESTINATION_KEY.PREFIX_TEXT]: preTextError,
+            [SOURCE_DESTINATION_KEY.USER]: userNameError,
         })
-
-        if (type == DESTINATION_TYPE.SQUARESPACE) {
-            let urlError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.URL, config[SOURCE_DESTINATION_KEY.URL])
-            flag = flag || urlError
-        }
 
 
         return flag
@@ -327,8 +328,9 @@ export default function AddEditDestination(props) {
                             defaultSelected={type}
                             cselectCallback={(data) => onSourceOutputChange(data)}
                             cml={fieldMargin}
-                            cwidth={fieldWidth} />
-                        <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>{error?.[SOURCE_DESTINATION_KEY.TYPE]}</Field.ErrorText>
+                            cwidth={fieldWidth}
+                        />
+                        {/* <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>{error?.[SOURCE_DESTINATION_KEY.TYPE]}</Field.ErrorText> */}
                     </Field.Root>
 
                     {type && type == [DESTINATION_TYPE.SQUARESPACE] && (<>
@@ -363,6 +365,22 @@ export default function AddEditDestination(props) {
                             cwidth={fieldWidth}
                             cvariant={cvariant}
                             labelIconSize={labelIconSize}
+                            setError={setError}
+                            error={error}
+                        />
+                    </>)}
+
+
+                    {type && type == [DESTINATION_TYPE.LINKEDIN] && (<>
+                        <LinkedInDetails
+                            config={config}
+                            updateConfig={updateConfig}
+                            cml={fieldMargin}
+                            cwidth={fieldWidth}
+                            cvariant={cvariant}
+                            labelIconSize={labelIconSize}
+                            setError={setError}
+                            error={error}
                         />
                     </>)}
 

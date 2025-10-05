@@ -39,8 +39,6 @@ export default function Destination() {
 
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA]
 
-  console.log(xconfig)
-
   const [pageConfigParams, setPageConfigParams] = useState(new Map([
     [SOURCE_DESTINATION_KEY.KIND, CONTENT_TYPE.DESTINATION],
     [SOURCE_DESTINATION_KEY.CONTAINERS_ID, container?.[CONTAINERS_KEY.ID]],

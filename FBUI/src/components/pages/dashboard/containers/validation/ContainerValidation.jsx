@@ -27,7 +27,7 @@ export const containerValidationSchema = {
         .min(50, 'Minimum 50 characters')
         .max(500, 'Maximum 500 characters')
         .required('Editor Prompt is required'),
-}; 
+};
 
 
 export const destinationValidationSchema = {
@@ -44,6 +44,22 @@ export const destinationValidationSchema = {
     [SOURCE_DESTINATION_KEY.URL]: Yup.string()
         .url('Must be a valid URL')
         .required('URL is required'),
+
+    [SOURCE_DESTINATION_KEY.TYPE]: Yup.string()
+        .default('')
+        .required('Source Output is required'),
+
+    [SOURCE_DESTINATION_KEY.TOKEN]: Yup.string()
+        .default('')
+        .required('Required'),
+
+    [SOURCE_DESTINATION_KEY.USER]: Yup.string()
+        .default('')
+        .required('Required'),
+
+    [SOURCE_DESTINATION_KEY.PREFIX_TEXT]: Yup.string()
+        .default('Check out my latest article')
+        .required('Required'),
 };
 
 export const sourceValidationSchema = {

@@ -11,11 +11,12 @@ import PaymentFailed from '@/components/pages/stripe/PaymentFailed';
 import PaymentSuccess from '@/components/pages/stripe/PaymentSuccess';
 import { useAppRouterStore } from '@/components/store/AppRouterStore';
 import { lazy, useEffect } from 'react';
-import { DASHBOARD, DASHBOARD_ACCOUNTS_PREFERENCE, DASHBOARD_ACCOUNTS_PREFERENCE_URL, DASHBOARD_ANALYTICS, DASHBOARD_ANALYTICS_URL, DASHBOARD_CBSTORE, DASHBOARD_CBSTORE_URL, DASHBOARD_CONTAINER_ARTICLE_BLOGS, DASHBOARD_CONTAINER_ARTICLE_BLOGS_URL, DASHBOARD_CONTAINER_DESTINATION, DASHBOARD_CONTAINER_DESTINATION_URL, DASHBOARD_CONTAINER_MANAGE_BLOGS, DASHBOARD_CONTAINER_MANAGE_BLOGS_URL, DASHBOARD_CONTAINER_SETTINGS_BLOGS, DASHBOARD_CONTAINER_SETTINGS_BLOGS_URL, DASHBOARD_CONTAINER_SOURCE, DASHBOARD_CONTAINER_SOURCE_URL, DASHBOARD_CONTAINERS, DASHBOARD_CONTAINERS_URL, DASHBOARD_URL, DEFAULT_LOGOUT_URL, FORGET_PASSWORD, FORGET_PASSWORD_URL, HOME, HOME_URL, IS_AUTHENTICATED, NOT_FOUND_404, NOT_FOUND_404_URL, PRE_LAUNCH, PRE_LAUNCH_URL, PRODUCT_PRICING, PRODUCT_PRICING_URL, PRODUCT_SELECTION, PRODUCT_SELECTION_URL, RESET_PASSWORD, RESET_PASSWORD_URL, SIGN_IN, SIGN_IN_URL, SIGN_UP, SIGN_UP_URL, STRIPE_FAILED, STRIPE_FAILED_URL, STRIPE_SUCCESS, STRIPE_SUCCESS_URL } from '../../common/constants/AppRouterConstant';
+import { DASHBOARD, DASHBOARD_ACCOUNTS_PREFERENCE, DASHBOARD_ACCOUNTS_PREFERENCE_URL, DASHBOARD_ANALYTICS, DASHBOARD_ANALYTICS_URL, DASHBOARD_CBSTORE, DASHBOARD_CBSTORE_URL, DASHBOARD_CONTAINER_ARTICLE_BLOGS, DASHBOARD_CONTAINER_ARTICLE_BLOGS_URL, DASHBOARD_CONTAINER_DESTINATION, DASHBOARD_CONTAINER_DESTINATION_URL, DASHBOARD_CONTAINER_MANAGE_BLOGS, DASHBOARD_CONTAINER_MANAGE_BLOGS_URL, DASHBOARD_CONTAINER_SETTINGS_BLOGS, DASHBOARD_CONTAINER_SETTINGS_BLOGS_URL, DASHBOARD_CONTAINER_SOURCE, DASHBOARD_CONTAINER_SOURCE_URL, DASHBOARD_CONTAINERS, DASHBOARD_CONTAINERS_URL, DASHBOARD_URL, DEFAULT_LOGOUT_URL, FORGET_PASSWORD, FORGET_PASSWORD_URL, HOME, HOME_URL, IS_AUTHENTICATED, NOT_FOUND_404, NOT_FOUND_404_URL, OPEN_ARTICLE, OPEN_ARTICLE_URL, PRE_LAUNCH, PRE_LAUNCH_URL, PRODUCT_PRICING, PRODUCT_PRICING_URL, PRODUCT_SELECTION, PRODUCT_SELECTION_URL, RESET_PASSWORD, RESET_PASSWORD_URL, SIGN_IN, SIGN_IN_URL, SIGN_UP, SIGN_UP_URL, STRIPE_FAILED, STRIPE_FAILED_URL, STRIPE_SUCCESS, STRIPE_SUCCESS_URL } from '../../common/constants/AppRouterConstant';
 import SignIn from '../../pages/auth/SignIn';
 import SignUp from '../../pages/auth/SignUp';
 import Home from '../../pages/Home';
 import Containers from '@/components/pages/dashboard/containers/Containers';
+import ArticleTemplateExternal from '@/components/pages/dashboard/containers/blogs/ArticleTemplateExternal';
 
 
 // Lazy load pages
@@ -33,13 +34,13 @@ const Destination = lazy(() => import('@/components/pages/dashboard/containers/d
 export default function AppRouter(props) {
 
     let routeState = useAppRouterStore((state) => state.data);
-   
+
 
     useEffect(() => {
         // Subscribe to the whole store state
         const unsub = useAppRouterStore.subscribe((state) => {
-           // console.log('AKG Router Updated --> ', state);
-           
+            // console.log('AKG Router Updated --> ', state);
+
         });
 
         return () => {
@@ -82,6 +83,8 @@ export default function AppRouter(props) {
             <Route path={STRIPE_SUCCESS_URL} element={unprotectedRoute(<PaymentSuccess />, STRIPE_SUCCESS)} />
 
             <Route path={STRIPE_FAILED_URL} element={unprotectedRoute(<PaymentFailed />, STRIPE_FAILED)} />
+
+            <Route path={OPEN_ARTICLE_URL} element={unprotectedRoute(<ArticleTemplateExternal />, OPEN_ARTICLE)} />
 
 
 

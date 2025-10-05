@@ -64,7 +64,7 @@ export default function Articles(props) {
 
 
   let initUrlParam = new Map([
-    [API_PARAM_KEY.CONTAINERS_ID, container[CONTAINERS_KEY.ID]],
+    [API_PARAM_KEY.CONTAINERS_ID, container?.[CONTAINERS_KEY.ID]],
     [API_PARAM_KEY.LIMIT, limit],
     [API_PARAM_KEY.PAGE, 1],
     [API_PARAM_KEY.STATUS, statusFilter],

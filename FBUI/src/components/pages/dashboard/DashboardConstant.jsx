@@ -14,9 +14,9 @@ export const frquencyOption = [
 export const sourceOutputOption = [
   { label: "Squarespace", value: DESTINATION_TYPE.SQUARESPACE },
   { label: "WIX", value: DESTINATION_TYPE.WIX },
-  { label: "WordPress (Business plan or higher)", value: DESTINATION_TYPE.WORDPRESS }
+  { label: "WordPress (Business plan or higher)", value: DESTINATION_TYPE.WORDPRESS },
+  { label: "LinkedIn", value: DESTINATION_TYPE.LINKEDIN },
 ];
-
 
 export const ALL = "all"
 export const DRAFT = "draft"

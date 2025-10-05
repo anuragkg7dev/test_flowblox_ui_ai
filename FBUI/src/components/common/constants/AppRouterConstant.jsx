@@ -11,6 +11,7 @@ export const PRODUCT_SELECTION_URL="/productSelection"
 export const PRODUCT_PRICING_URL="/productPricing"
 export const STRIPE_SUCCESS_URL="/paymentSuccess"
 export const STRIPE_FAILED_URL="/paymentFailed"
+export const OPEN_ARTICLE_URL="/oarticle"
 
 export const PRE_LAUNCH_URL="/prelaunch"
 
@@ -30,6 +31,8 @@ export const PRODUCT_SELECTION="productSelection"
 export const PRODUCT_PRICING="productPricing"
 export const STRIPE_SUCCESS="paymentSuccess"
 export const STRIPE_FAILED="paymentFailed"
+export const OPEN_ARTICLE="oarticle"
+
 export const NOT_FOUND_404="notFound"
 
 export const PRE_LAUNCH="preLaunch"

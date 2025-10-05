@@ -24,6 +24,8 @@ export const edgeFunction = {
     UPDATE_CONTAINER_STATUS: "updateContainerStatus",
     GET_NEXT_RUN: "getContainerNextRun",
     GET_MEDIA_ASSETS: "getMediaAssets",
+    GET_ARTICLES_BY_UID_EXT: "getArticlesByUidExt",
+    VERIFY_DESTINATION: "verifyDestination",
 };
 
 const edgeFunctionKeys = {};

@@ -48,6 +48,7 @@ export const DESTINATION_TYPE = {
   SQUARESPACE: 'squarespace',
   WIX: 'wix',
   WORDPRESS: 'wordpress',
+  LINKEDIN:'linkedin',
 }
 
 export const SOURCE_TYPE = {

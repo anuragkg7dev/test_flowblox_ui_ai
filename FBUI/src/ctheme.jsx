@@ -27,6 +27,7 @@ export const customThemeSystem = createSystem(
 
             pureWhiteBg: "#FFFFFF",
             pureWhiteTxt: "#FFFFFF",
+            whiteBrandBorderLight: "#FFFFFF",
 
             darkBrandBg: "#2A0850",
             darkBrandTxt: "#2A0850",
