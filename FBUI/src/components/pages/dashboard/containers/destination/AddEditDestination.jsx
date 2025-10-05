@@ -206,7 +206,7 @@ export default function AddEditDestination(props) {
     const onSourceOutputChange = (value) => {
         updateIsModifiedState(true)
         setType(value)
-        //updateShowSource(value)
+        setConfig({})
     };
 
     const updateConfig = (key, value) => {
@@ -354,6 +354,7 @@ export default function AddEditDestination(props) {
                             cwidth={fieldWidth}
                             cvariant={cvariant}
                             labelIconSize={labelIconSize}
+                            setIsModified={setIsModified}
                         />
                     </>)}
 
@@ -367,6 +368,7 @@ export default function AddEditDestination(props) {
                             labelIconSize={labelIconSize}
                             setError={setError}
                             error={error}
+                            setIsModified={setIsModified}
                         />
                     </>)}
 
@@ -381,6 +383,7 @@ export default function AddEditDestination(props) {
                             labelIconSize={labelIconSize}
                             setError={setError}
                             error={error}
+                            setIsModified={setIsModified}
                         />
                     </>)}
 

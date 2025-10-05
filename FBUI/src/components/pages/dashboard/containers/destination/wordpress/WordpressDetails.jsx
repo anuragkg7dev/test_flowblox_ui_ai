@@ -36,9 +36,12 @@ export default function WordpressDetails(props) {
     const error = props.error
     const setError = props.setError;
 
+    const setIsModified = props.setIsModified
+
     const type = DESTINATION_TYPE.WORDPRESS
 
     const connectAndVerify = () => {
+        setIsModified(true);
         if (!token || !url) {
             toast.error('Token or URL missing')
         } else {
@@ -108,7 +111,7 @@ export default function WordpressDetails(props) {
                 </Field.Label>
                 <Input
                     placeholder="URL"
-                    onChange={(e) => { setUrl(e.target.value); updateConfig('url', e.target.value); }}
+                    onChange={(e) => { setUrl(e.target.value); updateConfig('url', e.target.value);setIsModified(true); }}
                     mb={2}
                     variant={cvariant}
                     value={url}
@@ -128,7 +131,7 @@ export default function WordpressDetails(props) {
                 </Field.Label>
                 <Input
                     placeholder="User"
-                    onChange={(e) => { setUser(e.target.value); updateConfig('user', e.target.value) }}
+                    onChange={(e) => { setUser(e.target.value); updateConfig('user', e.target.value);setIsModified(true); }}
                     mb={2}
                     variant={cvariant}
                     value={user}
@@ -148,7 +151,7 @@ export default function WordpressDetails(props) {
                 </Field.Label>
                 <Input
                     placeholder="Password"
-                    onChange={(e) => { setToken(e.target.value); updateConfig('token', e.target.value) }}
+                    onChange={(e) => { setToken(e.target.value); updateConfig('token', e.target.value);setIsModified(true); }}
                     mb={2}
                     variant={cvariant}
                     value={token}

@@ -31,9 +31,12 @@ export default function LinkedInDetails(props) {
     const labelIconSize = props.labelIconSize
     const error = props.error
     const setError = props.setError
+    const setIsModified = props.setIsModified
+
     const type = DESTINATION_TYPE.LINKEDIN
 
     const connectAndVerify = () => {
+        setIsModified(true); 
         if (!token || !url) {
             toast.error('Token or URL missing')
         } else {
@@ -60,12 +63,12 @@ export default function LinkedInDetails(props) {
         console.log(error)
         console.log(setError)
         console.log(url)
-        let urlError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.URL, url)     
+        let urlError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.URL, url)
         setError({
             ...error,
             [SOURCE_DESTINATION_KEY.URL]: urlError
         })
-           console.log(urlError)
+        console.log(urlError)
         return urlError
     }
 
@@ -83,7 +86,7 @@ export default function LinkedInDetails(props) {
 
     const validateToken = () => {
         let tokenError = validate(destinationValidationSchema, SOURCE_DESTINATION_KEY.TOKEN, token)
-         setError({
+        setError({
             ...error,
             [SOURCE_DESTINATION_KEY.TOKEN]: tokenError
         })
@@ -103,7 +106,7 @@ export default function LinkedInDetails(props) {
                 </Field.Label>
                 <Input
                     placeholder="URL"
-                    onChange={(e) => { setUrl(e.target.value); updateConfig(SOURCE_DESTINATION_KEY.URL, e.target.value); }}
+                    onChange={(e) => { setUrl(e.target.value); updateConfig(SOURCE_DESTINATION_KEY.URL, e.target.value);setIsModified(true); }}
                     mb={2}
                     variant={cvariant}
                     value={url}
@@ -123,7 +126,7 @@ export default function LinkedInDetails(props) {
                 </Field.Label>
                 <Input
                     placeholder="Password"
-                    onChange={(e) => { setToken(e.target.value); updateConfig('token', e.target.value) }}
+                    onChange={(e) => { setToken(e.target.value); updateConfig('token', e.target.value);setIsModified(true); }}
                     mb={2}
                     variant={cvariant}
                     value={token}
@@ -178,7 +181,7 @@ export default function LinkedInDetails(props) {
                 </Field.Label>
                 <Input
                     placeholder="Prefix"
-                    onChange={(e) => { setPreText(e.target.value); updateConfig(SOURCE_DESTINATION_KEY.PREFIX_TEXT, e.target.value) }}
+                    onChange={(e) => { setPreText(e.target.value); updateConfig(SOURCE_DESTINATION_KEY.PREFIX_TEXT, e.target.value);setIsModified(true); }}
                     mb={2}
                     variant={cvariant}
                     value={preText}
