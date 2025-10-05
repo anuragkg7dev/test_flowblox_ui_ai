@@ -55,9 +55,9 @@ export default function WordpressDetails(props) {
         if (flag && result.flag) {
             console.log(result)
             setConnection(true)
-            toast.success('Test connection sucessful')
+            toast.success('Connection test successful.')
         } else {
-            toast.error('Connection test failed')
+            toast.error('Connection test unsuccessful.')
             setConnection(true)
         }
         setLoader(false)
