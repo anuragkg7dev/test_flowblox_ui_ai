@@ -34,6 +34,8 @@ export const CONTAINERS_KEY = {
     STATUS: 'status',
     SOURCES: 'sources',
     AUTO_PUBLISH: 'auto_publish',
+    ACTIVE_SUBSCRIPTION:'activeSubscription',
+    
 };
 
 export const CONTAINERS_BLOG_BASE = {

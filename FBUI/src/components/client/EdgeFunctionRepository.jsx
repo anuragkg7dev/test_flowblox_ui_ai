@@ -114,7 +114,9 @@ export function verifyDestination(body, callback, authkeyBearer) {
   callEdgeFunction(edgeFunction.VERIFY_DESTINATION, body, callback, authkeyBearer, POST)
 }
 
-
+export function getAvailableProductIds(callback, authkeyBearer) {  
+  callEdgeFunctionWithParams(edgeFunction.GET_AVAILABLE_PRODUCT_SID, {}, undefined, callback, authkeyBearer, GET)
+}
 
 
 

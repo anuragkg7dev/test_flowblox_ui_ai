@@ -27,6 +27,7 @@ export default function SingleContainerHeader(props) {
 
   const { config, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   let container = config[APP_CONFIG_KEYS.CONTAINER_DATA]
+  const activeSubscription = container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION]
   const { jwt: authkeyBearer } = useAuthStore();
 
   const [loader, setLoader] = useState(false)
@@ -219,7 +220,7 @@ export default function SingleContainerHeader(props) {
             clabel={balance == undefined ? 'Fetch Balance' : balance + ' Articles'}
           />
 
-          {startPauseToggele && (<>  <CustomLoaderButton
+          {activeSubscription && startPauseToggele && (<>  <CustomLoaderButton
             cwidth="auto"
             cmt={6}
             cvariant={"fblox"}
@@ -230,7 +231,7 @@ export default function SingleContainerHeader(props) {
           />
           </>)}
 
-          {!startPauseToggele && (<>
+          {activeSubscription && !startPauseToggele && (<>
             <CustomLoaderButton
               cwidth="auto"
               cmt={6}
@@ -244,7 +245,7 @@ export default function SingleContainerHeader(props) {
 
           </>)}
 
-          {startPauseToggele && (<>
+          {activeSubscription && startPauseToggele && (<>
             <CustomLoaderButton
               cwidth="auto"
               cmt={6}
@@ -257,8 +258,8 @@ export default function SingleContainerHeader(props) {
             />
 
           </>)}
-
-          <Box ml={4} mt={8}>{info}</Box>
+          {activeSubscription && (<> <Box ml={4} mt={8}>{info}</Box> </>)}
+          {!activeSubscription && (<> <Box ml={4} mt={8} color={'red'}>{'Subscription Expired'}</Box> </>)}
         </Wrap>
 
       </Stack >

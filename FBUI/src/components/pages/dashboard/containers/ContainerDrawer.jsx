@@ -24,7 +24,7 @@ function ContainerDrawer(props) {
                         borderLeftColor="brand.greyBrandBorder"
                         borderRight="0.1px solid"
                         borderRightColor="brand.greyBrandBorder"
-                        width={"50%"}
+                        //width={"50%"}
                     >
 
                         <Drawer.Body spaceY="4" p={{ base: 2, md: 3 }} fontSize={{ base: "2xs", md: "xs" }} color="brand.pureWhiteTxt">

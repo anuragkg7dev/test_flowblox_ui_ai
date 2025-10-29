@@ -26,6 +26,8 @@ export const edgeFunction = {
     GET_MEDIA_ASSETS: "getMediaAssets",
     GET_ARTICLES_BY_UID_EXT: "getArticlesByUidExt",
     VERIFY_DESTINATION: "verifyDestination",
+    IS_CONTAINER_ACTIVE_BY_SUBSCRIPTION: "isContainerActiveBySubscription",
+    GET_AVAILABLE_PRODUCT_SID: "getAvailableProductSId",
 };
 
 const edgeFunctionKeys = {};

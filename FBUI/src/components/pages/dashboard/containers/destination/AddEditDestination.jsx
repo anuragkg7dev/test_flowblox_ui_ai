@@ -41,6 +41,7 @@ export default function AddEditDestination(props) {
     const setLoader = props.setLoader
     const containerId = props.containerId
     const loadDestinationData = props.loadDestinationData
+    const activeSubscription = props.activeSubscription
     console.log('AKG ', destinationMaster)
     const [title, setTitle] = useState(destinationMaster[SOURCE_DESTINATION_KEY.TITLE]);
     const [description, setDescription] = useState(destinationMaster[SOURCE_DESTINATION_KEY.DESCRIPTION]);
@@ -57,6 +58,8 @@ export default function AddEditDestination(props) {
     const [deleteLoader, setDeleteLoader] = useState(false);
 
     const { jwt: authkeyBearer } = useAuthStore();
+
+    
 
     const fieldMargin = 7
     const fieldWidth = "90%"
@@ -396,8 +399,6 @@ export default function AddEditDestination(props) {
                         </Field.Label>
                         <HStack width={fieldWidth} ml={fieldMargin} justify={"space-between"}>
 
-
-
                             <CustomLoaderButton
                                 cwidth="33%"
                                 cmt={6}
@@ -406,6 +407,7 @@ export default function AddEditDestination(props) {
                                 loader={loader}
                                 onClickBtn={onSubmit}
                                 clabel={action == ACTION.ADD ? 'ADD' : 'UPDATE'}
+                                cdisabled={!activeSubscription}
                             />
 
                             {action == ACTION.EDIT && (
@@ -417,6 +419,7 @@ export default function AddEditDestination(props) {
                                     loader={deleteLoader}
                                     onClickBtn={() => { setShowsDeleteConfirmation(true) }}
                                     clabel={'DELETE'}
+                                   
                                 />
                             )}
 

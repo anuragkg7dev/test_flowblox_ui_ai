@@ -438,6 +438,7 @@ export default function SettingsFrequency(props) {
                     loader={loader}
                     onClickBtn={onSubmit}
                     clabel={'set'}
+                    cdisabled={!container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION]}
                   />
 
                 </HStack>

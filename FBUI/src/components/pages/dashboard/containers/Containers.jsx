@@ -11,7 +11,7 @@ import { containerBlogTopSidebarOptions, HOME, sidebarSwitch } from "../sidebars
 import ContainerDrawer from "./ContainerDrawer";
 import AddEditBlogsContainer from "./blogs/AddEditBlogsContainer";
 
-import { getContainers } from "@/components/client/EdgeFunctionRepository";
+import { getAvailableProductIds, getContainers } from "@/components/client/EdgeFunctionRepository";
 import { toast } from "@/components/common/Notification";
 import CustomPageScrollObserverBottom from "@/components/common/element/CustomPageScrollObserverBottom";
 import CustomPageScrollObserverTop from "@/components/common/element/CustomPageScrollObserverTop";
@@ -24,11 +24,17 @@ import { API_PARAM_KEY, CONTAINERS_BLOG_BASE, CONTAINERS_KEY } from "./Container
 import { getBlogContainerFromresponse } from "./ContainersUtil";
 import CommonSearchHeader from "./headers/CommonSearchHeader";
 import { useAuthStore } from "@/components/store/AuthStateStore";
+import { CONTENT_TYPE } from "@/components/client/EdgeConstant";
+import ProductSelection from "../../PlanSubscription/ProductSelection";
+import { ProductPriceHolder } from "../../PlanSubscription/ProductPriceHolder";
+import ProductPricing from "../../PlanSubscription/ProductPricing";
+import { useUserDetailStore } from "@/components/store/UserDetailStore";
 
 
 export default function Containers() {
   const [layoutStyle, setLayoutStyle] = useState(CARD_LAYOUT);
   const [openDrawer, setOpenDrawer] = useState(false)
+  const [openPaymentDrawer, setOpenPaymentDrawer] = useState(false)
   const { config, setConfig, updateConfig, updateConfigObj } = useAppConfigStore();
   const [action, setAction] = useState();
   const [drawerLabel, setDrawerLabel] = useState();
@@ -37,9 +43,12 @@ export default function Containers() {
   const [loader, setLoader] = useState(false);
   const [sortParam, setSortParam] = useState("desc");
 
+  const [availableStripeIds, setAvailableStripeIds] = useState();
+
   const navigate = useNavigate()
 
   const { jwt: authkeyBearer } = useAuthStore();
+  const { user, setUser } = useUserDetailStore();
 
   const limit = 20
   const status = ''
@@ -96,7 +105,7 @@ export default function Containers() {
 
     if (flag) {
       const cpageMetadat = { [API_PARAM_KEY.CURRENT_PAGE]: data?.[API_PARAM_KEY.CURRENT_PAGE], [API_PARAM_KEY.TOTAL_COUNT]: data?.[API_PARAM_KEY.TOTAL_COUNT], [API_PARAM_KEY.TOTAL_PAGES]: data?.[API_PARAM_KEY.TOTAL_PAGES] }
-     
+
       if (data?.[API_PARAM_KEY.CURRENT_PAGE] > 1) {
         setContainerList(prev => [...prev, ...(data?.containers ?? [])]);
         updateConfigObj({
@@ -137,10 +146,14 @@ export default function Containers() {
   }
 
   const handleAdd = (e) => {
-    setContainerMaster({ ...CONTAINERS_BLOG_BASE })
-    setAction(ACTION.ADD)
-    setDrawerLabel(LABELS.ADD_CONTAINER)
-    setOpenDrawer(true)
+    if (isUnmappedSubscriptionAvailable()) {
+      setContainerMaster({ ...CONTAINERS_BLOG_BASE })
+      setAction(ACTION.ADD)
+      setDrawerLabel(LABELS.ADD_CONTAINER)
+      setOpenDrawer(true)
+    } else {
+      setOpenPaymentDrawer(true)
+    }
   }
 
   const handleManage = (containerData) => {
@@ -171,16 +184,23 @@ export default function Containers() {
 
     setPageMetadata(undefined)
     updateShowLoadMore(false)
+    //--
+    getAvailableProductIds(getAvailableProductIdsCallback, authkeyBearer)
+  }
+
+  const getAvailableProductIdsCallback = (flag, data) => {
+    setAvailableStripeIds(flag ? data : undefined)
   }
 
   const getCardLayout = (container) => {
+    console.log(container)
     return (
       <>
         <CustomContainerDisplayCard
           cKey={"k1" + container[CONTAINERS_KEY.ID]}
           key={"k1" + container[CONTAINERS_KEY.ID]}
           heading={container[CONTAINERS_KEY.NAME]}
-          subHeading={undefined}
+          subHeading={!container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION] ? 'Subscription Expired' : undefined}
           badges={splitString(container[CONTAINERS_KEY.TAGS], COMMA)}
           description={container[CONTAINERS_KEY.DESCRIPTION]}
           data={container}
@@ -205,7 +225,7 @@ export default function Containers() {
           cKey={"k1" + container[CONTAINERS_KEY.ID]}
           key={"k1" + container[CONTAINERS_KEY.ID]}
           heading={container[CONTAINERS_KEY.NAME]}
-          subHeading={undefined}
+          subHeading={!container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION] ? 'Subscription Expired' : undefined}
           badges={splitString(container[CONTAINERS_KEY.TAGS], COMMA)}
           description={container[CONTAINERS_KEY.DESCRIPTION]}
           data={container}
@@ -260,6 +280,10 @@ export default function Containers() {
     loadContainerData(tempMap)
   }
 
+  const isUnmappedSubscriptionAvailable = () => {
+    return availableStripeIds?.[CONTENT_TYPE.ARTICLE_BLOG] ? true : false
+  }
+
   return (
     <>
       <CustomPageScrollObserverTop
@@ -303,7 +327,8 @@ export default function Containers() {
         isFetching={isFetching}
       />
 
-      <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer} >
+      <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer}>
+
         <AddEditBlogsContainer
           setOpenDrawer={setOpenDrawer}
           drawerHeader={drawerLabel}
@@ -313,7 +338,13 @@ export default function Containers() {
           loadContainerData={loadContainerDataOnSaveUpdate}
           setLoader={setLoader}
           loader={loader}
+          availableStripeIds={availableStripeIds}
         />
+      </ContainerDrawer>
+
+
+      <ContainerDrawer  open={openPaymentDrawer} setOpen={setOpenPaymentDrawer} csize={'full'}>
+        <ProductPricing email={user.email} setOpenDrawer={setOpenPaymentDrawer} />
       </ContainerDrawer>
 
     </>

@@ -377,6 +377,7 @@ export default function SettingsAIAgent(props) {
               loader={loader}
               onClickBtn={onSubmit}
               clabel={'set'}
+              cdisabled={!container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION]}
             />
 
           </HStack>

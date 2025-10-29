@@ -37,6 +37,8 @@ export default function Source() {
   const { jwt: authkeyBearer } = useAuthStore();
   let container = xconfig[APP_CONFIG_KEYS.CONTAINER_DATA];
 
+  const activeSubscription = container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION]
+
   const [pageConfigParams, setPageConfigParams] = useState(new Map([
     [SOURCE_DESTINATION_KEY.KIND, CONTENT_TYPE.SOURCE],
     [SOURCE_DESTINATION_KEY.CONTAINERS_ID, container[CONTAINERS_KEY.ID]],
@@ -219,7 +221,7 @@ export default function Source() {
 
         {loader && getLoader()}
         {sourceList?.map((x) => getLayout(x))}
-        {sourceList.length < MAX_LIMIT && getAddLayout()}
+        {sourceList.length < MAX_LIMIT && activeSubscription && getAddLayout()}
 
       </Wrap>
 
@@ -234,6 +236,7 @@ export default function Source() {
           loader={loader}
           setLoader={setLoader}
           loadSourceData={loadSourceData}
+          activeSubscription={activeSubscription}
         />
       </ContainerDrawer>
     </>

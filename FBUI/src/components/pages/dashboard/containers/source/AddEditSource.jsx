@@ -36,6 +36,7 @@ export default function AddEditSource(props) {
     const setLoader = props.setLoader;
     const containerId = props.containerId;
     const loadSourceData = props.loadSourceData;
+    const activeSubscription = props.activeSubscription
 
     const [title, setTitle] = useState(sourceMaster?.[SOURCE_DESTINATION_KEY.TITLE] || '');
     const [description, setDescription] = useState(sourceMaster?.[SOURCE_DESTINATION_KEY.DESCRIPTION] || '');
@@ -310,6 +311,7 @@ export default function AddEditSource(props) {
                                 loader={loader}
                                 onClickBtn={onSubmit}
                                 clabel={action == ACTION.ADD ? 'ADD' : 'UPDATE'}
+                                cdisabled={!activeSubscription}
                             />
                             {action == ACTION.EDIT && (
                                 <CustomLoaderButton

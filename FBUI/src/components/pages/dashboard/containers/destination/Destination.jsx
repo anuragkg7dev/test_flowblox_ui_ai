@@ -214,6 +214,7 @@ export default function Destination() {
           height={"34px"}
           aria-label="Add Destination"
           onClick={() => onClickAdd()}
+          disabled={!container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION]}
 
         >
           Add Destination
@@ -231,7 +232,7 @@ export default function Destination() {
           return getLayout(x);
         })}
 
-        {destinationList?.length < MAX_LIMIT && getAddLayout()}
+        {destinationList?.length < MAX_LIMIT && container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION] && getAddLayout()}
       </Wrap>
 
       <ContainerDrawer open={openDrawer} setOpen={setOpenDrawer} >
@@ -245,6 +246,7 @@ export default function Destination() {
           loader={loader}
           setLoader={setLoader}
           loadDestinationData={loadDestinationData}
+          activeSubscription={container[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION]}
         />
       </ContainerDrawer>
 

@@ -43,6 +43,9 @@ function AddEditBlogsContainer(props) {
     const loadContainerData = props.loadContainerData
     const setLoader = props.setLoader
     const loader = props.loader
+    const availableStripeIds = props.availableStripeIds
+
+    console.log("availableStripeIds?.[CONTENT_TYPE.ARTICLE_BLOG]", availableStripeIds?.[CONTENT_TYPE.ARTICLE_BLOG].length>0)
 
     const [containerName, setContainerName] = useState(containerMaster?.[CONTAINERS_KEY.NAME]);
     const [description, setDescription] = useState(containerMaster?.[CONTAINERS_KEY.DESCRIPTION]);
@@ -430,16 +433,18 @@ function AddEditBlogsContainer(props) {
                             </HStack>
                         </Field.Label>
                         <HStack width={fieldWidth} ml={fieldMargin} justify={"space-between"}>
-                            <CustomLoaderButton
-                                cwidth="33%"
-                                cmt={6}
-                                cvariant={"fblox"}
-                                cloadingText={action == ACTION.ADD ? 'ADD' : 'UPDATE'}
-                                loader={loader}
-                                onClickBtn={onSubmit}
-                                clabel={action == ACTION.ADD ? 'ADD' : 'UPDATE'}
-                            />
-
+                          
+                                <CustomLoaderButton
+                                    cwidth="33%"
+                                    cmt={6}
+                                    cvariant={"fblox"}
+                                    cloadingText={action == ACTION.ADD ? 'ADD' : 'UPDATE'}
+                                    loader={loader}
+                                    onClickBtn={onSubmit}
+                                    clabel={action == ACTION.ADD ? 'ADD' : 'UPDATE'}
+                                    cdisabled={action == ACTION.ADD ? !availableStripeIds?.[CONTENT_TYPE.ARTICLE_BLOG].length>0 :!containerMaster[CONTAINERS_KEY.ACTIVE_SUBSCRIPTION]}
+                                />
+                           
                             {action == ACTION.EDIT && (<>
                                 <CustomLoaderButton
                                     cwidth="33%"

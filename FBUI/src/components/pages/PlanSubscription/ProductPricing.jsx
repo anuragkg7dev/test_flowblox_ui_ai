@@ -21,11 +21,14 @@ import logo from "../../../assets/logo1.png";
 import { handleCheckout } from "../stripe/StripeLogic";
 import { calculateTotalPrice, currencyOption, getBundleOptions, getProductStripeBundleSubscription, getSelectedBundle, intervalOption } from "./ProductPricingLogic";
 import StripePaymentButton from "./StripePaymentButton";
+import CustomeCloseIcon from "@/components/common/element/CustomeCloseIcon";
 
-export default function ProductPricing() {
+export default function ProductPricing(props) {
 
   let defaultPlan = "BASIC_ARTICLE_BLOG_PLAN"
-  const [email, setEmail] = useState("")
+  const defaultEmail = props.email ?? ""
+  const emailDisabled = props.email ? true : false
+  const [email, setEmail] = useState(defaultEmail)
   const [currency, setCurrency] = useState("gbp")
   const [interval, setInterval] = useState("month")
   const [selectedPlan, setSelectedPlan] = useState(defaultPlan)
@@ -39,6 +42,7 @@ export default function ProductPricing() {
   const [emailError, setEmailError] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const setOpenDrawer = props.setOpenDrawer;
 
   useEffect(() => {
     getProductStripeBundleSubscription(initializeBundlePlans);
@@ -135,6 +139,9 @@ export default function ProductPricing() {
     return selectedPrice.map(x => ({ price: x, quantity: 1 }));
   };
 
+  const onClose = () => {
+    setOpenDrawer(false)
+  };
 
   return (
     <>
@@ -146,6 +153,7 @@ export default function ProductPricing() {
         bg="brand.pureBlackBg"
         userSelect={loading ? "none" : "auto"}
       >
+
         {/* Left Side Box */}
         <Flex
           flex={{ base: "1", md: "0 0 50%" }}
@@ -178,6 +186,7 @@ export default function ProductPricing() {
                 fontSize={{ base: "sm", md: "md" }}
                 required
                 value={email}
+                disabled={emailDisabled}
               />
               <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
             </Field.Root>
@@ -231,6 +240,14 @@ export default function ProductPricing() {
           p={{ base: 6, md: 8 }}
           bg="brand.darkBrandBg"
         >
+          {setOpenDrawer && (<> 
+          <Box position="absolute"
+            top="5"
+            right="0"
+            width="100px"          
+            display="flex"
+            justify="end">
+            <CustomeCloseIcon onClose={onClose} cbg="brand.darkBrandBg"/> </Box></>)}
           <Box
             p={6}
             rounded="md"

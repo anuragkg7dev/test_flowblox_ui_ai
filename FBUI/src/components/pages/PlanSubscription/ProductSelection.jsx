@@ -1,3 +1,4 @@
+import CustomeCloseIcon from '@/components/common/element/CustomeCloseIcon';
 import FLowBloxQrCode from '@/components/common/util/QRCode';
 import {
   Box,
@@ -27,11 +28,13 @@ const boltOnPackages = [
   { label: 'Addon B', value: 'addon-b', price: 4 },
 ];
 
-const ProductSelection = () => {
+const ProductSelection = (props) => {
   const [userInfo, setUserInfo] = useState({ name: '', email: '', contact: '' });
   const [base, setBase] = useState(null);
   const [containers, setContainers] = useState([]);
   const [boltOns, setBoltOns] = useState([]);
+
+  const setOpenDrawer = props.setOpenDrawer;
 
   const handleInfoChange = (e) => {
     const { name, value } = e.target;
@@ -63,9 +66,14 @@ const ProductSelection = () => {
     containers.reduce((sum, item) => sum + item.price, 0) +
     boltOns.reduce((sum, item) => sum + item.price, 0);
 
+  const onClose = () => {
+    setOpenDrawer(false)
+  };
+
   return (
     <>
       <HStack spacing={10} align="start" p={10}>
+
         {/* Left Part */}
         <VStack align="stretch" w="50%" spacing={6}>
           <Text fontSize="xl" fontWeight="bold">User Info</Text>
@@ -127,6 +135,7 @@ const ProductSelection = () => {
 
         {/* Right Part */}
         <Box w="50%" p={5} borderWidth="1px" borderRadius="md" boxShadow="md">
+          {setOpenDrawer && (<> <CustomeCloseIcon onClose={onClose} /> </>)}
           <Text fontSize="xl" fontWeight="bold" mb={4}>Summary</Text>
           <VStack align="start" spacing={2}>
             <Text><strong>Name:</strong> {userInfo.name}</Text>
@@ -141,8 +150,8 @@ const ProductSelection = () => {
       </HStack>
 
       {/* <FLowBloxQrCode /> */}
-      
-      </>
+
+    </>
   );
 };
 
