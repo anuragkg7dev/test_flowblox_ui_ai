@@ -44,14 +44,22 @@ export const getTimeInYearsMonthsDaysHoursMinutes = (minutes) => {
     const hours = Math.floor(minutes / minutesInHour);
     const mins = minutes % minutesInHour;
 
+    // Collect all non-zero units in descending order (largest first)
     const parts = [];
     if (years) parts.push(`${years} Y`);
-    if (months && (years || months)) parts.push(`${months} M`);
-    if (days && (years || months || days)) parts.push(`${days} D`);
-    if (hours && (years || months || days || hours)) parts.push(`${hours} Hr`);
-    if (mins || !parts.length) parts.push(`${mins} Min`);
+    if (months) parts.push(`${months} M`);
+    if (days) parts.push(`${days} D`);
+    if (hours) parts.push(`${hours} Hr`);
+    if (mins) parts.push(`${mins} Min`);
 
-    return parts.join(', ');
+    // Take only the first 2 (largest) or all if fewer
+    const displayParts = parts.slice(0, 2);
+
+    // If no parts, fallback to "0 minutes"
+    if (!displayParts.length) return "0 minutes";
+
+    // Join with space (no comma)
+    return displayParts.join(' ');
 }
 
 export const getTimeInHours = (minutes) => {

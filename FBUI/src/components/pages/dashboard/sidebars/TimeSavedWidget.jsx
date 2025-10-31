@@ -50,11 +50,12 @@ export default function TimeSavedWidget(props) {
     return (<>
         <Box
             p={4}
-            borderRadius="md"
             w="100%" // Ensure full width for spacing
+            borderTop="1px solid #27272A"
+            borderBottom="1px solid #27272A"
         >
             <HStack
-                spacing={2}
+                spacing={3}
                 flexShrink={0}
                 w="100%"
                 display="flex"
@@ -63,27 +64,23 @@ export default function TimeSavedWidget(props) {
             >
                 <TbClockHour5 size={22} color="inherit" onClick={loadStatsData} />
 
-                {!loader && (<>
+                {!loader && (
                     <Text fontSize="22px" fontWeight={100} color="brand.subBrandBg">
                         {timeSaved}
                     </Text>
-                </>)}
+                )}
 
-                {loader && (<>
+                {loader && (
                     <PacmanLoader size={15} color="white" />
-                </>)}
+                )}
 
-
+                <VStack>
+                    <Text>Saved</Text>
+                    <Text fontSize="10px">Using this tool</Text>
+                </VStack>
             </HStack>
-            <VStack spacing={2}
-                flexShrink={0}
-                w="100%"
-                display="flex"
-                
-                justify="center">
-                <Text>Saved</Text>
-                <Text fontSize="10px">Using this tool</Text>
-            </VStack>
+
+
         </Box>
     </>)
 }

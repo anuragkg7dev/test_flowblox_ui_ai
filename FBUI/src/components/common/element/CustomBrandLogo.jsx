@@ -3,6 +3,8 @@ import logo from "../../../assets/logo1.png";
 import logoMini2 from "../../../assets/flowblox_mini_2.png";
 import logoMini3 from "../../../assets/flowblox_mini_3.png";
 import container1 from "../../../assets/container_1.png";
+import sbTxtLogo from "../../../assets/sb_logo.png";
+import fbTxtLogo from "../../../assets/flowblox_mini_3.png";
 
 export const CustomBrandLogo = (props) => {
   return CustomIcon(props, logo, "Flowblox.ai")
@@ -15,6 +17,14 @@ export const CustomBrandLogoMini = (props) => {
 
 export const CustomBrandLogoMiniBlackBG = (props) => {
   return CustomIcon(props, logoMini3, "Flowblox.ai")
+};
+
+export const CustomBrandFBTxtLogoMiniBlackBG = (props) => {
+  return CustomIcon(props, fbTxtLogo, "Flowblox.ai")
+};
+
+export const CustomBrandSBTxtLogoMiniBlackBG = (props) => {
+  return CustomIcon(props, sbTxtLogo, "Sendblox.ai")
 };
 
 export const CustomContainerLogo = (props) => {

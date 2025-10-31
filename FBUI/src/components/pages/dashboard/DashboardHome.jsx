@@ -10,6 +10,7 @@ import { useUserDetailStore } from "@/components/store/UserDetailStore";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
 import CommonSidebar from "./sidebars/CommonSidebar";
+import { CustomApplicationSwitch } from "@/components/common/element/CustomApplicationSwitch";
 
 const DashboardHome = () => {
 
@@ -29,6 +30,7 @@ const DashboardHome = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const { user, setUser } = useUserDetailStore();
+  const [showAppSwitchOption, setShowAppSwitchOption] = useState(false);
 
  
   useEffect(() => {
@@ -100,7 +102,7 @@ const DashboardHome = () => {
           // Change: Prevent sidebar content from scrolling
           overflowY={{ base: "auto", md: "visible" }}
         >
-          {!isMobile && (
+          {/* {!isMobile && (
             <Box
               display="flex"
               justifyContent="center"
@@ -113,7 +115,8 @@ const DashboardHome = () => {
                 ccolor="brand.pureWhiteBg"
               />
             </Box>
-          )}
+          )} */}
+          <CustomApplicationSwitch open={showAppSwitchOption} setOpen={setShowAppSwitchOption}/>
           <CommonSidebar />
         </Box>
 
