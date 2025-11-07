@@ -56,8 +56,8 @@ export const CustomApplicationSwitch = (props) => {
             </Box>
           </Menu.Trigger>
 
-          <Menu.Positioner width="95%">
-            <Menu.Content p={0} m={0} mt={0} boxShadow="none" bg="black">
+          <Menu.Positioner width="100%" ml={0} pr={3}>
+            <Menu.Content  boxShadow="none" bg="black">
               <Menu.Item
                 value="flowblox.ai"
                 justifyContent="center"
@@ -68,13 +68,7 @@ export const CustomApplicationSwitch = (props) => {
               
               >
                 <HStack>
-                  <Text
-                    textStyle="lg"
-                    fontWeight="medium"
-                    color={"brand.pureWhiteTxt"}
-                  >
-                    FLOWBLOX
-                  </Text>
+                
                   <CustomBrandFBTxtLogoMiniBlackBG
                     ch="60px"
                     ccolor="brand.pureWhiteBg"
@@ -91,13 +85,7 @@ export const CustomApplicationSwitch = (props) => {
                 onSelect={onSendBloxSelect}
               >
                 <HStack>
-                  <Text
-                    textStyle="lg"
-                    fontWeight="medium"
-                    color={"brand.pureWhiteTxt"}
-                  >
-                    SENDBLOX
-                  </Text>
+                 
                   <CustomBrandSBTxtLogoMiniBlackBG
                     ch="60px"
                     ccolor="brand.pureWhiteBg"

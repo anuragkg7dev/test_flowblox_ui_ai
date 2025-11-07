@@ -11,7 +11,7 @@ import {
   Text,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import { toast } from "@/components/common/Notification"
 import { supabase } from "@/components/client/SuperbasClient"
 import { getUsersPersonalDetails } from "@/components/client/EdgeFunctionRepository"
@@ -28,6 +28,7 @@ import { IoLogoWindows } from "react-icons/io5"
 import { APP_CONFIG_KEYS, SIDEBAR_SWITCH_FLAG_DEFAULT, SIDEBAR_SWITCH_FLAG_KEY, THEME, THEME_DARK } from "@/components/common/constants/CommonConstant"
 import { DASHBOARD_URL, HOME_URL } from "@/components/common/constants/AppRouterConstant"
 import CustomLoaderButton from "@/components/common/element/CustomLoaderButton"
+import CustomTermsNConditions from "@/components/common/element/CustomTermsNConditions"
 
 const googleClientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
 
@@ -189,30 +190,31 @@ export default function SignUp() {
         p={{ base: 6, md: 8 }}
       >
         <Box maxW={{ base: "100%", sm: "400px", md: "385px" }} width="100%" p={6}>
-          {/* First Name */}
-          <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
-            <Field.Label>First Name</Field.Label>
-            <Input
-              placeholder="First Name"
-              onChange={(e) => setFirstName(e.target.value)}
-              mb={2}
-              variant={"fbloxD"}
-            />
-            <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
-          </Field.Root>
+          <HStack>
+            {/* First Name */}
+            <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
+              <Field.Label>First Name</Field.Label>
+              <Input
+                placeholder="First Name"
+                onChange={(e) => setFirstName(e.target.value)}
+                mb={2}
+                variant={"fbloxD"}
+              />
+              <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
+            </Field.Root>
 
-          {/* Last Name */}
-          <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
-            <Field.Label>Last Name</Field.Label>
-            <Input
-              placeholder="Last Name"
-              onChange={(e) => setLastName(e.target.value)}
-              mb={2}
-              variant={"fbloxD"}
-            />
-            <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
-          </Field.Root>
-
+            {/* Last Name */}
+            <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
+              <Field.Label>Last Name</Field.Label>
+              <Input
+                placeholder="Last Name"
+                onChange={(e) => setLastName(e.target.value)}
+                mb={2}
+                variant={"fbloxD"}
+              />
+              <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
+            </Field.Root>
+          </HStack>
           {/* Email */}
           <Field.Root width="100%" color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }} mb={6}>
             <Field.Label>Email</Field.Label>
@@ -238,6 +240,11 @@ export default function SignUp() {
             <Field.ErrorText fontSize={{ base: "xs", md: "sm" }}>This field is required</Field.ErrorText>
           </Field.Root>
 
+          <HStack mt={6} justify={'center'}>
+            <Text fontSize={{ base: "xs", md: "sm" }} color={"brand.pureWhiteTxt"}>Already on Flowblox?</Text>
+            <Link variant="underline" to="/signIn"  > <Text fontSize={{ base: "xs", md: "sm" }} color={"brand.primaryBrandTxt"}> Sign in</Text></Link>
+          </HStack>
+
           {/* Email Sign Up Button */}
           <CustomLoaderButton
             cwidth="100%"
@@ -251,9 +258,9 @@ export default function SignUp() {
 
 
           {/* Terms */}
-          <Text mt={4} color="brand.subBrandBg" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
-            By signing up, you agree to our Terms of Service and Privacy Policy.
-          </Text>
+
+          <CustomTermsNConditions purpose={"By signing up"} />
+
 
           {/* Divider */}
           <HStack width="100%" alignItems="center" mt={6}>
@@ -289,6 +296,9 @@ export default function SignUp() {
               </Box>
             ))}
           </HStack>
+
+
+
         </Box>
       </Flex>
 
@@ -316,6 +326,7 @@ export default function SignUp() {
           />
         </Box>
       </Box>
+
     </Flex>
   )
 }

@@ -17,6 +17,8 @@ import CustomLoaderButton from "@/components/common/element/CustomLoaderButton";
 import bg1 from "../../../assets/bg1.jpg";
 import logo from "../../../assets/logo1.png";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
+import CustomHelpLink from "@/components/common/element/CustomHelpLink";
+import CustomTermsNConditions from "@/components/common/element/CustomTermsNConditions";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -24,7 +26,7 @@ export default function ForgotPassword() {
   const navigate = useNavigate();
 
   const forgotPasswordCallback = (status, message) => {
-    console.log('forgotPasswordCallback ',status, message)
+    console.log('forgotPasswordCallback ', status, message)
     //https://tsdnwkcetuysrzhdhpsj.supabase.co/auth/v1/verify?token=cf36d72151042b5ca578fb6a4dc00893117aaa2d9cd78eff02af9931&type=recovery&redirect_to=https://test-flowblox-ui-ai.vercel.app/
     setLoader(false);
     if (!status) {
@@ -83,7 +85,7 @@ export default function ForgotPassword() {
           {/* Links */}
           <HStack width="100%" justifyContent="space-between" mt={4} fontSize={{ base: "sm", md: "md" }}>
             <Text
-              color="brand.subBrandBg"
+              color="brand.primaryBrandTxt"
               cursor="pointer"
               userSelect="none"
               onClick={() => navigate(HOME_URL)}
@@ -91,9 +93,7 @@ export default function ForgotPassword() {
             >
               Back to Sign In
             </Text>
-            <Text color="brand.subBrandBg" cursor="pointer" userSelect="none">
-              Help <Icon as={LiaExternalLinkAltSolid} color="brand.subBrandBg" boxSize={{ base: 3, md: 4 }} />
-            </Text>
+            <CustomHelpLink />
           </HStack>
 
           {/* Reset Password Button */}
@@ -108,9 +108,8 @@ export default function ForgotPassword() {
           />
 
           {/* Terms */}
-          <Text mt={4} color="brand.subBrandBg" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
-            By requesting a password reset, you agree to our Terms of Service and Privacy Policy.
-          </Text>
+          <CustomTermsNConditions purpose={"By requesting a password reset"} />
+
         </Box>
       </Flex>
 

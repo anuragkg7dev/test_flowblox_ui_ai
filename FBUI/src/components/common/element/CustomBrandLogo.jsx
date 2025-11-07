@@ -3,8 +3,8 @@ import logo from "../../../assets/logo1.png";
 import logoMini2 from "../../../assets/flowblox_mini_2.png";
 import logoMini3 from "../../../assets/flowblox_mini_3.png";
 import container1 from "../../../assets/container_1.png";
-import sbTxtLogo from "../../../assets/sb_logo.png";
-import fbTxtLogo from "../../../assets/flowblox_mini_3.png";
+import sbTxtLogo from "../../../assets/sb_txt_logo.png";
+import fbTxtLogo from "../../../assets/fb_txt_logo.png";
 
 export const CustomBrandLogo = (props) => {
   return CustomIcon(props, logo, "Flowblox.ai")

@@ -64,7 +64,7 @@ export default function AppRouter(props) {
 
         <Routes>
 
-            <Route path={HOME_URL} element={unprotectedRoute(<Home />, HOME)} />
+            <Route path={HOME_URL} element={unprotectedRoute(<SignIn />, HOME)} />
 
             <Route path={SIGN_IN_URL} element={unprotectedRoute(<SignIn />, SIGN_IN)} />
 

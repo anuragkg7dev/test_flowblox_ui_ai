@@ -26,6 +26,7 @@ import { FiCodesandbox } from "react-icons/fi";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { IoIosPaper } from "react-icons/io";
 import { LuChartPie, LuServer } from "react-icons/lu";
+import { MdOutlineSettings } from "react-icons/md";
 import { PiSignOutBold } from "react-icons/pi";
 import { RxDashboard } from "react-icons/rx";
 import { TbCloudUpload } from "react-icons/tb";
@@ -62,7 +63,7 @@ export const mainSidebarBottomOptions = [
         to: `${DASHBOARD_URL}/${DASHBOARD_ACCOUNTS_PREFERENCE_URL}`,
         key: DASHBOARD_ACCOUNTS_PREFERENCE,
         label: "Account & Preferences",
-        icon: PiSignOutBold,
+        icon: MdOutlineSettings,
     }
 ];
 

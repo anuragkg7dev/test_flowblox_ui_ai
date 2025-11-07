@@ -13,6 +13,7 @@ import { useAuthStore } from "@/components/store/AuthStateStore"
 import { useUserDetailStore } from "@/components/store/UserDetailStore"
 import {
   Box,
+  Button,
   Checkbox,
   Field,
   Flex,
@@ -20,7 +21,8 @@ import {
   Icon,
   Image,
   Input,
-  Text
+  Text,
+  Wrap
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { BsGoogle } from "react-icons/bs"
@@ -31,6 +33,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import bg1 from "../../../assets/bg1.jpg"
 import logo from "../../../assets/logo1.png"
 import { handleSignin } from "./AuthLogic"
+import CustomTermsNConditions from "@/components/common/element/CustomTermsNConditions"
+import CustomHelpLink from "@/components/common/element/CustomHelpLink"
 
 const googleClientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
 
@@ -44,6 +48,8 @@ export default function SignIn() {
   const navigate = useNavigate()
   const location = useLocation()
   const { setAuth, user: xuser, jwt: authkeyBearer } = useAuthStore()
+
+  const help_link = "https://superblox.ai"
 
   // Redirect if already signed in
   useEffect(() => {
@@ -72,7 +78,7 @@ export default function SignIn() {
               if (error) throw error
 
               await siginCallback(true, "Logged in with Google!")
-             
+
             } catch (error) {
               console.error('Google One-Tap error:', error)
               toast.error(error.message || 'Failed to sign in with Google One-Tap.')
@@ -193,12 +199,10 @@ export default function SignIn() {
 
           {/* Links */}
           <HStack width="100%" justifyContent="space-between" mt={4} fontSize={{ base: "sm", md: "md" }}>
-            <Text color="brand.subBrandBg" userSelect="none">
+            <Text color="brand.primaryBrandTxt" userSelect="none">
               <Link as={Link} to={FORGET_PASSWORD_URL}>Forgot password?</Link>
             </Text>
-            <Text color="brand.subBrandBg" cursor="pointer" userSelect="none">
-              Help <Icon as={LiaExternalLinkAltSolid} color="brand.subBrandBg" boxSize={{ base: 3, md: 4 }} />
-            </Text>
+            <CustomHelpLink />
           </HStack>
 
           {/* Email Sign in Button */}
@@ -209,23 +213,12 @@ export default function SignIn() {
             cloadingText={'Sign In'}
             loader={loader}
             onClickBtn={handleEmailSignin}
-            clabel={'Sign In with Email'}
+            clabel={'Sign In'}
           />
 
-        
-          {/* Terms */}
-          <Text mt={4} color="brand.subBrandBg" fontSize={{ base: "xs", md: "sm" }} textAlign="center">
-            By signing in, you agree to our Terms of Service and Privacy Policy.
-          </Text>
 
-          {/* Checkbox */}
-          <Checkbox.Root variant="solid" colorPalette="purple" mt={4}>
-            <Checkbox.HiddenInput />
-            <Checkbox.Control />
-            <Checkbox.Label color="brand.pureWhiteTxt" fontSize={{ base: "sm", md: "md" }}>
-              Keep me signed in
-            </Checkbox.Label>
-          </Checkbox.Root>
+          {/* Terms */}
+          <CustomTermsNConditions purpose={"By signing in"} />
 
           {/* Divider */}
           <HStack width="100%" alignItems="center" mt={6}>
@@ -261,6 +254,13 @@ export default function SignIn() {
               </Box>
             ))}
           </HStack>
+
+          <HStack mt={6} justify={'center'}>
+            <Text fontSize={{ base: "xs", md: "sm" }} color={"brand.pureWhiteTxt"}>New to Flowblox?</Text>
+            <Link variant="underline" to="/signUp"  > <Text fontSize={{ base: "xs", md: "sm" }} color={"brand.primaryBrandTxt"}>  Join now</Text></Link>
+          </HStack>
+
+
         </Box>
       </Flex>
 

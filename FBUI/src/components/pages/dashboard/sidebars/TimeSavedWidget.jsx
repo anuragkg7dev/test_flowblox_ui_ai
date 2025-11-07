@@ -4,7 +4,7 @@ import { toast } from "@/components/common/Notification";
 import { calculateTotalTimeSavedFroAllContainers } from "@/components/common/util/TimeSaveCaluclatorUtil";
 import { useAppConfigStore } from "@/components/store/AppConfigStore";
 import { useAuthStore } from "@/components/store/AuthStateStore";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { TbClockHour5 } from "react-icons/tb";
 import { PacmanLoader } from "react-spinners";
@@ -65,9 +65,9 @@ export default function TimeSavedWidget(props) {
                 <TbClockHour5 size={22} color="inherit" onClick={loadStatsData} />
 
                 {!loader && (
-                    <Text fontSize="22px" fontWeight={100} color="brand.subBrandBg">
-                        {timeSaved}
-                    </Text>
+                     <Heading color="brand.subBrandBg" size={{ base: "xl", sm: "2xl", md: "3xl" }}>{timeSaved}</Heading>
+                      
+                    
                 )}
 
                 {loader && (

@@ -51,14 +51,15 @@ function CustomContainerDisplayRow(props) {
 
       <HStack flex="1" spacing={4} align="center" >
         <VStack flex="1" spacing={2} align={"flex-start"} mb={"10px"} width={"70%"}>
-          <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
-            {heading}
-          </Heading>
-          {subHeading && (
-            <Text color="fg.muted" fontSize="xs" noOfLines={1} minWidth="100px">
+           {subHeading && (
+            <Text color="#CC5500" fontSize="xs" noOfLines={1} minWidth="100px">
               {trimString(subHeading, 30)}
             </Text>
           )}
+          <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
+            {heading}
+          </Heading>
+         
           <Text fontSize="xs" noOfLines={1} flex="1" color="brand.pureWhiteTxt">
             {trimString(description, 170)}
           </Text>

@@ -52,29 +52,31 @@ function CustomContainerDisplayCard(props) {
         >
             <Card.Body key={`cb_${cKey}`} p={{ base: 1, md: 2 }} display="flex" flexDirection="column" gap={{ base: 0.5, md: 1 }}>
                 <VStack key={`hs_${cKey}`} justify="space-between" align="start">
-                    <Avatar.Root size="sm" bgColor={"brand.primaryBrandBorder"}>
-                        <IconSwitch type={type} boxSize={5} />
-                    </Avatar.Root>
-                    <Stack key={`st_${cKey}`} gap={0} flex={1} >
-                        <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
-                            {heading}
-                        </Heading>
-                        <VisuallyHidden>{data?.id}</VisuallyHidden>
+                    <HStack justify="space-between" w="full">
+                        <Avatar.Root size="sm" bgColor={"brand.primaryBrandBorder"}>
+                            <IconSwitch type={type} boxSize={5} />
+                        </Avatar.Root>
                         {subHeading && (
                             <Text
                                 key={`tx2_${cKey}`}
-                                color="fg.muted"
+                                color="#CC5500"
                                 fontSize="2xs"
                                 lineClamp={1}
                             >
                                 {subHeading}
                             </Text>
                         )}
+                    </HStack>
+                    <Stack key={`st_${cKey}`} gap={0} flex={1} >
+                        <Heading key={`tx_${cKey}`} size="custom20" lineClamp={1}>
+                            {heading}
+                        </Heading>
+                        <VisuallyHidden>{data?.id}</VisuallyHidden>
                     </Stack>
                 </VStack>
                 <Card.Description
                     key={`cd_${cKey}`}
-                    fontSize="12px"                  
+                    fontSize="12px"
                     color={"brand.pureWhiteTxt"}
                     lineClamp={3}
                 >
