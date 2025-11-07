@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function CustomHelpLink(props) {
 
-  const help_link = "https://superblox.ai"
+  const help_link = "https://superblox.ai/faqs"
 
   return (
     <Link variant="underline" target="#" to={help_link} isExternal>
